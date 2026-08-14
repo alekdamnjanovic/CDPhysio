@@ -46,6 +46,10 @@ waits ~30–60s for a cold start. Fix: a free keepalive ping every 5 minutes kee
    - **Save**
 3. Optional: enable the free email alert so you're notified if the site goes down.
 
+**Backup keepalive:** a GitHub Actions workflow (`.github/workflows/keepalive.yml`) also pings the
+site every 5 minutes. Note: GitHub's `schedule` event is unreliable (runs are often delayed several
+minutes), so it is kept only as a backup — cron-job.org is the primary keepalive.
+
 ## Render environment variables
 
 Set in Render dashboard → service → **Environment**. The `__` maps to the config keys the
