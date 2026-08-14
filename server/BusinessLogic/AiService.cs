@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using server.Constants;
@@ -6,89 +7,92 @@ namespace server.BusinessLogic;
 public class AiService : IAiService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _ollamaUrl;
+    private readonly string _baseUrl;
+    private readonly string _apiKey;
+    private readonly string _model;
 
     public AiService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
     {
         _httpClient = httpClientFactory.CreateClient();
         _httpClient.Timeout = TimeSpan.FromSeconds(180);
-        _ollamaUrl = configuration["Ollama:BaseUrl"] ?? "http://localhost:11434";
+        _baseUrl = (configuration["Ai:BaseUrl"] ?? "https://api.groq.com/openai/v1").TrimEnd('/');
+        _apiKey = configuration["Ai:ApiKey"] ?? "";
+        _model = configuration["Ai:Model"] ?? ClinicConstants.DefaultModel;
     }
 
     public async Task<string> GenerateResponseAsync(string prompt)
     {
-        var ollamaRequest = new
-        {
-            model = ClinicConstants.DefaultModel,
-            prompt = BuildFullPrompt(prompt),
-            stream = false
-        };
+        var request = BuildRequest(prompt, stream: false);
 
-        var content = new StringContent(JsonSerializer.Serialize(ollamaRequest), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
+        {
+            Content = content
+        };
+        AddAuth(requestMessage);
 
         HttpResponseMessage response;
         try
         {
-            response = await _httpClient.PostAsync($"{_ollamaUrl}/api/generate", content);
+            response = await _httpClient.SendAsync(requestMessage);
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not reach Ollama at {_ollamaUrl}. Please make sure Ollama is running.", ex);
+            throw new InvalidOperationException($"Could not reach the AI provider at {_baseUrl}.", ex);
         }
 
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException(
-                $"Ollama returned {(int)response.StatusCode} for model '{ClinicConstants.DefaultModel}'. " +
-                $"The model may not be installed - run 'ollama pull {ClinicConstants.DefaultModel}'.");
+                $"AI provider returned {(int)response.StatusCode} for model '{_model}'. Check that the API key is valid and the model name is correct.");
         }
 
         var json = await response.Content.ReadAsStringAsync();
         using var doc = JsonDocument.Parse(json);
 
-        if (doc.RootElement.TryGetProperty("response", out var text))
+        if (doc.RootElement.TryGetProperty("choices", out var choices) &&
+            choices.ValueKind == JsonValueKind.Array &&
+            choices.GetArrayLength() > 0 &&
+            choices[0].TryGetProperty("message", out var message) &&
+            message.TryGetProperty("content", out var text) &&
+            text.ValueKind == JsonValueKind.String)
         {
             return text.GetString() ?? string.Empty;
         }
 
         if (doc.RootElement.TryGetProperty("error", out var error))
         {
-            throw new InvalidOperationException(error.GetString() ?? "Ollama returned an error.");
+            throw new InvalidOperationException(error.GetString() ?? "The AI provider returned an error.");
         }
 
-        throw new InvalidOperationException("Ollama returned an unexpected response.");
+        throw new InvalidOperationException("The AI provider returned an unexpected response.");
     }
 
     public async IAsyncEnumerable<string> GenerateStreamAsync(string prompt)
     {
-        var ollamaRequest = new
-        {
-            model = ClinicConstants.DefaultModel,
-            prompt = BuildFullPrompt(prompt),
-            stream = true
-        };
+        var request = BuildRequest(prompt, stream: true);
 
-        var content = new StringContent(JsonSerializer.Serialize(ollamaRequest), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
+        {
+            Content = content
+        };
+        AddAuth(requestMessage);
 
         HttpResponseMessage response;
         try
         {
-            using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_ollamaUrl}/api/generate")
-            {
-                Content = content
-            };
             response = await _httpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead);
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not reach Ollama at {_ollamaUrl}. Please make sure Ollama is running.", ex);
+            throw new InvalidOperationException($"Could not reach the AI provider at {_baseUrl}.", ex);
         }
 
         if (!response.IsSuccessStatusCode)
         {
             throw new InvalidOperationException(
-                $"Ollama returned {(int)response.StatusCode} for model '{ClinicConstants.DefaultModel}'. " +
-                $"The model may not be installed - run 'ollama pull {ClinicConstants.DefaultModel}'.");
+                $"AI provider returned {(int)response.StatusCode} for model '{_model}'. Check that the API key is valid and the model name is correct.");
         }
 
         using var stream = await response.Content.ReadAsStreamAsync();
@@ -102,14 +106,30 @@ public class AiService : IAiService
                 break;
             }
 
-            if (string.IsNullOrWhiteSpace(line))
+            if (!line.StartsWith("data:", StringComparison.Ordinal))
             {
                 continue;
             }
 
-            using var doc = JsonDocument.Parse(line);
+            var data = line.Substring(5).Trim();
+            if (data == "[DONE]")
+            {
+                break;
+            }
 
-            if (doc.RootElement.TryGetProperty("response", out var token))
+            if (string.IsNullOrWhiteSpace(data))
+            {
+                continue;
+            }
+
+            using var doc = JsonDocument.Parse(data);
+
+            if (doc.RootElement.TryGetProperty("choices", out var choices) &&
+                choices.ValueKind == JsonValueKind.Array &&
+                choices.GetArrayLength() > 0 &&
+                choices[0].TryGetProperty("delta", out var delta) &&
+                delta.TryGetProperty("content", out var token) &&
+                token.ValueKind == JsonValueKind.String)
             {
                 var text = token.GetString();
                 if (!string.IsNullOrEmpty(text))
@@ -117,17 +137,30 @@ public class AiService : IAiService
                     yield return text;
                 }
             }
-
-            if (doc.RootElement.TryGetProperty("done", out var done) && done.GetBoolean())
-            {
-                break;
-            }
         }
     }
 
-    private string BuildFullPrompt(string prompt)
+    private object BuildRequest(string prompt, bool stream)
     {
-        return $"{BuildSystemPrompt()}\n\nUser: {prompt}\nAssistant:";
+        return new
+        {
+            model = _model,
+            messages = new[]
+            {
+                new { role = "system", content = BuildSystemPrompt() },
+                new { role = "user", content = prompt }
+            },
+            stream,
+            temperature = 0.6
+        };
+    }
+
+    private void AddAuth(HttpRequestMessage requestMessage)
+    {
+        if (!string.IsNullOrEmpty(_apiKey))
+        {
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+        }
     }
 
     private string BuildSystemPrompt()

@@ -7,5 +7,5 @@ public static class ClinicConstants
     public const string ClinicPhone = "250-540-5883";
     public const string ClinicEmail = "caroledphysio@gmail.com";
     public const string JaneAppUrl = "https://cdphysio.janeapp.com/#/staff_member/1";
-    public const string DefaultModel = "llama3";
+    public const string DefaultModel = "llama-3.3-70b-versatile";
 }

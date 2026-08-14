@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using server.Constants;
@@ -7,15 +8,17 @@ namespace server.BusinessLogic;
 public class ReviewScreeningService : IReviewScreeningService
 {
     private readonly HttpClient _httpClient;
-    private readonly string _ollamaUrl;
+    private readonly string _baseUrl;
+    private readonly string _apiKey;
     private readonly string _model;
 
     public ReviewScreeningService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
     {
         _httpClient = httpClientFactory.CreateClient();
         _httpClient.Timeout = TimeSpan.FromSeconds(20);
-        _ollamaUrl = configuration["Ollama:BaseUrl"] ?? "http://localhost:11434";
-        _model = configuration["Reviews:Model"] ?? ClinicConstants.DefaultModel;
+        _baseUrl = (configuration["Ai:BaseUrl"] ?? "https://api.groq.com/openai/v1").TrimEnd('/');
+        _apiKey = configuration["Ai:ApiKey"] ?? "";
+        _model = configuration["Ai:Model"] ?? ClinicConstants.DefaultModel;
     }
 
     public async Task<ReviewScreeningResult> ScreenAsync(string name, string text, CancellationToken cancellationToken)
@@ -29,22 +32,35 @@ public class ReviewScreeningService : IReviewScreeningService
             "{\"isAppropriate\": true, \"reason\": \"\"}\n" +
             "Set isAppropriate to false if the review should be flagged, and set reason to a short phrase describing why.";
 
-        var ollamaRequest = new
+        var request = new
         {
             model = _model,
-            prompt,
+            messages = new[]
+            {
+                new { role = "system", content = "You are a strict but fair content moderator. Always respond with valid JSON only." },
+                new { role = "user", content = prompt }
+            },
             stream = false,
-            format = "json"
+            response_format = new { type = "json_object" },
+            temperature = 0
         };
 
-        var content = new StringContent(JsonSerializer.Serialize(ollamaRequest), Encoding.UTF8, "application/json");
+        var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+        using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
+        {
+            Content = content
+        };
+        if (!string.IsNullOrEmpty(_apiKey))
+        {
+            requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
+        }
 
         try
         {
             using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
             cts.CancelAfter(TimeSpan.FromSeconds(15));
 
-            var response = await _httpClient.PostAsync($"{_ollamaUrl}/api/generate", content, cts.Token);
+            var response = await _httpClient.SendAsync(requestMessage, cts.Token);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -55,7 +71,12 @@ public class ReviewScreeningService : IReviewScreeningService
 
             using var doc = JsonDocument.Parse(json);
 
-            if (!doc.RootElement.TryGetProperty("response", out var textEl))
+            if (!doc.RootElement.TryGetProperty("choices", out var choices) ||
+                choices.ValueKind != JsonValueKind.Array ||
+                choices.GetArrayLength() == 0 ||
+                !choices[0].TryGetProperty("message", out var message) ||
+                !message.TryGetProperty("content", out var textEl) ||
+                textEl.ValueKind != JsonValueKind.String)
             {
                 return new ReviewScreeningResult(true, null, false);
             }
