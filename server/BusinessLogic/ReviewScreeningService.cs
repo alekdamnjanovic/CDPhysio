@@ -11,14 +11,16 @@ public class ReviewScreeningService : IReviewScreeningService
     private readonly string _baseUrl;
     private readonly string _apiKey;
     private readonly string _model;
+    private readonly ILogger<ReviewScreeningService> _logger;
 
-    public ReviewScreeningService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+    public ReviewScreeningService(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<ReviewScreeningService> logger)
     {
         _httpClient = httpClientFactory.CreateClient();
         _httpClient.Timeout = TimeSpan.FromSeconds(20);
         _baseUrl = (configuration["Ai:BaseUrl"] ?? "https://api.groq.com/openai/v1").TrimEnd('/');
         _apiKey = configuration["Ai:ApiKey"] ?? "";
         _model = configuration["Ai:Model"] ?? ClinicConstants.DefaultModel;
+        _logger = logger;
     }
 
     public async Task<ReviewScreeningResult> ScreenAsync(string name, string text, CancellationToken cancellationToken)
@@ -64,6 +66,10 @@ public class ReviewScreeningService : IReviewScreeningService
 
             if (!response.IsSuccessStatusCode)
             {
+                // Fail open: never block a review because the AI screening was unavailable.
+                _logger.LogWarning(
+                    "AI screening unavailable: provider returned {Status} for model {Model}. Review approved without screening.",
+                    (int)response.StatusCode, _model);
                 return new ReviewScreeningResult(true, null, false);
             }
 
@@ -78,6 +84,7 @@ public class ReviewScreeningService : IReviewScreeningService
                 !message.TryGetProperty("content", out var textEl) ||
                 textEl.ValueKind != JsonValueKind.String)
             {
+                _logger.LogWarning("AI screening returned an unexpected response for model {Model}. Review approved without screening.", _model);
                 return new ReviewScreeningResult(true, null, false);
             }
 
@@ -86,13 +93,20 @@ public class ReviewScreeningService : IReviewScreeningService
 
             if (parsed is null)
             {
+                _logger.LogWarning("AI screening response could not be parsed for model {Model}. Review approved without screening.", _model);
                 return new ReviewScreeningResult(true, null, false);
             }
 
             return new ReviewScreeningResult(parsed.IsAppropriate, parsed.Reason, true);
         }
-        catch
+        catch (OperationCanceledException)
         {
+            _logger.LogWarning("AI screening timed out for model {Model}. Review approved without screening.", _model);
+            return new ReviewScreeningResult(true, null, false);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "AI screening failed for model {Model}. Review approved without screening.", _model);
             return new ReviewScreeningResult(true, null, false);
         }
     }

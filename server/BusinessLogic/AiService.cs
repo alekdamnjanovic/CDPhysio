@@ -38,13 +38,13 @@ public class AiService : IAiService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not reach the AI provider at {_baseUrl}.", ex);
+            throw new InvalidOperationException(
+                $"The AI assistant could not be reached right now. Please try again in a moment.", ex);
         }
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new InvalidOperationException(
-                $"AI provider returned {(int)response.StatusCode} for model '{_model}'. Check that the API key is valid and the model name is correct.");
+            throw new InvalidOperationException(BuildErrorMessage(response));
         }
 
         var json = await response.Content.ReadAsStringAsync();
@@ -62,10 +62,10 @@ public class AiService : IAiService
 
         if (doc.RootElement.TryGetProperty("error", out var error))
         {
-            throw new InvalidOperationException(error.GetString() ?? "The AI provider returned an error.");
+            throw new InvalidOperationException(error.GetString() ?? "The AI assistant returned an unexpected error.");
         }
 
-        throw new InvalidOperationException("The AI provider returned an unexpected response.");
+        throw new InvalidOperationException("The AI assistant returned an unexpected response.");
     }
 
     public async IAsyncEnumerable<string> GenerateStreamAsync(string prompt)
@@ -86,13 +86,13 @@ public class AiService : IAiService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException($"Could not reach the AI provider at {_baseUrl}.", ex);
+            throw new InvalidOperationException(
+                $"The AI assistant could not be reached right now. Please try again in a moment.", ex);
         }
 
         if (!response.IsSuccessStatusCode)
         {
-            throw new InvalidOperationException(
-                $"AI provider returned {(int)response.StatusCode} for model '{_model}'. Check that the API key is valid and the model name is correct.");
+            throw new InvalidOperationException(BuildErrorMessage(response));
         }
 
         using var stream = await response.Content.ReadAsStreamAsync();
@@ -123,6 +123,14 @@ public class AiService : IAiService
             }
 
             using var doc = JsonDocument.Parse(data);
+
+            if (doc.RootElement.TryGetProperty("error", out var err))
+            {
+                var errMsg = err.ValueKind == JsonValueKind.Object
+                    ? err.TryGetProperty("message", out var m) ? m.GetString() : null
+                    : err.GetString();
+                throw new InvalidOperationException(errMsg ?? "The AI assistant returned an unexpected error.");
+            }
 
             if (doc.RootElement.TryGetProperty("choices", out var choices) &&
                 choices.ValueKind == JsonValueKind.Array &&
@@ -161,6 +169,45 @@ public class AiService : IAiService
         {
             requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _apiKey);
         }
+    }
+
+    private string BuildErrorMessage(HttpResponseMessage response)
+    {
+        var status = (int)response.StatusCode;
+
+        if (status == StatusCodes.Status429TooManyRequests)
+        {
+            return "The AI assistant is busy right now (too many requests or daily usage limit reached). Please try again in a few minutes.";
+        }
+
+        if (status == StatusCodes.Status401Unauthorized || status == StatusCodes.Status403Forbidden)
+        {
+            return "The AI assistant is not configured correctly (invalid API key). Please contact the site owner.";
+        }
+
+        if (status == StatusCodes.Status400BadRequest || status == StatusCodes.Status404NotFound)
+        {
+            return "The AI assistant hit a configuration error (model not found or request invalid). Please contact the site owner.";
+        }
+
+        // Try to surface a provider-specific message when available.
+        try
+        {
+            var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+            using var doc = JsonDocument.Parse(body);
+            if (doc.RootElement.TryGetProperty("error", out var err) &&
+                err.ValueKind == JsonValueKind.Object &&
+                err.TryGetProperty("message", out var msg))
+            {
+                return $"The AI assistant could not complete your request ({msg.GetString()}). Please try again in a moment.";
+            }
+        }
+        catch
+        {
+            // ignore malformed error body
+        }
+
+        return "The AI assistant could not complete your request right now. Please try again in a moment.";
     }
 
     private string BuildSystemPrompt()
