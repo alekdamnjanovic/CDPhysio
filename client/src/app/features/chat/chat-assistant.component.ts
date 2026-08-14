@@ -28,6 +28,15 @@ export class ChatAssistantComponent implements OnDestroy {
   protected streamText = signal('');
 
   private streamSub?: Subscription;
+  private pending = '';
+  private revealTimer?: ReturnType<typeof setInterval>;
+  private thinkTimer?: ReturnType<typeof setTimeout>;
+  private revealDone = false;
+  private readonly reducedMotion =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  private readonly revealIntervalMs = 67;
+  private readonly revealChars = 2;
+  private readonly minThinkMs = 700;
 
   protected quickQuestions = [
     'How do I book an appointment?',
@@ -53,6 +62,7 @@ export class ChatAssistantComponent implements OnDestroy {
   clearChat() {
     if (this.isLoading() || this.isStreaming()) return;
     this.streamSub?.unsubscribe();
+    this.cancelReveal();
     this.messages.set([]);
     this.streamText.set('');
     this.isLoading.set(false);
@@ -74,14 +84,22 @@ export class ChatAssistantComponent implements OnDestroy {
 
     this.streamSub = this.aiService.streamMessage(prompt).subscribe({
       next: (token) => {
-        if (this.isLoading()) {
-          this.isLoading.set(false);
-          this.isStreaming.set(true);
+        if (this.reducedMotion) {
+          if (this.isLoading()) {
+            this.isLoading.set(false);
+            this.isStreaming.set(true);
+          }
+          this.streamText.update(text => text + token);
+          this.scrollIfNearBottom();
+          return;
         }
-        this.streamText.update(text => text + token);
-        this.scrollIfNearBottom();
+        this.pending += token;
+        this.ensureReveal();
       },
       error: (err) => {
+        this.cancelReveal();
+        this.pending = '';
+        this.revealDone = false;
         this.isLoading.set(false);
         this.isStreaming.set(false);
         this.streamText.set('');
@@ -90,15 +108,63 @@ export class ChatAssistantComponent implements OnDestroy {
         this.scrollToMessageTop();
       },
       complete: () => {
-        const text = this.streamText();
-        this.isLoading.set(false);
-        this.isStreaming.set(false);
-        this.streamText.set('');
-        if (text.trim()) {
-          this.messages.update(msgs => [...msgs, { role: 'assistant', content: text }]);
+        this.revealDone = true;
+        if (this.reducedMotion || !this.pending) {
+          this.commitStream();
+          return;
         }
+        this.ensureReveal();
       }
     });
+  }
+
+  private ensureReveal() {
+    if (this.revealTimer) return;
+    if (this.thinkTimer) return;
+    this.thinkTimer = setTimeout(() => {
+      this.thinkTimer = undefined;
+      if (this.isLoading()) {
+        this.isLoading.set(false);
+        this.isStreaming.set(true);
+      }
+      this.revealTimer = setInterval(() => this.revealTick(), this.revealIntervalMs);
+    }, this.minThinkMs);
+  }
+
+  private revealTick() {
+    if (this.pending) {
+      const chunk = this.pending.slice(0, this.revealChars);
+      this.pending = this.pending.slice(chunk.length);
+      this.streamText.update(text => text + chunk);
+      this.scrollIfNearBottom();
+    }
+    if (!this.pending && this.revealDone) {
+      this.commitStream();
+    }
+  }
+
+  private commitStream() {
+    const text = this.streamText();
+    this.cancelReveal();
+    this.pending = '';
+    this.revealDone = false;
+    this.isLoading.set(false);
+    this.isStreaming.set(false);
+    this.streamText.set('');
+    if (text.trim()) {
+      this.messages.update(msgs => [...msgs, { role: 'assistant', content: text }]);
+    }
+  }
+
+  private cancelReveal() {
+    if (this.revealTimer) {
+      clearInterval(this.revealTimer);
+      this.revealTimer = undefined;
+    }
+    if (this.thinkTimer) {
+      clearTimeout(this.thinkTimer);
+      this.thinkTimer = undefined;
+    }
   }
 
   private scrollToBottom() {
@@ -127,5 +193,6 @@ export class ChatAssistantComponent implements OnDestroy {
 
   ngOnDestroy() {
     this.streamSub?.unsubscribe();
+    this.cancelReveal();
   }
 }
