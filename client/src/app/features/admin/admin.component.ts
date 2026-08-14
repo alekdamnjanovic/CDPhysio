@@ -111,6 +111,7 @@ import { ReviewsService, AdminReview, ReviewStatus } from '../../core/services/r
 })
 export class AdminComponent implements OnInit {
   private reviewsService = inject(ReviewsService);
+  private authKey = '';
 
   protected keyInput = '';
   protected authError = '';
@@ -128,7 +129,7 @@ export class AdminComponent implements OnInit {
   }
 
   protected isAuthed(): boolean {
-    return !!sessionStorage.getItem('reviews_admin_key');
+    return !!this.authKey;
   }
 
   protected unlock() {
@@ -141,7 +142,7 @@ export class AdminComponent implements OnInit {
     this.loading.set(true);
     this.reviewsService.listAdmin('Pending', key).subscribe({
       next: () => {
-        sessionStorage.setItem('reviews_admin_key', key);
+        this.authKey = key;
         this.loading.set(false);
         this.refresh();
       },
@@ -157,7 +158,7 @@ export class AdminComponent implements OnInit {
   }
 
   protected lock() {
-    sessionStorage.removeItem('reviews_admin_key');
+    this.authKey = '';
     this.activeTab.set('Pending');
     this.reviews.set([]);
     this.keyInput = '';
@@ -177,7 +178,7 @@ export class AdminComponent implements OnInit {
   private loadTab(tab: ReviewStatus) {
     this.loading.set(true);
     this.loadError.set('');
-    this.reviewsService.listAdmin(tab).subscribe({
+    this.reviewsService.listAdmin(tab, this.authKey).subscribe({
       next: (res) => {
         this.reviews.set(res.reviews);
         this.loading.set(false);
@@ -195,22 +196,22 @@ export class AdminComponent implements OnInit {
   }
 
   private loadCounts() {
-    this.reviewsService.listAdmin('Pending').subscribe({
+    this.reviewsService.listAdmin('Pending', this.authKey).subscribe({
       next: (r) => this.counts.update(c => ({ ...c, pending: r.reviews.length })),
       error: () => this.counts.update(c => ({ ...c, pending: 0 }))
     });
-    this.reviewsService.listAdmin('Approved').subscribe({
+    this.reviewsService.listAdmin('Approved', this.authKey).subscribe({
       next: (r) => this.counts.update(c => ({ ...c, approved: r.reviews.length })),
       error: () => this.counts.update(c => ({ ...c, approved: 0 }))
     });
-    this.reviewsService.listAdmin('Rejected').subscribe({
+    this.reviewsService.listAdmin('Rejected', this.authKey).subscribe({
       next: (r) => this.counts.update(c => ({ ...c, rejected: r.reviews.length })),
       error: () => this.counts.update(c => ({ ...c, rejected: 0 }))
     });
   }
 
   protected approve(review: AdminReview) {
-    this.reviewsService.updateStatus(review.id, 'Approved').subscribe({
+    this.reviewsService.updateStatus(review.id, 'Approved', this.authKey).subscribe({
       next: () => {
         this.flashToast('Review approved.');
         this.refresh();
@@ -220,7 +221,7 @@ export class AdminComponent implements OnInit {
   }
 
   protected reject(review: AdminReview) {
-    this.reviewsService.updateStatus(review.id, 'Rejected').subscribe({
+    this.reviewsService.updateStatus(review.id, 'Rejected', this.authKey).subscribe({
       next: () => {
         this.flashToast('Review rejected.');
         this.refresh();
@@ -234,7 +235,7 @@ export class AdminComponent implements OnInit {
     if (!confirmed) {
       return;
     }
-    this.reviewsService.deleteReview(review.id).subscribe({
+    this.reviewsService.deleteReview(review.id, this.authKey).subscribe({
       next: () => {
         this.flashToast('Review deleted.');
         this.refresh();

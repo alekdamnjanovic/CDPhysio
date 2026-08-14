@@ -54,18 +54,17 @@ export class ReviewsService {
     return this.http.get<{ reviews: AdminReview[] }>(`${this.baseUrl}/admin${params}`, this.adminHeaders(key));
   }
 
-  updateStatus(id: number, status: Exclude<ReviewStatus, 'Pending'>): Observable<{ message: string }> {
-    return this.http.patch<{ message: string }>(`${this.baseUrl}/admin/${id}`, { status }, this.adminHeaders());
+  updateStatus(id: number, status: Exclude<ReviewStatus, 'Pending'>, key?: string): Observable<{ message: string }> {
+    return this.http.patch<{ message: string }>(`${this.baseUrl}/admin/${id}`, { status }, this.adminHeaders(key));
   }
 
-  deleteReview(id: number): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/admin/${id}`, this.adminHeaders());
+  deleteReview(id: number, key?: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/admin/${id}`, this.adminHeaders(key));
   }
 
   private adminHeaders(key?: string) {
-    const actualKey = key ?? sessionStorage.getItem('reviews_admin_key') ?? '';
     return {
-      headers: new HttpHeaders({ 'X-Admin-Key': actualKey })
+      headers: new HttpHeaders({ 'X-Admin-Key': key ?? '' })
     };
   }
 }
