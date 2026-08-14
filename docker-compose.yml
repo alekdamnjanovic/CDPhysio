@@ -8,6 +8,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - Ollama__BaseUrl=http://host.docker.internal:11434
+      - ConnectionStrings__Default=${POSTGRES_CONNECTION_STRING:-Host=localhost;Database=cdphysio;Username=postgres;Password=postgres}
+      - Reviews__AdminKey=${REVIEWS_ADMIN_KEY:-change-me-in-production}
     networks:
       - app-network
 

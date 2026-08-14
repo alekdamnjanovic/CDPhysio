@@ -12,11 +12,12 @@ import { isPlatformBrowser } from '@angular/common';
           <img src="CD_Logo_PNG.png" alt="CD Physio">
         </div>
         <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#education">Education</a>
-          <a href="#credentials">Credentials</a>
-          <a href="#gallery">Gallery</a>
-          <a href="#contact">Contact</a>
+          <a href="#about" [class.active]="activeSection === 'about'">About</a>
+          <a href="#education" [class.active]="activeSection === 'education'">Education</a>
+          <a href="#credentials" [class.active]="activeSection === 'credentials'">Credentials</a>
+          <a href="#gallery" [class.active]="activeSection === 'gallery'">Gallery</a>
+          <a href="#reviews" [class.active]="activeSection === 'reviews'">Reviews</a>
+          <a href="#contact" [class.active]="activeSection === 'contact'">Contact</a>
           <a href="https://cdphysio.janeapp.com/#/staff_member/1" class="btn cta" target="_blank">Book Now</a>
         </div>
       </div>
@@ -25,10 +26,13 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
   isScrolled = false;
+  activeSection = '';
 
   private platformId = inject(PLATFORM_ID);
   private progressEl?: HTMLElement;
   private rafId = 0;
+  private sectionObserver?: IntersectionObserver;
+  private readonly sectionIds = ['about', 'education', 'credentials', 'gallery', 'reviews', 'contact'];
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) {
@@ -36,6 +40,29 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     }
     this.progressEl = document.querySelector('.scroll-progress') as HTMLElement;
     this.update();
+    this.initScrollSpy();
+  }
+
+  private initScrollSpy() {
+    if (typeof IntersectionObserver === 'undefined') {
+      return;
+    }
+    this.sectionObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            this.activeSection = entry.target.id;
+          }
+        }
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+    );
+    this.sectionIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        this.sectionObserver?.observe(el);
+      }
+    });
   }
 
   @HostListener('window:scroll')
@@ -63,5 +90,6 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     if (this.rafId) {
       cancelAnimationFrame(this.rafId);
     }
+    this.sectionObserver?.disconnect();
   }
 }

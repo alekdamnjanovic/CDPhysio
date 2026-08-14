@@ -1,3 +1,4 @@
 export const environment = {
-  apiUrl: 'http://localhost:5000/api/ai/chat'
+  apiUrl: '/api/ai/chat',
+  reviewsApiUrl: '/api/reviews'
 };
