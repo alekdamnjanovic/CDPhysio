@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { ReviewsService, AdminReview, ReviewStatus } from '../../core/services/reviews.service';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   styleUrl: './admin.component.scss',
   template: `
     <main class="admin-main">
@@ -15,15 +16,29 @@ import { ReviewsService, AdminReview, ReviewStatus } from '../../core/services/r
           <span class="eyebrow">Admin</span>
           <h2>Review Moderation</h2>
           <p>Approve, reject, or delete reviews submitted through the site.</p>
+          <a class="admin-back" routerLink="/">← Back to site</a>
         </div>
+
+        <div class="admin-toast" *ngIf="toast()" role="status">{{ toast() }}</div>
 
         <div class="admin-key" *ngIf="!isAuthed()">
           <form (ngSubmit)="unlock()">
             <label for="admin-key-input">Admin Key</label>
-            <input id="admin-key-input" type="password" [(ngModel)]="keyInput" name="adminKey" placeholder="Enter your admin key" autocomplete="off" />
-            <button type="submit" class="btn cta">Unlock</button>
+            <div class="key-field">
+              <svg class="key-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+              <input
+                id="admin-key-input"
+                type="password"
+                [(ngModel)]="keyInput"
+                name="adminKey"
+                placeholder="Enter your admin key"
+                autocomplete="off"
+                [attr.aria-invalid]="authError ? 'true' : null"
+              />
+            </div>
+            <button type="submit" class="btn cta" [disabled]="loading()">{{ loading() ? 'Checking…' : 'Unlock' }}</button>
           </form>
-          <p class="admin-error" *ngIf="authError">{{ authError }}</p>
+          <p class="admin-error" *ngIf="authError" role="alert">{{ authError }}</p>
         </div>
 
         <ng-container *ngIf="isAuthed()">
@@ -49,7 +64,10 @@ import { ReviewsService, AdminReview, ReviewStatus } from '../../core/services/r
           </div>
 
           <p class="admin-loading" *ngIf="loading()">Loading…</p>
-          <p class="admin-empty" *ngIf="!loading() && reviews().length === 0">No reviews in this tab.</p>
+          <p class="admin-error tab-error" *ngIf="loadError()" role="alert">{{ loadError() }}</p>
+          <p class="admin-empty" *ngIf="!loading() && !loadError() && reviews().length === 0">
+            No reviews in this tab yet.
+          </p>
 
           <div class="admin-card" *ngFor="let review of reviews()">
             <div class="admin-card-head">
@@ -100,6 +118,8 @@ export class AdminComponent implements OnInit {
   protected reviews = signal<AdminReview[]>([]);
   protected loading = signal(false);
   protected counts = signal({ pending: 0, approved: 0, rejected: 0 });
+  protected toast = signal('');
+  protected loadError = signal('');
 
   ngOnInit() {
     if (this.isAuthed()) {
@@ -112,13 +132,28 @@ export class AdminComponent implements OnInit {
   }
 
   protected unlock() {
-    if (!this.keyInput.trim()) {
+    const key = this.keyInput.trim();
+    if (!key) {
       this.authError = 'Please enter the admin key.';
       return;
     }
-    sessionStorage.setItem('reviews_admin_key', this.keyInput.trim());
     this.authError = '';
-    this.refresh();
+    this.loading.set(true);
+    this.reviewsService.listAdmin('Pending', key).subscribe({
+      next: () => {
+        sessionStorage.setItem('reviews_admin_key', key);
+        this.loading.set(false);
+        this.refresh();
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.authError = err.status === 401
+          ? 'Invalid admin key. Please check the key and try again.'
+          : err.status === 429
+            ? 'Too many failed attempts. Please wait a few minutes.'
+            : 'Could not reach the server. Please try again.';
+      }
+    });
   }
 
   protected lock() {
@@ -126,6 +161,7 @@ export class AdminComponent implements OnInit {
     this.activeTab.set('Pending');
     this.reviews.set([]);
     this.keyInput = '';
+    this.loadError.set('');
   }
 
   protected selectTab(tab: ReviewStatus) {
@@ -140,39 +176,75 @@ export class AdminComponent implements OnInit {
 
   private loadTab(tab: ReviewStatus) {
     this.loading.set(true);
+    this.loadError.set('');
     this.reviewsService.listAdmin(tab).subscribe({
-      next: (res) => this.reviews.set(res.reviews),
-      error: () => {
+      next: (res) => {
+        this.reviews.set(res.reviews);
         this.loading.set(false);
-        if (this.isAuthed()) {
-          this.lock();
-        }
       },
-      complete: () => this.loading.set(false)
+      error: (err) => {
+        this.loading.set(false);
+        if (err.status === 401) {
+          this.loadError.set('Your session has expired. Please unlock again.');
+          this.lock();
+        } else {
+          this.loadError.set('Could not load reviews. Please try again.');
+        }
+      }
     });
   }
 
   private loadCounts() {
-    this.reviewsService.listAdmin('Pending').subscribe(r => {
-      this.counts.update(c => ({ ...c, pending: r.reviews.length }));
+    this.reviewsService.listAdmin('Pending').subscribe({
+      next: (r) => this.counts.update(c => ({ ...c, pending: r.reviews.length })),
+      error: () => this.counts.update(c => ({ ...c, pending: 0 }))
     });
-    this.reviewsService.listAdmin('Approved').subscribe(r => {
-      this.counts.update(c => ({ ...c, approved: r.reviews.length }));
+    this.reviewsService.listAdmin('Approved').subscribe({
+      next: (r) => this.counts.update(c => ({ ...c, approved: r.reviews.length })),
+      error: () => this.counts.update(c => ({ ...c, approved: 0 }))
     });
-    this.reviewsService.listAdmin('Rejected').subscribe(r => {
-      this.counts.update(c => ({ ...c, rejected: r.reviews.length }));
+    this.reviewsService.listAdmin('Rejected').subscribe({
+      next: (r) => this.counts.update(c => ({ ...c, rejected: r.reviews.length })),
+      error: () => this.counts.update(c => ({ ...c, rejected: 0 }))
     });
   }
 
   protected approve(review: AdminReview) {
-    this.reviewsService.updateStatus(review.id, 'Approved').subscribe(() => this.refresh());
+    this.reviewsService.updateStatus(review.id, 'Approved').subscribe({
+      next: () => {
+        this.flashToast('Review approved.');
+        this.refresh();
+      },
+      error: () => this.flashToast('Could not approve the review. Please try again.')
+    });
   }
 
   protected reject(review: AdminReview) {
-    this.reviewsService.updateStatus(review.id, 'Rejected').subscribe(() => this.refresh());
+    this.reviewsService.updateStatus(review.id, 'Rejected').subscribe({
+      next: () => {
+        this.flashToast('Review rejected.');
+        this.refresh();
+      },
+      error: () => this.flashToast('Could not reject the review. Please try again.')
+    });
   }
 
   protected remove(review: AdminReview) {
-    this.reviewsService.deleteReview(review.id).subscribe(() => this.refresh());
+    const confirmed = window.confirm(`Delete the review from "${review.name}"? This cannot be undone.`);
+    if (!confirmed) {
+      return;
+    }
+    this.reviewsService.deleteReview(review.id).subscribe({
+      next: () => {
+        this.flashToast('Review deleted.');
+        this.refresh();
+      },
+      error: () => this.flashToast('Could not delete the review. Please try again.')
+    });
+  }
+
+  private flashToast(message: string) {
+    this.toast.set(message);
+    window.setTimeout(() => this.toast.set(''), 2600);
   }
 }

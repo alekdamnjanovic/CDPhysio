@@ -1,5 +1,6 @@
 import { Component, HostListener, OnDestroy, AfterViewInit, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -8,9 +9,9 @@ import { isPlatformBrowser } from '@angular/common';
     <div class="scroll-progress" aria-hidden="true"></div>
     <nav class="navbar" [class.scrolled]="isScrolled">
       <div class="nav-container">
-        <div class="logo">
+        <a class="logo" href="/" (click)="onLogoClick($event)" aria-label="CD Physio — back to top">
           <img src="CD_Logo_PNG.png" alt="CD Physio">
-        </div>
+        </a>
         <div class="nav-links">
           <a href="#about" [class.active]="activeSection === 'about'">About</a>
           <a href="#education" [class.active]="activeSection === 'education'">Education</a>
@@ -28,6 +29,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   isScrolled = false;
   activeSection = '';
 
+  private router = inject(Router);
   private platformId = inject(PLATFORM_ID);
   private progressEl?: HTMLElement;
   private rafId = 0;
@@ -84,6 +86,16 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       this.progressEl.style.transform = `scaleX(${progress.toFixed(3)})`;
     }
     this.isScrolled = window.scrollY > 40;
+  }
+
+  onLogoClick(event: Event) {
+    event.preventDefault();
+    const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (this.router.url === '/' || this.router.url === '') {
+      scrollTop();
+    } else {
+      this.router.navigateByUrl('/').finally(scrollTop);
+    }
   }
 
   ngOnDestroy() {

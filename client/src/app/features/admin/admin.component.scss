@@ -18,7 +18,28 @@
 }
 .admin-head p {
   color: var(--text-muted);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
+}
+.admin-back {
+  display: inline-block;
+  color: var(--cta);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+.admin-back:hover {
+  text-decoration: underline;
+}
+
+.admin-toast {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 0.92rem;
 }
 
 .admin-key form {
@@ -32,14 +53,28 @@
   font-weight: 600;
   margin-bottom: 0.4rem;
   font-size: 0.9rem;
+  width: 100%;
+}
+.key-field {
+  position: relative;
+  flex: 1 1 260px;
+  min-width: 260px;
+}
+.key-field .key-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
 }
 .admin-key input {
-  padding: 0.7rem 0.9rem;
+  width: 100%;
+  padding: 0.7rem 0.9rem 0.7rem 2.4rem;
   border: 1px solid var(--secondary);
   border-radius: 8px;
   font-size: 0.95rem;
   font-family: inherit;
-  min-width: 260px;
   outline: none;
 }
 .admin-key input:focus {
@@ -49,6 +84,10 @@
 .admin-error {
   color: #c0392b;
   margin-top: 0.75rem;
+}
+.admin-error.tab-error {
+  text-align: center;
+  padding: 1rem 0;
 }
 
 .admin-tabs {

@@ -123,9 +123,10 @@ public class ReviewsController : ControllerBase
     [HttpGet("admin")]
     public async Task<IActionResult> ListAdmin([FromQuery] ReviewStatus? status)
     {
-        if (!IsAdminAuthorized())
+        var authFailure = CheckAdminAuth();
+        if (authFailure is not null)
         {
-            return Unauthorized(new { error = "Invalid or missing admin key." });
+            return authFailure;
         }
 
         var query = _db.Reviews.AsNoTracking().AsQueryable();
@@ -144,9 +145,10 @@ public class ReviewsController : ControllerBase
     [HttpPatch("admin/{id:int}")]
     public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateReviewStatusRequest request)
     {
-        if (!IsAdminAuthorized())
+        var authFailure = CheckAdminAuth();
+        if (authFailure is not null)
         {
-            return Unauthorized(new { error = "Invalid or missing admin key." });
+            return authFailure;
         }
 
         if (request.Status is not (ReviewStatus.Approved or ReviewStatus.Rejected))
@@ -170,9 +172,10 @@ public class ReviewsController : ControllerBase
     [HttpDelete("admin/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
-        if (!IsAdminAuthorized())
+        var authFailure = CheckAdminAuth();
+        if (authFailure is not null)
         {
-            return Unauthorized(new { error = "Invalid or missing admin key." });
+            return authFailure;
         }
 
         var review = await _db.Reviews.FindAsync([id]);
@@ -187,6 +190,24 @@ public class ReviewsController : ControllerBase
         return Ok(new { message = "Review deleted." });
     }
 
+    private IActionResult? CheckAdminAuth()
+    {
+        if (IsAdminAuthorized())
+        {
+            return null;
+        }
+
+        var ipKey = GetClientIpHash();
+        var maxAttempts = _configuration.GetValue<int>("Reviews:AdminMaxAttempts", 5);
+        var windowMinutes = _configuration.GetValue<int>("Reviews:AdminLockoutMinutes", 10);
+        if (!_rateLimiter.IsAllowed($"admin-auth:{ipKey}", maxAttempts, TimeSpan.FromMinutes(windowMinutes)))
+        {
+            return StatusCode(429, new { error = "Too many failed attempts. Please wait a few minutes." });
+        }
+
+        return Unauthorized(new { error = "Invalid or missing admin key." });
+    }
+
     private bool IsAdminAuthorized()
     {
         var expected = _configuration["Reviews:AdminKey"];
@@ -195,7 +216,15 @@ public class ReviewsController : ControllerBase
             return false;
         }
         var provided = Request.Headers["X-Admin-Key"].ToString();
-        return !string.IsNullOrEmpty(provided) && provided == expected;
+        if (string.IsNullOrEmpty(provided))
+        {
+            return false;
+        }
+
+        var providedBytes = Encoding.UTF8.GetBytes(provided);
+        var expectedBytes = Encoding.UTF8.GetBytes(expected);
+        return providedBytes.Length == expectedBytes.Length
+            && CryptographicOperations.FixedTimeEquals(providedBytes, expectedBytes);
     }
 
     private string GetClientIpHash()

@@ -72,7 +72,11 @@ section[id] { scroll-margin-top: 150px; }
   .logo {
     display: flex; align-items: center; gap: 0.5rem;
     white-space: nowrap;
+    text-decoration: none;
+    border-radius: 6px;
     img { height: 110px; width: auto; display: block; }
+    &:hover img { opacity: 0.85; }
+    &:focus-visible { outline: 3px solid var(--cta); outline-offset: 3px; }
   }
   .nav-links {
     display: flex; gap: 2.5rem; align-items: center;
@@ -548,6 +552,16 @@ footer {
   color: rgba(255,255,255,0.7);
 }
 .footer-legal a { color: var(--cta); }
+.footer-legal .footer-admin {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+.footer-legal .footer-admin a {
+  opacity: 0.7;
+}
+.footer-legal .footer-admin a:hover {
+  opacity: 1;
+}
 
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; gap: 2rem; }
