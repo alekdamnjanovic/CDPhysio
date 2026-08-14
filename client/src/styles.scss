@@ -122,6 +122,9 @@ section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
 .profile-text h2 { font-size: 2rem; margin-bottom: 0.25rem; }
 .profile-text .subtitle { color: var(--cta); font-weight: 600; margin-bottom: 1rem; }
 .profile-text p { color: var(--text-muted); }
+.profile-text .tagline-text {
+  color: var(--cta); font-weight: 700; font-size: 1.15rem; margin-bottom: 1rem;
+}
 
 // Section headers
 .eyebrow {
@@ -252,6 +255,52 @@ section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
 .athletic-card h3 { color: var(--primary); font-size: 1.05rem; }
 .athletic-card p { color: var(--text-muted); font-size: 0.9rem; }
 
+// Gallery
+.gallery-section { overflow: hidden; }
+.gallery-wrap { position: relative; }
+.gallery-track {
+  display: flex; gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 0.25rem 0.5rem 1.25rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+.gallery-card {
+  flex: 0 0 clamp(280px, 38vw, 420px);
+  scroll-snap-align: start;
+  background: var(--white);
+  border: 1px solid var(--secondary);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  img {
+    display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover;
+  }
+  figcaption {
+    padding: 1rem 1.25rem;
+    font-weight: 600; color: var(--primary);
+  }
+  &:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--cta); }
+}
+.gallery-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 2;
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--secondary);
+  background: var(--white); color: var(--text-dark);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  &:hover { background: var(--cta); color: var(--white); border-color: var(--cta); }
+  &.prev { left: -22px; }
+  &.next { right: -22px; }
+}
+
 // Booking band
 .booking-band {
   background: linear-gradient(120deg, var(--primary) 0%, #243447 100%);
@@ -342,4 +391,7 @@ footer {
   .section-head { margin-bottom: 2rem; }
   .booking-band { padding: 4rem 1.25rem; }
   .subhead h3 { white-space: normal; }
+  .gallery-card { flex-basis: 78vw; }
+  .gallery-arrow.prev { left: 0; }
+  .gallery-arrow.next { right: 0; }
 }

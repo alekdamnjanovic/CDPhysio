@@ -31,8 +31,13 @@
         <span class="eyebrow">About</span>
         <h2>Carole Damnjanovic</h2>
         <p class="subtitle">BScPT, BA Kinesiology, Registered Physiotherapist</p>
-        <p>With decades of experience working side-by-side with elite athletes, trainers, and specialized physicians, Carole combines rigid evidence-based science with highly nuanced clinical intuition.</p>
-        <p>Her training spans physiotherapy at Queen's University and kinesiology with a specialization in athletic therapy at Western University — layered with advanced certifications in orthopaedic manual therapy, intramuscular stimulation, and dynamic neuromuscular stabilization.</p>
+        <p class="tagline-text">Individualized Care. Decades of Experience. A Passion for Movement.</p>
+        <p>With a global population of more than 8 billion people, no two individuals are exactly alike. I believe the same should be true of the way we approach treatment. Every client is unique, and my goal is to understand the individual behind the injury, pain, or performance challenge and develop an approach that is tailored to their specific needs and goals.</p>
+        <p>With more than 30 years of experience as a physiotherapist and kinesiologist, I have developed a broad and diverse skill set through extensive education, specialized training, and years of hands-on clinical experience.</p>
+        <p>I have a particular passion for working with athletes of all levels—from those looking to return to their sport after an injury to those striving to improve performance and stay at the top of their game.</p>
+        <p>My approach combines my background in physiotherapy and kinesiology with additional osteopathic-based education completed through a Doctor of Osteopathy program in Europe. This unique blend of knowledge allows me to draw from a variety of assessment and treatment techniques and adapt them to each individual.</p>
+        <p>My manual therapy techniques are supported by research, complemented by specialized certifications, and continually refined through ongoing professional education. I believe in looking beyond the symptoms to better understand how the body moves and functions as a whole.</p>
+        <p>My goal is simple: to provide personalized, evidence-informed care that helps you move better, perform better, and achieve your goals.</p>
       </div>
     </div>
   </section>
@@ -174,6 +179,28 @@
         <h3>TRX Certified</h3>
         <p>Suspension Training</p>
       </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="gallery-section section reveal" appReveal>
+    <div class="section-head">
+      <span class="eyebrow">Gallery</span>
+      <h2>Inside CD Physio</h2>
+      <p>A look at the space, the work, and the community behind the care.</p>
+    </div>
+    <div class="gallery-wrap">
+      <button class="gallery-arrow prev" type="button" aria-label="Previous photos" (click)="scrollGallery(-1)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="gallery-track" #galleryTrack>
+        <figure class="gallery-card" *ngFor="let item of galleryItems">
+          <img [src]="item.src" [alt]="item.alt" loading="lazy" />
+          <figcaption>{{ item.label }}</figcaption>
+        </figure>
+      </div>
+      <button class="gallery-arrow next" type="button" aria-label="Next photos" (click)="scrollGallery(1)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
     </div>
   </section>
 

@@ -13,7 +13,9 @@ import { isPlatformBrowser } from '@angular/common';
         </div>
         <div class="nav-links">
           <a href="#about">About</a>
+          <a href="#education">Education</a>
           <a href="#credentials">Credentials</a>
+          <a href="#gallery">Gallery</a>
           <a href="#contact">Contact</a>
           <a href="https://cdphysio.janeapp.com/#/staff_member/1" class="btn cta" target="_blank">Book Now</a>
         </div>
