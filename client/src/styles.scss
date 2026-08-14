@@ -179,11 +179,10 @@ section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
   background: var(--white);
   border: 1px solid var(--secondary);
   display: flex; align-items: center; justify-content: center;
-  padding: 1.5rem;
   box-shadow: var(--shadow-sm);
   overflow: hidden;
 }
-.avatar img { max-width: 100%; height: auto; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .profile-text h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 600; margin-bottom: 0.25rem; }
 .profile-text .subtitle { color: var(--cta); font-weight: 600; margin-bottom: 1rem; }
 .profile-text p { color: var(--text-muted); }
