@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: cdphysio
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile.render
+    healthCheckPath: /
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__Default
+        sync: false
+      - key: Reviews__AdminKey
+        sync: false
+      - key: Ai__ApiKey
+        sync: false
+      - key: Ai__BaseUrl
+        value: https://api.groq.com/openai/v1
+      - key: Ai__Model
+        value: llama-3.3-70b-versatile

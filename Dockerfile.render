@@ -1,0 +1,22 @@
+# Build Angular client
+FROM node:22-alpine AS client-build
+WORKDIR /app
+COPY client/package*.json ./
+RUN npm install
+COPY client/ ./
+RUN npm run build
+
+# Build .NET server
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS server-build
+WORKDIR /src
+COPY server/server.csproj ./
+RUN dotnet restore "server.csproj"
+COPY server/ ./
+RUN dotnet publish "server.csproj" -c Release -o /app/publish
+
+# Production stage
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+WORKDIR /app
+COPY --from=server-build /app/publish .
+COPY --from=client-build /app/dist/client/browser ./wwwroot
+CMD ["sh", "-c", "dotnet server.dll --urls http://0.0.0.0:${PORT:-8080}"]
