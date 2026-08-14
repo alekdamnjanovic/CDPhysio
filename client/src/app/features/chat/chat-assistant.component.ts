@@ -35,7 +35,7 @@ export class ChatAssistantComponent implements OnDestroy {
   private readonly reducedMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   private readonly revealIntervalMs = 67;
-  private readonly revealChars = 2;
+  private readonly revealChars = 4;
   private readonly minThinkMs = 700;
 
   protected quickQuestions = [
