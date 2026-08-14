@@ -1,0 +1,24 @@
+# .NET build output
+bin/
+obj/
+*.user
+*.suo
+TestResults/
+
+# IDE / editor
+.vs/
+.idea/
+*.swp
+*.sln~*
+
+# Environment / secrets
+.env
+.env.local
+appsettings.Local.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml

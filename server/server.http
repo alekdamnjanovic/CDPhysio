@@ -1,0 +1,19 @@
+@server_HostAddress = http://localhost:5016
+
+POST {{server_HostAddress}}/api/ai/chat
+Content-Type: application/json
+
+{
+  "prompt": "Hi, what services do you offer?"
+}
+
+###
+
+POST {{server_HostAddress}}/api/ai/chat/stream
+Content-Type: application/json
+
+{
+  "prompt": "Hi, what services do you offer?"
+}
+
+###
