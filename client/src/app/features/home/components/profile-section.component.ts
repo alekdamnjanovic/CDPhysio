@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import { CLINIC_CONFIG } from '../../../core/constants/clinic.constants';
 
@@ -13,7 +13,7 @@ import { CLINIC_CONFIG } from '../../../core/constants/clinic.constants';
         <div class="profile-grid">
           <div class="avatar-wrap">
             <div class="avatar">
-              <img src="Profile.jpg" alt="Carole Damnjanovic, Registered Physiotherapist" />
+              <img src="profile/Profile.jpg" alt="Carole Damnjanovic, Registered Physiotherapist" />
             </div>
           </div>
           <div class="profile-text">

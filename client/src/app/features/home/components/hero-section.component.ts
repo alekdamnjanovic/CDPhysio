@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import { ParallaxDirective } from '../../../core/directives/parallax.directive';
 import { CLINIC_CONFIG } from '../../../core/constants/clinic.constants';
@@ -37,7 +37,7 @@ import { CLINIC_CONFIG } from '../../../core/constants/clinic.constants';
 
         <div class="hero-visual" appParallax>
           <div class="visual-card">
-            <img src="CD_Logo_PNG.png" alt="CD Physio logo" />
+            <img src="brand/CD_Logo_PNG.png" alt="CD Physio logo" />
           </div>
           <div class="visual-accent a1" aria-hidden="true"></div>
           <div class="visual-accent a2" aria-hidden="true"></div>

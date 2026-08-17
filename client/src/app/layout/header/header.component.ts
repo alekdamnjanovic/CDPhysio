@@ -1,4 +1,4 @@
-﻿import {
+import {
   Component,
   HostListener,
   OnDestroy,
@@ -21,7 +21,7 @@ import { CLINIC_CONFIG } from '../../core/constants/clinic.constants';
     <nav class="navbar" [class.scrolled]="isScrolled()">
       <div class="nav-container">
         <a class="logo" href="/" (click)="onLogoClick($event)" aria-label="CD Physio — back to top">
-          <img src="CD_Logo_PNG.png" alt="CD Physio" />
+          <img src="brand/CD_Logo_PNG.png" alt="CD Physio" />
         </a>
 
         <div class="nav-links">
