@@ -1,0 +1,125 @@
+﻿// ============================================================
+// Profile / About Section
+// ============================================================
+
+.profile {
+  background: var(--white);
+  padding: 7rem 2rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -150px;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 168, 232, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+.profile-inner {
+  max-width: var(--section-max);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 4.5rem;
+  align-items: start;
+}
+
+.avatar-wrap {
+  position: relative;
+  width: 228px;
+  height: 228px;
+  margin: 0 auto;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  // Animated gradient halo ring — stays firmly centered behind the photo
+  &::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--cta), #0072A3, #00d4ff, var(--cta));
+    animation: spin 10s linear infinite;
+    transform-origin: center center;
+    z-index: 0;
+    box-shadow: 0 0 24px rgba(0, 168, 232, 0.25);
+  }
+
+  // Crisp white inner frame
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    background: var(--white);
+    z-index: 1;
+  }
+}
+
+.avatar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(30, 37, 48, 0.12);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 10%;
+  }
+}
+
+.profile-text {
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+    color: var(--primary);
+  }
+
+  .subtitle {
+    color: var(--cta);
+    font-weight: 600;
+    font-size: 0.98rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .tagline-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    line-height: 1.4;
+    border-left: 3px solid var(--cta);
+    padding-left: 1rem;
+  }
+
+  p {
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.97rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

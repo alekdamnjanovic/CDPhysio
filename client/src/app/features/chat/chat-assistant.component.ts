@@ -1,31 +1,37 @@
-import { Component, signal, inject, ElementRef, ViewChild, OnDestroy } from '@angular/core';
+﻿import {
+  Component,
+  signal,
+  inject,
+  ElementRef,
+  ViewChild,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { AiService } from '../../core/services/ai.service';
-
-interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
-}
+import { QUICK_QUESTIONS } from '../../core/constants/content.constants';
+import type { ChatMessage } from '../../core/models/chat.model';
 
 @Component({
   selector: 'app-chat-assistant',
   standalone: true,
   imports: [FormsModule, CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './chat-assistant.component.html',
   styleUrl: './chat-assistant.component.scss'
 })
 export class ChatAssistantComponent implements OnDestroy {
-  private aiService = inject(AiService);
+  private readonly aiService = inject(AiService);
   @ViewChild('history') private history?: ElementRef<HTMLElement>;
 
-  protected isChatOpen = signal(false);
-  protected userInput = signal('');
-  protected messages = signal<ChatMessage[]>([]);
-  protected isLoading = signal(false);
-  protected isStreaming = signal(false);
-  protected streamText = signal('');
+  protected readonly isChatOpen = signal(false);
+  protected readonly userInput = signal('');
+  protected readonly messages = signal<ChatMessage[]>([]);
+  protected readonly isLoading = signal(false);
+  protected readonly isStreaming = signal(false);
+  protected readonly streamText = signal('');
 
   private streamSub?: Subscription;
   private pending = '';
@@ -38,13 +44,7 @@ export class ChatAssistantComponent implements OnDestroy {
   private readonly revealChars = 4;
   private readonly minThinkMs = 700;
 
-  protected quickQuestions = [
-    'How do I book an appointment?',
-    'What are the prices for treatment?',
-    'Where is CD Physio located?',
-    'What conditions does Carole treat?',
-    "Tell me about Carole's experience."
-  ];
+  protected readonly quickQuestions = QUICK_QUESTIONS;
 
   toggleChat() {
     this.isChatOpen.update(v => !v);

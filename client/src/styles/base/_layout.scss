@@ -1,0 +1,23 @@
+﻿// ============================================================
+// Base Layout & Shared Section Styles
+// ============================================================
+
+main {
+  flex: 1;
+}
+
+section[id] {
+  scroll-margin-top: calc(var(--navbar-h) + 24px);
+}
+
+.section {
+  padding: 7rem 2rem;
+  max-width: var(--section-max);
+  margin: 0 auto;
+}
+
+.section-alt {
+  background:
+    radial-gradient(ellipse 1000px 500px at 80% -10%, rgba(0, 168, 232, 0.07), transparent 65%),
+    var(--background);
+}

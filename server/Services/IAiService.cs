@@ -1,4 +1,4 @@
-namespace server.BusinessLogic;
+﻿namespace server.Services;
 
 public interface IAiService
 {

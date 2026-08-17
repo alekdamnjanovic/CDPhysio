@@ -1,0 +1,83 @@
+﻿// ============================================================
+// Contact Section
+// ============================================================
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.contact-item {
+  background: var(--white);
+  border: 1px solid rgba(74, 85, 104, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md), 0 0 20px rgba(0, 168, 232, 0.12);
+    border-color: rgba(0, 168, 232, 0.25);
+
+    .contact-icon {
+      color: var(--accent-strong);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.contact-icon {
+  color: var(--cta);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.contact-item h3 {
+  color: var(--primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.contact-item p {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.contact-item a {
+  color: var(--cta);
+  transition: color 0.2s;
+
+  &:hover {
+    color: var(--accent-strong);
+    text-decoration: underline;
+  }
+}
+
+.contact-link {
+  align-self: flex-start;
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--cta);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cta);
+  transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+
+  &:hover {
+    background: var(--cta);
+    color: var(--white);
+    box-shadow: 0 4px 16px rgba(0, 168, 232, 0.3);
+    text-decoration: none;
+  }
+}

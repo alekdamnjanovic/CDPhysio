@@ -1,8 +1,9 @@
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using server.Constants;
-namespace server.BusinessLogic;
+
+namespace server.Services;
 
 public class AiService : IAiService
 {
@@ -25,8 +26,8 @@ public class AiService : IAiService
     public async Task<string> GenerateResponseAsync(string prompt)
     {
         var request = BuildRequest(prompt, stream: false);
-
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+
         using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
         {
             Content = content
@@ -40,8 +41,7 @@ public class AiService : IAiService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException(
-                $"The AI assistant could not be reached right now. Please try again in a moment.", ex);
+            throw new InvalidOperationException("The AI assistant could not be reached right now. Please try again in a moment.", ex);
         }
 
         if (!response.IsSuccessStatusCode)
@@ -73,8 +73,8 @@ public class AiService : IAiService
     public async IAsyncEnumerable<string> GenerateStreamAsync(string prompt)
     {
         var request = BuildRequest(prompt, stream: true);
-
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+
         using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
         {
             Content = content
@@ -88,8 +88,7 @@ public class AiService : IAiService
         }
         catch (Exception ex)
         {
-            throw new InvalidOperationException(
-                $"The AI assistant could not be reached right now. Please try again in a moment.", ex);
+            throw new InvalidOperationException("The AI assistant could not be reached right now. Please try again in a moment.", ex);
         }
 
         if (!response.IsSuccessStatusCode)
@@ -103,26 +102,13 @@ public class AiService : IAiService
         while (true)
         {
             var line = await reader.ReadLineAsync();
-            if (line is null)
-            {
-                break;
-            }
+            if (line is null) break;
 
-            if (!line.StartsWith("data:", StringComparison.Ordinal))
-            {
-                continue;
-            }
+            if (!line.StartsWith("data:", StringComparison.Ordinal)) continue;
 
             var data = line.Substring(5).Trim();
-            if (data == "[DONE]")
-            {
-                break;
-            }
-
-            if (string.IsNullOrWhiteSpace(data))
-            {
-                continue;
-            }
+            if (data == "[DONE]") break;
+            if (string.IsNullOrWhiteSpace(data)) continue;
 
             using var doc = JsonDocument.Parse(data);
 
@@ -142,10 +128,10 @@ public class AiService : IAiService
                 delta.TryGetProperty("content", out var token) &&
                 token.ValueKind == JsonValueKind.String)
             {
-                var text = token.GetString();
-                if (!string.IsNullOrEmpty(text))
+                var tokenText = token.GetString();
+                if (!string.IsNullOrEmpty(tokenText))
                 {
-                    yield return text;
+                    yield return tokenText;
                 }
             }
         }
@@ -190,9 +176,7 @@ public class AiService : IAiService
 
         if (status == StatusCodes.Status400BadRequest || status == StatusCodes.Status404NotFound)
         {
-            _logger.LogError(
-                "AI request failed with status {Status}. Model '{Model}'. Provider error: {ProviderError}",
-                status, _model, TryGetProviderError(response));
+            _logger.LogError("AI request failed with status {Status}. Model '{Model}'. Provider error: {ProviderError}", status, _model, TryGetProviderError(response));
             return "The AI assistant is temporarily unavailable. Please try again in a moment.";
         }
 
@@ -223,11 +207,10 @@ public class AiService : IAiService
         {
             // ignore malformed error body
         }
-
         return null;
     }
 
-    private string BuildSystemPrompt()
+    private static string BuildSystemPrompt()
     {
         return $"You are the AI-powered Virtual Assistant for {ClinicConstants.ClinicName}, a professional sports physiotherapy clinic in Vernon, BC owned by physiotherapist Carole Damnjanovic. " +
                "IMPORTANT: You are an artificial intelligence assistant — you are NOT a physiotherapist and you are NOT Carole or any clinic staff member. " +

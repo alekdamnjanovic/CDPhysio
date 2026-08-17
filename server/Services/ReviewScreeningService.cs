@@ -1,9 +1,9 @@
-using System.Net.Http.Headers;
+﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using server.Constants;
 
-namespace server.BusinessLogic;
+namespace server.Services;
 
 public class ReviewScreeningService : IReviewScreeningService
 {
@@ -66,15 +66,11 @@ public class ReviewScreeningService : IReviewScreeningService
 
             if (!response.IsSuccessStatusCode)
             {
-                // Fail open: never block a review because the AI screening was unavailable.
-                _logger.LogWarning(
-                    "AI screening unavailable: provider returned {Status} for model {Model}. Review approved without screening.",
-                    (int)response.StatusCode, _model);
+                _logger.LogWarning("AI screening unavailable: provider returned {Status} for model {Model}. Review approved without screening.", (int)response.StatusCode, _model);
                 return new ReviewScreeningResult(true, null, false);
             }
 
             var json = await response.Content.ReadAsStringAsync(cts.Token);
-
             using var doc = JsonDocument.Parse(json);
 
             if (!doc.RootElement.TryGetProperty("choices", out var choices) ||

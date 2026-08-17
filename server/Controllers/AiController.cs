@@ -1,6 +1,8 @@
-using System.Text.Json;
+﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using server.BusinessLogic;
+using server.Models.DTOs;
+using server.Services;
+
 namespace server.Controllers;
 
 [ApiController]
@@ -29,7 +31,7 @@ public class AiController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, new { error = ex.Message });
+            return StatusCode(StatusCodes.Status500InternalServerError, new { error = ex.Message });
         }
     }
 
@@ -38,7 +40,7 @@ public class AiController : ControllerBase
     {
         if (string.IsNullOrWhiteSpace(request.Prompt))
         {
-            Response.StatusCode = 400;
+            Response.StatusCode = StatusCodes.Status400BadRequest;
             await Response.WriteAsJsonAsync(new { error = "Prompt is required." });
             return;
         }
@@ -65,4 +67,3 @@ public class AiController : ControllerBase
         }
     }
 }
-public record ChatRequest(string Prompt);

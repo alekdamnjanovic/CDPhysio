@@ -1,0 +1,40 @@
+﻿// ============================================================
+// Scroll Reveal Animations
+// ============================================================
+
+.reveal,
+.reveal-stagger {
+  perspective: 1200px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+
+  &.reveal-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(28px) rotateX(10deg) scale(0.97);
+  transform-origin: 50% 100%;
+  transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+}
+
+.reveal.reveal-visible .reveal-stagger > *,
+.reveal-stagger.reveal-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-stagger > *:nth-child(1)   { transition-delay: 0.06s; }
+.reveal-stagger > *:nth-child(2)   { transition-delay: 0.13s; }
+.reveal-stagger > *:nth-child(3)   { transition-delay: 0.20s; }
+.reveal-stagger > *:nth-child(4)   { transition-delay: 0.27s; }
+.reveal-stagger > *:nth-child(5)   { transition-delay: 0.34s; }
+.reveal-stagger > *:nth-child(6)   { transition-delay: 0.41s; }
+.reveal-stagger > *:nth-child(n+7) { transition-delay: 0.48s; }

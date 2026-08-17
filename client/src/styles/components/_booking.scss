@@ -1,0 +1,55 @@
+﻿// ============================================================
+// Booking Band
+// ============================================================
+
+.booking-wrapper {
+  background: linear-gradient(160deg, #0d1520 0%, #1E2530 50%, #111827 100%);
+  padding: 8rem 2rem;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+  margin: -2px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 700px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0, 168, 232, 0.15) 0%, transparent 65%);
+    pointer-events: none;
+  }
+}
+
+.booking-band {
+  position: relative;
+  z-index: 1;
+}
+
+.booking-inner {
+  max-width: 620px;
+  margin: 0 auto;
+
+  .eyebrow {
+    color: var(--cta);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 1rem;
+    line-height: 1.15;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.78);
+    margin-bottom: 2.5rem;
+    font-size: 1.05rem;
+  }
+}

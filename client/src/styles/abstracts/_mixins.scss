@@ -1,0 +1,18 @@
+﻿// ============================================================
+// Mixins & Utilities
+// ============================================================
+
+@mixin glass-card($bg: var(--glass-bg), $border: var(--glass-border), $blur: 12px) {
+  background: $bg;
+  border: 1px solid $border;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin hover-lift($y: -6px, $scale: 1, $shadow: var(--shadow-md)) {
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  &:hover {
+    transform: translateY($y) scale($scale);
+    box-shadow: $shadow;
+  }
+}

@@ -1,20 +1,35 @@
-# .NET build output
-bin/
-obj/
+﻿# .NET build output
+**/bin/
+**/obj/
 *.user
 *.suo
 TestResults/
+
+# Node & Frontend build output
+**/node_modules/
+**/dist/
+**/.angular/
+npm-debug.log*
+yarn-error.log*
 
 # IDE / editor
 .vs/
 .idea/
 *.swp
 *.sln~*
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
 # Environment / secrets
 .env
-.env.local
+.env.*
+!.env.example
 appsettings.Local.json
+appsettings.Development.json
 
 # OS files
 .DS_Store

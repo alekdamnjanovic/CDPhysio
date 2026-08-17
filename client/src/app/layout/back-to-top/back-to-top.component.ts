@@ -1,36 +1,45 @@
-import { Component, HostListener, inject, OnDestroy, PLATFORM_ID } from '@angular/core';
+﻿import {
+  Component,
+  HostListener,
+  inject,
+  OnDestroy,
+  PLATFORM_ID,
+  signal,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-back-to-top',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <button
       class="back-to-top"
-      [class.visible]="isVisible"
+      [class.visible]="isVisible()"
       type="button"
       aria-label="Back to top"
       (click)="scrollToTop()"
     >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
     </button>
   `
 })
 export class BackToTopComponent implements OnDestroy {
-  isVisible = false;
+  protected readonly isVisible = signal(false);
 
-  private platformId = inject(PLATFORM_ID);
+  private readonly platformId = inject(PLATFORM_ID);
   private rafId = 0;
 
   @HostListener('window:scroll')
   onScroll() {
-    if (this.rafId) {
-      return;
-    }
+    if (this.rafId) return;
     this.rafId = requestAnimationFrame(() => {
       this.rafId = 0;
       if (isPlatformBrowser(this.platformId)) {
-        this.isVisible = window.scrollY > 480;
+        this.isVisible.set(window.scrollY > 480);
       }
     });
   }
@@ -42,8 +51,6 @@ export class BackToTopComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.rafId) {
-      cancelAnimationFrame(this.rafId);
-    }
+    if (this.rafId) cancelAnimationFrame(this.rafId);
   }
 }

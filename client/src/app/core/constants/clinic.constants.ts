@@ -1,0 +1,19 @@
+﻿export const CLINIC_CONFIG = {
+  name: 'CD Physio',
+  tagline: 'Sports Physiotherapy & Recovery',
+  heroHeading: 'Root Cause Recovery for Peak Performance',
+  heroDescription: 'Expert, science-based injury rehabilitation in Vernon, BC. Decades of elite experience to get you back to doing what you love, pain-free.',
+  practitionerName: 'Carole Damnjanovic',
+  practitionerCredentials: 'BScPT, BA Kinesiology, Registered Physiotherapist',
+  practitionerTagline: 'Individualized Care. Decades of Experience. A Passion for Movement.',
+  locationName: 'Inside HBIQ Sports',
+  address: '3445 43rd Ave, Vernon, BC',
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=3445+43rd+Ave+Vernon+BC',
+  email: 'caroledphysio@gmail.com',
+  phone: '250-540-5883',
+  phoneClean: '2505405883',
+  instagramHandle: '@cdphysio.performance',
+  instagramUrl: 'https://www.instagram.com/cdphysio.performance',
+  janeAppBookingUrl: 'https://cdphysio.janeapp.com/#/staff_member/1',
+  copyrightYear: 2026
+} as const;

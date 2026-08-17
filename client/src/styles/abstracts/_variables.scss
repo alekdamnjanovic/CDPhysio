@@ -1,0 +1,47 @@
+﻿// ============================================================
+// Variables & Design Tokens
+// ============================================================
+
+:root {
+  // Brand palette (unchanged)
+  --primary:            #1E2530;
+  --secondary:          #4A5568;
+  --cta:                #00A8E8;
+  --accent-strong:      #0072A3;
+  --background:         #F7F9FC;
+  --white:              #ffffff;
+  --text-dark:          #1E2530;
+  --text-muted:         #4A5568;
+
+  // Typography
+  --font-display:       'Fraunces', Georgia, serif;
+  --font-body:          'Inter', system-ui, sans-serif;
+
+  // Gradients
+  --gradient-primary:   linear-gradient(135deg, #1E2530 0%, #0d1520 100%);
+  --gradient-accent:    linear-gradient(120deg, #00A8E8 0%, #0072A3 100%);
+  --gradient-dark:      linear-gradient(160deg, #1E2530 0%, #111827 60%, #0d1520 100%);
+
+  // Shadows
+  --shadow-sm:          0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-md:          0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg:          0 20px 48px rgba(0, 0, 0, 0.18);
+  --shadow-glow:        0 0 32px rgba(0, 168, 232, 0.3);
+  --shadow-glow-sm:     0 0 16px rgba(0, 168, 232, 0.2);
+
+  // Glassmorphism
+  --glass-bg:           rgba(255, 255, 255, 0.07);
+  --glass-border:       rgba(255, 255, 255, 0.12);
+  --glass-light:        rgba(255, 255, 255, 0.85);
+  --glass-light-border: rgba(0, 168, 232, 0.15);
+
+  // Border radii
+  --radius-sm:          8px;
+  --radius-md:          14px;
+  --radius-lg:          20px;
+  --radius-xl:          28px;
+
+  // Layout
+  --navbar-h:           72px;
+  --section-max:        1200px;
+}

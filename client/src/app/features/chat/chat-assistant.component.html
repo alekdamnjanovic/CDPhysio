@@ -1,65 +1,81 @@
-<div class="ai-assistant" [class.open]="isChatOpen()">
+﻿<div class="ai-assistant" [class.open]="isChatOpen()">
   <button class="chat-toggle" (click)="toggleChat()" [attr.aria-label]="isChatOpen() ? 'Close assistant' : 'Open assistant'">
-    <svg *ngIf="!isChatOpen()" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-    </svg>
-    <span *ngIf="isChatOpen()" class="toggle-close" aria-hidden="true">&times;</span>
+    @if (!isChatOpen()) {
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+      </svg>
+    }
+    @if (isChatOpen()) {
+      <span class="toggle-close" aria-hidden="true">&times;</span>
+    }
     <span class="toggle-label">{{ isChatOpen() ? 'Close' : 'Assistant' }}</span>
   </button>
 
-  <div class="chat-box" *ngIf="isChatOpen()">
-    <div class="chat-header">
-      <div class="chat-header-text">
-        <strong>CD Physio Assistant</strong>
-        <span class="status"><span class="status-dot"></span> AI support</span>
+  @if (isChatOpen()) {
+    <div class="chat-box">
+      <div class="chat-header">
+        <div class="chat-header-text">
+          <strong>CD Physio Assistant</strong>
+          <span class="status"><span class="status-dot"></span> AI support</span>
+        </div>
+        <div class="chat-actions">
+          @if (messages().length > 0) {
+            <button class="chat-clear" (click)="clearChat()" [disabled]="isLoading() || isStreaming()" aria-label="Clear conversation" title="Clear conversation">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+              </svg>
+            </button>
+          }
+          <button class="chat-close" (click)="toggleChat()" aria-label="Close">&times;</button>
+        </div>
       </div>
-      <div class="chat-actions">
-        <button class="chat-clear" *ngIf="messages().length > 0" (click)="clearChat()"
-          [disabled]="isLoading() || isStreaming()" aria-label="Clear conversation" title="Clear conversation">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-            <line x1="10" y1="11" x2="10" y2="17"></line>
-            <line x1="14" y1="11" x2="14" y2="17"></line>
+
+      <div class="chat-history" #history>
+        @if (messages().length === 0 && !isLoading()) {
+          <div class="msg hint">
+            Ask me about Carole's specialties, pricing, or how to book an appointment.
+          </div>
+        }
+        @if (messages().length === 0) {
+          <div class="quick-replies">
+            @for (q of quickQuestions; track q) {
+              <button type="button" class="quick-reply" (click)="sendQuick(q)" [disabled]="isLoading()">
+                {{ q }}
+              </button>
+            }
+          </div>
+        }
+        @for (msg of messages(); track $index) {
+          <div [ngClass]="['msg', msg.role]">
+            {{ msg.content }}
+          </div>
+        }
+        @if (isStreaming()) {
+          <div class="msg assistant streaming">{{ streamText() }}<span class="caret">▍</span></div>
+        }
+        @if (isLoading()) {
+          <div class="msg assistant typing">Thinking<span>.</span><span>.</span><span>.</span></div>
+        }
+      </div>
+
+      <form class="chat-input" (submit)="sendMessage()">
+        <input
+          [(ngModel)]="userInput"
+          name="message"
+          placeholder="Ask a question..."
+          [disabled]="isLoading() || isStreaming()"
+          autocomplete="off"
+        />
+        <button type="submit" [disabled]="isLoading() || isStreaming() || !userInput().trim()" aria-label="Send message">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
         </button>
-        <button class="chat-close" (click)="toggleChat()" aria-label="Close">&times;</button>
-      </div>
+      </form>
     </div>
-
-    <div class="chat-history" #history>
-      <div *ngIf="messages().length === 0 && !isLoading()" class="msg hint">
-        Ask me about Carole's specialties, pricing, or how to book an appointment.
-      </div>
-      <div class="quick-replies" *ngIf="messages().length === 0">
-        <button *ngFor="let q of quickQuestions" type="button" class="quick-reply" (click)="sendQuick(q)" [disabled]="isLoading()">
-          {{ q }}
-        </button>
-      </div>
-      <div *ngFor="let msg of messages()" [ngClass]="['msg', msg.role]">
-        {{ msg.content }}
-      </div>
-      <div *ngIf="isStreaming()" class="msg assistant streaming">{{ streamText() }}<span class="caret">▍</span></div>
-      <div *ngIf="isLoading()" class="msg assistant typing">Thinking<span>.</span><span>.</span><span>.</span></div>
-    </div>
-
-    <form class="chat-input" (submit)="sendMessage()">
-      <input
-        [(ngModel)]="userInput"
-        name="message"
-        placeholder="Ask a question..."
-        [disabled]="isLoading() || isStreaming()"
-        autocomplete="off"
-      />
-      <button type="submit" [disabled]="isLoading() || isStreaming() || !userInput().trim()" aria-label="Send message">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-          stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <line x1="22" y1="2" x2="11" y2="13"></line>
-          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-        </svg>
-      </button>
-    </form>
-  </div>
+  }
 </div>

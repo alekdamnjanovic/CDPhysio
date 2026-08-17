@@ -1,68 +1,48 @@
-import { Injectable, inject } from '@angular/core';
+﻿import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../config';
+import type {
+  Review,
+  AdminReview,
+  ReviewStatus,
+  SubmitReviewPayload,
+  ReviewsResponse,
+  AdminReviewsResponse,
+  ActionResponse
+} from '../models/review.model';
 
-export type ReviewStatus = 'Pending' | 'Approved' | 'Rejected';
-
-export interface Review {
-  id: number;
-  name: string;
-  rating: number;
-  text: string;
-  service?: string;
-  submittedAt: string;
-}
-
-export interface AdminReview {
-  id: number;
-  name: string;
-  rating: number;
-  text: string;
-  service?: string;
-  status: ReviewStatus;
-  flaggedReason?: string;
-  submittedAt: string;
-  reviewedAt?: string;
-}
-
-export interface SubmitReviewPayload {
-  name: string;
-  rating: number;
-  text: string;
-  service?: string;
-  honeypot?: string;
-}
+export type { Review, AdminReview, ReviewStatus, SubmitReviewPayload, ReviewsResponse, AdminReviewsResponse, ActionResponse };
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReviewsService {
-  private http = inject(HttpClient);
-  private baseUrl = environment.reviewsApiUrl;
+  private readonly http = inject(HttpClient);
+  private readonly baseUrl = environment.reviewsApiUrl;
 
-  getApproved(): Observable<{ reviews: Review[] }> {
-    return this.http.get<{ reviews: Review[] }>(this.baseUrl);
+  getApproved(): Observable<ReviewsResponse> {
+    return this.http.get<ReviewsResponse>(this.baseUrl);
   }
 
-  submit(payload: SubmitReviewPayload): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(this.baseUrl, payload);
+  submit(payload: SubmitReviewPayload): Observable<ActionResponse> {
+    return this.http.post<ActionResponse>(this.baseUrl, payload);
   }
 
-  listAdmin(status?: ReviewStatus, key?: string): Observable<{ reviews: AdminReview[] }> {
+  listAdmin(status?: ReviewStatus, key?: string): Observable<AdminReviewsResponse> {
     const params = status ? `?status=${status}` : '';
-    return this.http.get<{ reviews: AdminReview[] }>(`${this.baseUrl}/admin${params}`, this.adminHeaders(key));
+    return this.http.get<AdminReviewsResponse>(`${this.baseUrl}/admin${params}`, this.adminHeaders(key));
   }
 
-  updateStatus(id: number, status: Exclude<ReviewStatus, 'Pending'>, key?: string): Observable<{ message: string }> {
-    return this.http.patch<{ message: string }>(`${this.baseUrl}/admin/${id}`, { status }, this.adminHeaders(key));
+  updateStatus(id: number, status: Exclude<ReviewStatus, 'Pending'>, key?: string): Observable<ActionResponse> {
+    return this.http.patch<ActionResponse>(`${this.baseUrl}/admin/${id}`, { status }, this.adminHeaders(key));
   }
 
-  deleteReview(id: number, key?: string): Observable<{ message: string }> {
-    return this.http.delete<{ message: string }>(`${this.baseUrl}/admin/${id}`, this.adminHeaders(key));
+  deleteReview(id: number, key?: string): Observable<ActionResponse> {
+    return this.http.delete<ActionResponse>(`${this.baseUrl}/admin/${id}`, this.adminHeaders(key));
   }
 
-  private adminHeaders(key?: string) {
+  private adminHeaders(key?: string): { headers: HttpHeaders } {
     return {
       headers: new HttpHeaders({ 'X-Admin-Key': key ?? '' })
     };

@@ -1,19 +1,18 @@
-import { Injectable, inject } from '@angular/core';
+﻿import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../config';
+import type { ChatResponse, ChatStreamToken, ChatMessage, ChatRole } from '../models/chat.model';
 
-interface ChatResponse {
-  response: string;
-}
+export type { ChatMessage, ChatRole, ChatResponse, ChatStreamToken };
 
 @Injectable({
   providedIn: 'root'
 })
 export class AiService {
-  private http = inject(HttpClient);
-  private apiUrl = environment.apiUrl;
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
 
   sendMessage(prompt: string): Observable<string> {
     return this.http.post<ChatResponse>(this.apiUrl, { prompt }).pipe(
@@ -75,7 +74,7 @@ export class AiService {
                 }
 
                 try {
-                  const parsed = JSON.parse(data);
+                  const parsed: ChatStreamToken = JSON.parse(data);
                   if (parsed.token != null) subscriber.next(parsed.token);
                   if (parsed.error) subscriber.error(new Error(parsed.error));
                 } catch {

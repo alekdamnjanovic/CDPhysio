@@ -1,0 +1,207 @@
+﻿// ============================================================
+// Responsive & Reduced Motion Media Queries
+// ============================================================
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+
+  .hero-visual .visual-card {
+    animation: none;
+
+    &::before {
+      animation: none;
+    }
+  }
+
+  .hero-visual img {
+    animation: none;
+  }
+
+  .hero-orb {
+    animation: none;
+  }
+
+  .avatar-wrap::before {
+    animation: none;
+  }
+
+  .hero-particles .particle {
+    animation: none;
+    opacity: 0.3;
+  }
+
+  .btn-pulse {
+    animation: none;
+  }
+
+  .navbar,
+  .btn,
+  .gallery-card,
+  .gallery-card img {
+    transition: none;
+  }
+}
+
+@media (max-width: 960px) {
+  :root {
+    --navbar-h: 68px;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding-top: calc(var(--navbar-h) + 4rem);
+    padding-bottom: 5rem;
+    text-align: center;
+  }
+
+  .hero-content {
+    h1 {
+      font-size: clamp(2.2rem, 6vw, 3rem);
+    }
+
+    p {
+      max-width: 60ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-visual {
+    max-width: 360px;
+    margin: 0 auto;
+
+    img {
+      width: clamp(140px, 40vw, 220px);
+    }
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .avatar-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .profile-text {
+    .tagline-text {
+      text-align: left;
+    }
+
+    p {
+      max-width: 60ch;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+    }
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 5rem 1.5rem;
+  }
+
+  .profile {
+    padding: 5rem 1.5rem;
+  }
+
+  .navbar {
+    .nav-links {
+      display: none;
+    }
+
+    .nav-hamburger {
+      display: flex;
+    }
+
+    .nav-drawer {
+      display: flex;
+    }
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value {
+    font-size: 2.4rem;
+  }
+
+  .gallery-card {
+    flex-basis: 78vw;
+  }
+
+  .gallery-arrow.prev {
+    left: 0;
+  }
+
+  .gallery-arrow.next {
+    right: 0;
+  }
+
+  .booking-wrapper {
+    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+  }
+
+  .booking-inner h2 {
+    font-size: 1.9rem;
+  }
+
+  .section-head h2 {
+    font-size: 1.85rem;
+  }
+
+  .footer-legal {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --navbar-h: 64px;
+  }
+
+  .back-to-top {
+    bottom: 1rem;
+    left: 1rem;
+  }
+
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-grid {
+    gap: 2rem;
+  }
+}
