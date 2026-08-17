@@ -188,12 +188,12 @@ export class CertificateModalComponent implements OnInit, AfterViewInit, OnChang
 
     try {
       const pdfjsLib = await import('pdfjs-dist');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
+
+      const absoluteUrl = doc.url.startsWith('/') ? doc.url : `/${doc.url}`;
 
       const loadingTask = pdfjsLib.getDocument({
-        url: doc.url,
-        cMapUrl: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/cmaps/',
-        cMapPacked: true
+        url: absoluteUrl
       });
 
       const pdf = await loadingTask.promise;
