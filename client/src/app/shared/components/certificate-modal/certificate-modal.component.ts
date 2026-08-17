@@ -43,6 +43,20 @@ import { CertificateDoc } from '../../../core/models/content.model';
           </div>
 
           <div class="header-actions">
+            <!-- Rotate Button -->
+            <button
+              type="button"
+              class="btn-rotate"
+              (click)="rotate()"
+              title="Rotate 90 degrees (R)"
+              aria-label="Rotate diploma image"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+              </svg>
+              <span>Rotate</span>
+            </button>
+
             @if (currentDoc().pdfUrl) {
               <a
                 [href]="currentDoc().pdfUrl"
@@ -112,7 +126,7 @@ import { CertificateDoc } from '../../../core/models/content.model';
           </div>
         }
 
-        <!-- Viewer Body (High-Res Web Image Viewer with instant load) -->
+        <!-- Viewer Body (High-Res Web Image Viewer with instant load and smooth rotation) -->
         <div class="modal-viewer">
           <div class="cert-image-wrap">
             @if (currentDoc().imageUrl) {
@@ -120,6 +134,7 @@ import { CertificateDoc } from '../../../core/models/content.model';
                 [src]="currentDoc().imageUrl"
                 [alt]="title + ' Official Diploma'"
                 class="diploma-image"
+                [style.transform]="'rotate(' + rotation() + 'deg)'"
                 loading="eager"
               />
             } @else if (currentDoc().pdfUrl) {
@@ -145,6 +160,7 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
   @Output() close = new EventEmitter<void>();
 
   protected readonly activeIndex = signal(0);
+  protected readonly rotation = signal(0);
 
   protected readonly allDocs = computed<readonly CertificateDoc[]>(() => {
     if (this.documents && this.documents.length > 0) {
@@ -195,6 +211,15 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
     this.nextDoc();
   }
 
+  @HostListener('window:keydown.r')
+  onRotateKey() {
+    this.rotate();
+  }
+
+  rotate() {
+    this.rotation.update(r => (r + 90) % 360);
+  }
+
   prevDoc() {
     if (this.activeIndex() > 0) {
       this.setDoc(this.activeIndex() - 1);
@@ -209,6 +234,7 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
 
   setDoc(index: number) {
     this.activeIndex.set(index);
+    this.rotation.set(0);
   }
 
   closeModal() {
