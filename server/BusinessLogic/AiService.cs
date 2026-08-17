@@ -10,14 +10,16 @@ public class AiService : IAiService
     private readonly string _baseUrl;
     private readonly string _apiKey;
     private readonly string _model;
+    private readonly ILogger<AiService> _logger;
 
-    public AiService(IConfiguration configuration, IHttpClientFactory httpClientFactory)
+    public AiService(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<AiService> logger)
     {
         _httpClient = httpClientFactory.CreateClient();
         _httpClient.Timeout = TimeSpan.FromSeconds(180);
         _baseUrl = (configuration["Ai:BaseUrl"] ?? "https://api.groq.com/openai/v1").TrimEnd('/');
         _apiKey = configuration["Ai:ApiKey"] ?? "";
         _model = configuration["Ai:Model"] ?? ClinicConstants.DefaultModel;
+        _logger = logger;
     }
 
     public async Task<string> GenerateResponseAsync(string prompt)
@@ -129,7 +131,8 @@ public class AiService : IAiService
                 var errMsg = err.ValueKind == JsonValueKind.Object
                     ? err.TryGetProperty("message", out var m) ? m.GetString() : null
                     : err.GetString();
-                throw new InvalidOperationException(errMsg ?? "The AI assistant returned an unexpected error.");
+                _logger.LogError("AI streaming request failed. Provider error: {ProviderError}", errMsg);
+                throw new InvalidOperationException("The AI assistant could not complete your request right now. Please try again in a moment.");
             }
 
             if (doc.RootElement.TryGetProperty("choices", out var choices) &&
@@ -187,15 +190,17 @@ public class AiService : IAiService
 
         if (status == StatusCodes.Status400BadRequest || status == StatusCodes.Status404NotFound)
         {
-            var providerMsg = TryGetProviderError(response);
-            var detail = string.IsNullOrEmpty(providerMsg) ? "" : $" Provider error: {providerMsg}";
-            return $"The AI assistant is misconfigured (model '{_model}').{detail} Please contact the site owner.";
+            _logger.LogError(
+                "AI request failed with status {Status}. Model '{Model}'. Provider error: {ProviderError}",
+                status, _model, TryGetProviderError(response));
+            return "The AI assistant is temporarily unavailable. Please try again in a moment.";
         }
 
         var bodyProviderMsg = TryGetProviderError(response);
         if (!string.IsNullOrEmpty(bodyProviderMsg))
         {
-            return $"The AI assistant could not complete your request ({bodyProviderMsg}). Please try again in a moment.";
+            _logger.LogError("AI request failed with status {Status}. Provider error: {ProviderError}", status, bodyProviderMsg);
+            return "The AI assistant could not complete your request right now. Please try again in a moment.";
         }
 
         return "The AI assistant could not complete your request right now. Please try again in a moment.";
