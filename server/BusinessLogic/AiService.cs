@@ -187,10 +187,22 @@ public class AiService : IAiService
 
         if (status == StatusCodes.Status400BadRequest || status == StatusCodes.Status404NotFound)
         {
-            return "The AI assistant hit a configuration error (model not found or request invalid). Please contact the site owner.";
+            var providerMsg = TryGetProviderError(response);
+            var detail = string.IsNullOrEmpty(providerMsg) ? "" : $" Provider error: {providerMsg}";
+            return $"The AI assistant is misconfigured (model '{_model}').{detail} Please contact the site owner.";
         }
 
-        // Try to surface a provider-specific message when available.
+        var bodyProviderMsg = TryGetProviderError(response);
+        if (!string.IsNullOrEmpty(bodyProviderMsg))
+        {
+            return $"The AI assistant could not complete your request ({bodyProviderMsg}). Please try again in a moment.";
+        }
+
+        return "The AI assistant could not complete your request right now. Please try again in a moment.";
+    }
+
+    private string? TryGetProviderError(HttpResponseMessage response)
+    {
         try
         {
             var body = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
@@ -199,7 +211,7 @@ public class AiService : IAiService
                 err.ValueKind == JsonValueKind.Object &&
                 err.TryGetProperty("message", out var msg))
             {
-                return $"The AI assistant could not complete your request ({msg.GetString()}). Please try again in a moment.";
+                return msg.GetString();
             }
         }
         catch
@@ -207,7 +219,7 @@ public class AiService : IAiService
             // ignore malformed error body
         }
 
-        return "The AI assistant could not complete your request right now. Please try again in a moment.";
+        return null;
     }
 
     private string BuildSystemPrompt()

@@ -61,7 +61,7 @@ backend reads (e.g. `ConnectionStrings__Default` → `ConnectionStrings:Default`
 | `Reviews__AdminKey` | Admin panel access key | Yes |
 | `Ai__ApiKey` | Groq API key (`gsk_...`) | Yes |
 | `Ai__BaseUrl` | `https://api.groq.com/openai/v1` | No (has default) |
-| `Ai__Model` | `llama-3.3-70b-versatile` | No (has default) |
+| `Ai__Model` | `openai/gpt-oss-120b` | No (has default) |
 | `ASPNETCORE_ENVIRONMENT` | `Production` | No (set in `render.yaml`) |
 
 The Supabase password contains `%` and `#` — paste it exactly as-is (do not URL-encode).
