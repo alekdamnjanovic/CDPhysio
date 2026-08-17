@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // Gallery Section
 // ============================================================
 
@@ -9,27 +9,6 @@
 .gallery-wrap {
   position: relative;
   margin: 0 -0.5rem;
-
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 1.5rem;
-    width: 60px;
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  &::before {
-    left: 0;
-    background: linear-gradient(to right, var(--background), transparent);
-  }
-
-  &::after {
-    right: 0;
-    background: linear-gradient(to left, var(--background), transparent);
-  }
 }
 
 .gallery-track {
