@@ -4,12 +4,18 @@ export interface EducationItem {
   detail: string;
 }
 
+export interface CertificateDoc {
+  title: string;
+  url: string;
+}
+
 export interface CredentialItem {
   title: string;
   description: string;
   url?: string;
   urlLabel?: string;
   certificateUrl?: string;
+  certificates?: readonly CertificateDoc[];
 }
 
 export interface AthleticItem {

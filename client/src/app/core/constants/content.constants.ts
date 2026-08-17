@@ -25,17 +25,17 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     description: 'Dynamic Neuromuscular Stabilization.',
     url: 'https://www.rehabps.com',
     urlLabel: 'rehabps.com',
-    certificateUrl: 'certificates/Certified Practitioner Certificate.pdf'
+    certificateUrl: 'certificates/dns-practitioner.pdf'
   },
   {
     title: 'DNS® Certified Exercise Trainer',
     description: 'DNS exercise program training for functional stabilization.',
-    certificateUrl: 'certificates/Certified Exercise Trainer Certificate.pdf'
+    certificateUrl: 'certificates/dns-exercise-trainer.pdf'
   },
   {
     title: 'DNS® Strength Training 1',
     description: 'Dynamic Neuromuscular Stabilization — functional core & strength training.',
-    certificateUrl: 'certificates/Strength Training 1.pdf'
+    certificateUrl: 'certificates/dns-strength-training-1.pdf'
   },
   {
     title: 'Gunn IMS Certified Practitioner',
