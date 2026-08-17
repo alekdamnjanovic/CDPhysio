@@ -2,6 +2,9 @@ export interface EducationItem {
   school: string;
   degree: string;
   detail: string;
+  certificateUrl?: string;
+  certificateImage?: string;
+  certificates?: readonly CertificateDoc[];
 }
 
 export interface CertificateDoc {
