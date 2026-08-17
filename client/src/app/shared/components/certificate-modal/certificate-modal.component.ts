@@ -204,6 +204,7 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
   @Input({ required: true }) title!: string;
   @Input() fileUrl?: string;
   @Input() imageUrl?: string;
+  @Input() defaultRotation = 0;
   @Input() documents?: readonly CertificateDoc[];
   @Output() close = new EventEmitter<void>();
 
@@ -223,7 +224,8 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
       return [{
         title: this.title,
         pdfUrl: pdf,
-        imageUrl: img
+        imageUrl: img,
+        defaultRotation: this.defaultRotation
       }];
     }
     return [];
@@ -239,6 +241,8 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
     if (typeof document !== 'undefined') {
       document.body.style.overflow = 'hidden';
     }
+    const initDoc = this.allDocs()[0];
+    this.rotation.set(initDoc?.defaultRotation ?? this.defaultRotation ?? 0);
   }
 
   ngOnDestroy() {
@@ -329,7 +333,8 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
 
   setDoc(index: number) {
     this.activeIndex.set(index);
-    this.rotation.set(0);
+    const doc = this.allDocs()[index];
+    this.rotation.set(doc?.defaultRotation ?? this.defaultRotation ?? 0);
     this.resetZoom();
   }
 

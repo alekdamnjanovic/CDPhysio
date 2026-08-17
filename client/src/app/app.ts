@@ -30,6 +30,7 @@ import { CertificateModalService } from './core/services/certificate-modal.servi
         [title]="modal.title"
         [fileUrl]="modal.url"
         [imageUrl]="modal.imageUrl"
+        [defaultRotation]="modal.defaultRotation || 0"
         [documents]="modal.documents"
         (close)="certModalService.close()"
       ></app-certificate-modal>

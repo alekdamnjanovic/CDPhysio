@@ -86,9 +86,9 @@ export class EducationSectionComponent {
 
   openDegree(item: EducationItem) {
     if (item.certificates && item.certificates.length > 0) {
-      this.certModalService.open(item.school + ' — ' + item.degree, undefined, undefined, item.certificates);
+      this.certModalService.open(item.school + ' — ' + item.degree, undefined, undefined, item.certificates, item.defaultRotation);
     } else if (item.certificateUrl) {
-      this.certModalService.open(item.school + ' — ' + item.degree, item.certificateUrl, item.certificateImage);
+      this.certModalService.open(item.school + ' — ' + item.degree, item.certificateUrl, item.certificateImage, undefined, item.defaultRotation);
     }
   }
 }

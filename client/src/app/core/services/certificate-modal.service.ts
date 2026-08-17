@@ -5,6 +5,7 @@ export interface ModalCertificateData {
   title: string;
   url?: string;
   imageUrl?: string;
+  defaultRotation?: number;
   documents?: readonly CertificateDoc[];
 }
 
@@ -14,8 +15,8 @@ export interface ModalCertificateData {
 export class CertificateModalService {
   readonly activeModal = signal<ModalCertificateData | null>(null);
 
-  open(title: string, url?: string, imageUrl?: string, documents?: readonly CertificateDoc[]) {
-    this.activeModal.set({ title, url, imageUrl, documents });
+  open(title: string, url?: string, imageUrl?: string, documents?: readonly CertificateDoc[], defaultRotation?: number) {
+    this.activeModal.set({ title, url, imageUrl, documents, defaultRotation });
   }
 
   close() {

@@ -4,6 +4,7 @@ export interface EducationItem {
   detail: string;
   certificateUrl?: string;
   certificateImage?: string;
+  defaultRotation?: number;
   certificates?: readonly CertificateDoc[];
 }
 
@@ -11,6 +12,7 @@ export interface CertificateDoc {
   title: string;
   pdfUrl: string;
   imageUrl: string;
+  defaultRotation?: number;
 }
 
 export interface CredentialItem {
@@ -20,6 +22,7 @@ export interface CredentialItem {
   urlLabel?: string;
   certificateUrl?: string;
   certificateImage?: string;
+  defaultRotation?: number;
   certificates?: readonly CertificateDoc[];
 }
 
@@ -27,11 +30,4 @@ export interface AthleticItem {
   title: string;
   role: string;
   iconType: 'csia' | 'nccp' | 'trx';
-}
-
-export interface StatItem {
-  value: number | string;
-  suffix?: string;
-  isCountUp: boolean;
-  label: string;
 }
