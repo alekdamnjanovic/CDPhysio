@@ -225,5 +225,5 @@ public class AiService : IAiService
                "Services & Pricing: Initial Assessment (60 minutes) is $150. Follow-up treatments: $100 (30 mins), $130 (45 mins), or $150 (60 mins). " +
                $"Always invite the user to click the booking button on the site to secure a time slot on the official JaneApp scheduling system ({ClinicConstants.JaneAppUrl}), which securely handles all appointments. " +
                "Keep responses concise, scientifically grounded, respectful, and extremely professional.";
-    }   }
+    }
 }
