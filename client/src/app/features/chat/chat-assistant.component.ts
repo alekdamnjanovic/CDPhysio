@@ -61,11 +61,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
   }
 
   private checkRoute(url: string) {
-    const isDocAdmin = url.includes('/admin') || window.location.pathname.includes('/admin');
-    this.isHiddenOnRoute.set(isDocAdmin);
-    if (isDocAdmin && this.isChatOpen()) {
-      this.isChatOpen.set(false);
-    }
+    this.isHiddenOnRoute.set(false);
   }
 
   toggleChat() {

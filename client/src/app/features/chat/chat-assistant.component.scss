@@ -4,10 +4,15 @@
 
 .ai-assistant {
   position: fixed;
-  bottom: 2rem;
+  bottom: 5.5rem;
   right: 2rem;
   z-index: 2000;
   font-family: var(--font-body);
+
+  @media (max-width: 768px) {
+    bottom: 5rem;
+    right: 1.25rem;
+  }
 }
 
 // ── Floating Toggle Button ──────────────────────────────────
