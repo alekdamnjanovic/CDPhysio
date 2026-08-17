@@ -1,4 +1,4 @@
-﻿import { EducationItem, CredentialItem, AthleticItem } from '../models/content.model';
+import { EducationItem, CredentialItem, AthleticItem } from '../models/content.model';
 
 export const EDUCATION_ITEMS: readonly EducationItem[] = [
   {
@@ -24,11 +24,18 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     title: 'DNS® Certified Practitioner',
     description: 'Dynamic Neuromuscular Stabilization.',
     url: 'https://www.rehabps.com',
-    urlLabel: 'rehabps.com'
+    urlLabel: 'rehabps.com',
+    certificateUrl: 'certificates/Certified Practitioner Certificate.pdf'
   },
   {
     title: 'DNS® Certified Exercise Trainer',
-    description: 'DNS exercise program training for functional stabilization.'
+    description: 'DNS exercise program training for functional stabilization.',
+    certificateUrl: 'certificates/Certified Exercise Trainer Certificate.pdf'
+  },
+  {
+    title: 'DNS® Strength Training 1',
+    description: 'Dynamic Neuromuscular Stabilization — functional core & strength training.',
+    certificateUrl: 'certificates/Strength Training 1.pdf'
   },
   {
     title: 'Gunn IMS Certified Practitioner',

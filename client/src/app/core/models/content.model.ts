@@ -1,4 +1,4 @@
-﻿export interface EducationItem {
+export interface EducationItem {
   school: string;
   degree: string;
   detail: string;
@@ -9,6 +9,7 @@ export interface CredentialItem {
   description: string;
   url?: string;
   urlLabel?: string;
+  certificateUrl?: string;
 }
 
 export interface AthleticItem {
