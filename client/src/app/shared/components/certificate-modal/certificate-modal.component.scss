@@ -103,6 +103,60 @@
   gap: 0.5rem;
 }
 
+// ── Zoom Controls ───────────────────────────────────────────
+.zoom-controls {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  overflow: hidden;
+
+  .btn-zoom {
+    width: 30px;
+    height: 30px;
+    background: transparent;
+    border: none;
+    color: #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover:not(:disabled) {
+      background: var(--cta, #00a8e8);
+      color: #ffffff;
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+  }
+
+  .btn-zoom-level {
+    padding: 0 0.5rem;
+    height: 30px;
+    background: transparent;
+    border: none;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    min-width: 48px;
+    text-align: center;
+    transition: all 0.15s ease;
+
+    &:hover {
+      color: var(--cta, #00a8e8);
+      background: rgba(255, 255, 255, 0.05);
+    }
+  }
+}
+
 .btn-rotate {
   display: inline-flex;
   align-items: center;
@@ -281,6 +335,23 @@
   align-items: center;
   justify-content: center;
   padding: 1.5rem;
+  user-select: none;
+
+  &.is-zoomed {
+    align-items: flex-start;
+    justify-content: flex-start;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+
+    .cert-image-wrap {
+      min-width: 100%;
+      min-height: 100%;
+      padding: 2rem;
+    }
+  }
 }
 
 .cert-image-wrap {
@@ -289,6 +360,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: zoom-in;
 }
 
 .diploma-image {
@@ -301,7 +373,7 @@
   border-radius: 8px;
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(255, 255, 255, 0.1);
   background: #ffffff;
-  transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+  transition: transform 0.2s cubic-bezier(0.2, 0, 0, 1);
   transform-origin: center center;
 }
 

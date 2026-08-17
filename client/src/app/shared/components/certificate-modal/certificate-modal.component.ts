@@ -43,12 +43,52 @@ import { CertificateDoc } from '../../../core/models/content.model';
           </div>
 
           <div class="header-actions">
+            <!-- Zoom Controls -->
+            <div class="zoom-controls" role="group" aria-label="Zoom controls">
+              <button
+                type="button"
+                class="btn-zoom"
+                (click)="zoomOut()"
+                [disabled]="zoom() <= 0.75"
+                title="Zoom Out (-)"
+                aria-label="Zoom out"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                class="btn-zoom-level"
+                (click)="resetZoom()"
+                title="Reset zoom to 100% (0)"
+                aria-label="Reset zoom"
+              >
+                {{ zoomPercent() }}%
+              </button>
+
+              <button
+                type="button"
+                class="btn-zoom"
+                (click)="zoomIn()"
+                [disabled]="zoom() >= 3"
+                title="Zoom In (+)"
+                aria-label="Zoom in"
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+
             <!-- Rotate Button -->
             <button
               type="button"
               class="btn-rotate"
               (click)="rotate()"
-              title="Rotate 90 degrees (R)"
+              title="Rotate 90° (R)"
               aria-label="Rotate diploma image"
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -126,15 +166,23 @@ import { CertificateDoc } from '../../../core/models/content.model';
           </div>
         }
 
-        <!-- Viewer Body (High-Res Web Image Viewer with instant load and smooth rotation) -->
-        <div class="modal-viewer">
-          <div class="cert-image-wrap">
+        <!-- Viewer Body (High-Res Web Image Viewer with instant load, smooth rotation, and zoom inspection) -->
+        <div
+          class="modal-viewer"
+          [class.is-zoomed]="zoom() > 1"
+          (wheel)="onWheelZoom($event)"
+        >
+          <div
+            class="cert-image-wrap"
+            (dblclick)="toggleZoom()"
+            title="Double-click to toggle 1.5x zoom"
+          >
             @if (currentDoc().imageUrl) {
               <img
                 [src]="currentDoc().imageUrl"
                 [alt]="title + ' Official Diploma'"
                 class="diploma-image"
-                [style.transform]="'rotate(' + rotation() + 'deg)'"
+                [style.transform]="'rotate(' + rotation() + 'deg) scale(' + zoom() + ')'"
                 loading="eager"
               />
             } @else if (currentDoc().pdfUrl) {
@@ -161,6 +209,9 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
 
   protected readonly activeIndex = signal(0);
   protected readonly rotation = signal(0);
+  protected readonly zoom = signal(1.0);
+
+  protected readonly zoomPercent = computed(() => Math.round(this.zoom() * 100));
 
   protected readonly allDocs = computed<readonly CertificateDoc[]>(() => {
     if (this.documents && this.documents.length > 0) {
@@ -216,8 +267,52 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
     this.rotate();
   }
 
+  @HostListener('window:keydown.+')
+  @HostListener('window:keydown.=')
+  onZoomInKey() {
+    this.zoomIn();
+  }
+
+  @HostListener('window:keydown.-')
+  @HostListener('window:keydown._')
+  onZoomOutKey() {
+    this.zoomOut();
+  }
+
+  @HostListener('window:keydown.0')
+  onResetZoomKey() {
+    this.resetZoom();
+  }
+
   rotate() {
     this.rotation.update(r => (r + 90) % 360);
+  }
+
+  zoomIn() {
+    this.zoom.update(z => Math.min(3.0, +(z + 0.25).toFixed(2)));
+  }
+
+  zoomOut() {
+    this.zoom.update(z => Math.max(0.75, +(z - 0.25).toFixed(2)));
+  }
+
+  resetZoom() {
+    this.zoom.set(1.0);
+  }
+
+  toggleZoom() {
+    this.zoom.update(z => (z === 1.0 ? 1.6 : 1.0));
+  }
+
+  onWheelZoom(event: WheelEvent) {
+    if (event.ctrlKey || event.metaKey) {
+      event.preventDefault();
+      if (event.deltaY < 0) {
+        this.zoomIn();
+      } else {
+        this.zoomOut();
+      }
+    }
   }
 
   prevDoc() {
@@ -235,6 +330,7 @@ export class CertificateModalComponent implements OnInit, OnDestroy {
   setDoc(index: number) {
     this.activeIndex.set(index);
     this.rotation.set(0);
+    this.resetZoom();
   }
 
   closeModal() {
