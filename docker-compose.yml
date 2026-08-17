@@ -10,7 +10,7 @@ services:
       - ConnectionStrings__Default=${POSTGRES_CONNECTION_STRING:-Host=localhost;Database=cdphysio;Username=postgres;Password=postgres}
       - Reviews__AdminKey=${REVIEWS_ADMIN_KEY:-change-me-in-production}
       - Ai__BaseUrl=${AI_BASE_URL:-https://api.groq.com/openai/v1}
-      - Ai__Model=${AI_MODEL:-llama-3.3-70b-versatile}
+      - Ai__Model=${AI_MODEL:-openai/gpt-oss-120b}
       - Ai__ApiKey=${AI_API_KEY:-}
     networks:
       - app-network
