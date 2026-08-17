@@ -6,7 +6,8 @@ export interface EducationItem {
 
 export interface CertificateDoc {
   title: string;
-  url: string;
+  pdfUrl: string;
+  imageUrl: string;
 }
 
 export interface CredentialItem {
@@ -15,6 +16,7 @@ export interface CredentialItem {
   url?: string;
   urlLabel?: string;
   certificateUrl?: string;
+  certificateImage?: string;
   certificates?: readonly CertificateDoc[];
 }
 

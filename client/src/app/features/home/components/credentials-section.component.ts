@@ -117,9 +117,9 @@ export class CredentialsSectionComponent {
 
   openCertificate(item: CredentialItem) {
     if (item.certificates && item.certificates.length > 0) {
-      this.certModalService.open(item.title, undefined, item.certificates);
+      this.certModalService.open(item.title, undefined, undefined, item.certificates);
     } else if (item.certificateUrl) {
-      this.certModalService.open(item.title, item.certificateUrl);
+      this.certModalService.open(item.title, item.certificateUrl, item.certificateImage);
     }
   }
 }
