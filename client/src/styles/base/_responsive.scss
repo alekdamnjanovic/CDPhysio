@@ -1,7 +1,8 @@
-﻿// ============================================================
-// Responsive & Reduced Motion Media Queries
+// ============================================================
+// Comprehensive Mobile & Responsive Media Queries
 // ============================================================
 
+// ── Motion Accessibility ────────────────────────────────────
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -50,33 +51,88 @@
   .navbar,
   .btn,
   .gallery-card,
-  .gallery-card img {
+  .gallery-card img,
+  .diploma-image {
     transition: none;
   }
 }
 
-@media (max-width: 960px) {
+// ── Tablet & Laptop (< 1024px) ──────────────────────────────
+@media (max-width: 1024px) {
   :root {
-    --navbar-h: 68px;
+    --navbar-h: 70px;
+  }
+
+  .hero {
+    gap: 3rem;
+    padding-top: calc(var(--navbar-h) + 3.5rem);
+    padding-bottom: 4.5rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+  }
+
+  .education-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .credential-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  }
+}
+
+// ── Mobile / Tablet Breakdown (< 900px) ─────────────────────
+@media (max-width: 900px) {
+  :root {
+    --navbar-h: 66px;
+  }
+
+  // Prevent horizontal scroll from 3D transforms
+  html, body, main {
+    overflow-x: hidden;
+    width: 100%;
+  }
+
+  .navbar {
+    padding: 0 1.25rem;
+
+    .nav-links {
+      display: none;
+    }
+
+    .nav-hamburger {
+      display: flex;
+    }
+
+    .nav-drawer {
+      display: flex;
+    }
+  }
+
+  .hero-wrapper {
+    clip-path: polygon(0 0, 100% 0, 100% 97%, 0 100%);
   }
 
   .hero {
     grid-template-columns: 1fr;
-    gap: 3rem;
-    padding-top: calc(var(--navbar-h) + 4rem);
-    padding-bottom: 5rem;
+    gap: 2.5rem;
+    padding-top: calc(var(--navbar-h) + 2.5rem);
+    padding-bottom: 4rem;
     text-align: center;
   }
 
   .hero-content {
     h1 {
-      font-size: clamp(2.2rem, 6vw, 3rem);
+      font-size: clamp(2rem, 6.5vw, 2.85rem);
+      line-height: 1.15;
     }
 
     p {
-      max-width: 60ch;
+      max-width: 54ch;
       margin-left: auto;
       margin-right: auto;
+      font-size: 1rem;
     }
   }
 
@@ -85,11 +141,15 @@
   }
 
   .hero-visual {
-    max-width: 360px;
+    max-width: 320px;
     margin: 0 auto;
 
+    .visual-card {
+      padding: 2rem;
+    }
+
     img {
-      width: clamp(140px, 40vw, 220px);
+      width: clamp(140px, 35vw, 220px);
     }
   }
 
@@ -97,10 +157,11 @@
     grid-template-columns: 1fr;
     justify-items: center;
     text-align: center;
+    gap: 2.5rem;
   }
 
   .avatar-wrap {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .profile-text {
@@ -116,92 +177,235 @@
     }
   }
 
+  .reviews-grid {
+    grid-template-columns: 1fr;
+  }
+
   .footer-container {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
 }
 
-@media (max-width: 720px) {
+// ── Mobile Devices (< 640px) ────────────────────────────────
+@media (max-width: 640px) {
+  :root {
+    --navbar-h: 62px;
+  }
+
   .section {
-    padding: 5rem 1.5rem;
+    padding: 3.5rem 1rem;
   }
 
   .profile {
-    padding: 5rem 1.5rem;
+    padding: 3.5rem 1rem;
   }
 
-  .navbar {
-    .nav-links {
-      display: none;
+  .section-head {
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.75rem;
     }
 
-    .nav-hamburger {
-      display: flex;
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  // Hero adjustments
+  .hero {
+    padding: calc(var(--navbar-h) + 1.75rem) 1rem 3.5rem;
+    gap: 2rem;
+  }
+
+  .hero-content {
+    .tagline {
+      font-size: 0.72rem;
+      margin-bottom: 0.75rem;
     }
 
-    .nav-drawer {
-      display: flex;
+    h1 {
+      font-size: 1.95rem;
+      margin-bottom: 1rem;
     }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
+  }
+
+  // Stats band
+  .stats-band {
+    padding: 2.5rem 1rem;
   }
 
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1rem;
+  }
+
+  .stat {
+    padding: 1.25rem 0.75rem;
   }
 
   .stat-value {
-    font-size: 2.4rem;
+    font-size: 2rem;
   }
 
+  .stat-label {
+    font-size: 0.78rem;
+  }
+
+  // Education & Credentials
+  .education-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .education-card {
+    padding: 1.5rem 1.25rem;
+    gap: 1rem;
+
+    .edu-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+    }
+  }
+
+  .credential-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .credential-card {
+    padding: 1.25rem;
+
+    &:hover {
+      transform: translateY(-3px); // Safe transform for mobile
+    }
+  }
+
+  .athletics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.85rem;
+  }
+
+  .athletic-card {
+    padding: 1.25rem 0.75rem;
+  }
+
+  // Gallery
   .gallery-card {
-    flex-basis: 78vw;
+    flex: 0 0 84vw;
   }
 
-  .gallery-arrow.prev {
-    left: 0;
+  .gallery-arrow {
+    display: none; // Native smooth swipe on mobile
   }
 
-  .gallery-arrow.next {
-    right: 0;
-  }
-
+  // Booking band
   .booking-wrapper {
-    clip-path: polygon(0 3%, 100% 0, 100% 97%, 0 100%);
+    clip-path: polygon(0 2%, 100% 0, 100% 98%, 0 100%);
+    padding: 4rem 1rem;
   }
 
-  .booking-inner h2 {
-    font-size: 1.9rem;
+  .booking-inner {
+    h2 {
+      font-size: 1.65rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    .btn.cta {
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+    }
   }
 
-  .section-head h2 {
-    font-size: 1.85rem;
+  // Contact section
+  .contact-cards {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
+  .contact-card {
+    padding: 1.5rem 1.25rem;
+  }
+
+  // Back to top
+  .back-to-top {
+    bottom: 1.25rem;
+    left: 1rem;
+    width: 42px;
+    height: 42px;
+  }
+
+  // Footer
   .footer-legal {
     flex-direction: column;
     text-align: center;
+    gap: 0.75rem;
   }
 }
 
-@media (max-width: 480px) {
-  :root {
-    --navbar-h: 64px;
-  }
-
-  .back-to-top {
-    bottom: 1rem;
-    left: 1rem;
-  }
-
+// ── Small Phones (< 380px) ──────────────────────────────────
+@media (max-width: 380px) {
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .stats-grid {
     grid-template-columns: 1fr;
   }
 
-  .profile-grid {
-    gap: 2rem;
+  .navbar .logo img {
+    height: 42px;
+  }
+}
+
+// ── Touch Devices Specific Rules ────────────────────────────
+@media (hover: none) and (pointer: coarse) {
+  // Disable 3D transforms that can jitter on touch
+  .education-card:hover,
+  .credential-card:hover,
+  .athletic-card:hover {
+    transform: none;
+  }
+
+  .education-card.has-certificate:active,
+  .credential-card.has-certificate:active {
+    transform: scale(0.985);
+  }
+
+  // Enlarge touch targets
+  .nav-drawer a {
+    padding: 0.9rem 1rem;
+  }
+
+  .btn {
+    min-height: 48px;
   }
 }
