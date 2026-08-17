@@ -25,20 +25,20 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     description: 'Dynamic Neuromuscular Stabilization.',
     url: 'https://www.rehabps.com',
     urlLabel: 'rehabps.com',
-    certificateUrl: 'certificates/dns-practitioner.pdf',
-    certificateImage: 'certificates/dns-practitioner.webp'
+    certificateUrl: 'certificates/dns/dns-practitioner.pdf',
+    certificateImage: 'certificates/dns/dns-practitioner.webp'
   },
   {
     title: 'DNS® Certified Exercise Trainer',
     description: 'DNS exercise program training for functional stabilization.',
-    certificateUrl: 'certificates/dns-exercise-trainer.pdf',
-    certificateImage: 'certificates/dns-exercise-trainer.webp'
+    certificateUrl: 'certificates/dns/dns-exercise-trainer.pdf',
+    certificateImage: 'certificates/dns/dns-exercise-trainer.webp'
   },
   {
     title: 'DNS® Strength Training 1',
     description: 'Dynamic Neuromuscular Stabilization — functional core & strength training.',
-    certificateUrl: 'certificates/dns-strength-training-1.pdf',
-    certificateImage: 'certificates/dns-strength-training-1.webp'
+    certificateUrl: 'certificates/dns/dns-strength-training-1.pdf',
+    certificateImage: 'certificates/dns/dns-strength-training-1.webp'
   },
   {
     title: 'Gunn IMS Certified Practitioner',
@@ -75,12 +75,6 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     description: 'Levels V3 (spine) and L3 (extremities).',
     url: 'https://www.orthodiv.org',
     urlLabel: 'orthodiv.org'
-  },
-  {
-    title: 'Anatomy Trains',
-    description: 'Thoracolumbar Junction.',
-    url: 'https://www.anatomytrains.com',
-    urlLabel: 'anatomytrains.com'
   },
   {
     title: 'Anatomy Trains',
