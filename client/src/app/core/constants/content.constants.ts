@@ -121,7 +121,9 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
   },
   {
     title: 'Anatomy Trains',
-    description: 'Neural, Visceral and Energetic Integration.'
+    description: 'Neural, Visceral and Energetic Integration.',
+    certificateUrl: 'certificates/anatomy-trains/page17.pdf',
+    certificateImage: 'certificates/anatomy-trains/page17.webp'
   },
   {
     title: 'New Advances in Hip Rehabilitation',
