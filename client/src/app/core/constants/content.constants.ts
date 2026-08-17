@@ -5,15 +5,15 @@ export const EDUCATION_ITEMS: readonly EducationItem[] = [
     school: "Queen's University",
     degree: 'Physiotherapy',
     detail: 'BScPT — physiotherapy degree, Kingston, ON.',
-    certificateUrl: 'certificates/education-queens/page19.pdf',
-    certificateImage: 'certificates/education-queens/page19.webp'
+    certificateUrl: 'certificates/education-queens/queens-degree.pdf',
+    certificateImage: 'certificates/education-queens/queens-degree.webp'
   },
   {
     school: 'University of Western Ontario',
     degree: 'Kinesiology',
     detail: 'BA Kinesiology — specialization in Athletic Therapy, London, ON.',
-    certificateUrl: 'certificates/education-western/page20.pdf',
-    certificateImage: 'certificates/education-western/page20.webp'
+    certificateUrl: 'certificates/education-western/western-degree.pdf',
+    certificateImage: 'certificates/education-western/western-degree.webp'
   }
 ] as const;
 
@@ -24,8 +24,8 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.activerelease.com',
     urlLabel: 'activerelease.com',
     certificates: [
-      { title: 'Course 1', pdfUrl: 'certificates/art/page1.pdf', imageUrl: 'certificates/art/page1.webp' },
-      { title: 'Course 2', pdfUrl: 'certificates/art/page2.pdf', imageUrl: 'certificates/art/page2.webp' }
+      { title: 'Full Body Course', pdfUrl: 'certificates/art/art-1.pdf', imageUrl: 'certificates/art/art-1.webp' },
+      { title: 'Nerve Entrapment', pdfUrl: 'certificates/art/art-2.pdf', imageUrl: 'certificates/art/art-2.webp' }
     ]
   },
   {
@@ -53,8 +53,8 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     description: 'Intramuscular Stimulation for chronic pain.',
     url: 'https://www.gunnims.com',
     urlLabel: 'gunnims.com',
-    certificateUrl: 'certificates/gunn-ims/page18.pdf',
-    certificateImage: 'certificates/gunn-ims/page18.webp'
+    certificateUrl: 'certificates/gunn-ims/gunn-ims.pdf',
+    certificateImage: 'certificates/gunn-ims/gunn-ims.webp'
   },
   {
     title: 'Barral Institute',
@@ -62,9 +62,9 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.barralinstitute.com',
     urlLabel: 'barralinstitute.com',
     certificates: [
-      { title: 'Part 1', pdfUrl: 'certificates/barral-institute/page3.pdf', imageUrl: 'certificates/barral-institute/page3.webp' },
-      { title: 'Part 2', pdfUrl: 'certificates/barral-institute/page4.pdf', imageUrl: 'certificates/barral-institute/page4.webp' },
-      { title: 'Part 3', pdfUrl: 'certificates/barral-institute/page5.pdf', imageUrl: 'certificates/barral-institute/page5.webp' }
+      { title: 'Visceral Manipulation 1', pdfUrl: 'certificates/barral-institute/barral-institute-1.pdf', imageUrl: 'certificates/barral-institute/barral-institute-1.webp' },
+      { title: 'Visceral Manipulation 2', pdfUrl: 'certificates/barral-institute/barral-institute-2.pdf', imageUrl: 'certificates/barral-institute/barral-institute-2.webp' },
+      { title: 'Visceral Manipulation 3', pdfUrl: 'certificates/barral-institute/barral-institute-3.pdf', imageUrl: 'certificates/barral-institute/barral-institute-3.webp' }
     ]
   },
   {
@@ -73,17 +73,17 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.osteopatija.rs',
     urlLabel: 'osteopatija.rs',
     certificates: [
-      { title: 'Diploma 1', pdfUrl: 'certificates/osteopath-academy/page6.pdf', imageUrl: 'certificates/osteopath-academy/page6.webp' },
-      { title: 'Diploma 2', pdfUrl: 'certificates/osteopath-academy/page7.pdf', imageUrl: 'certificates/osteopath-academy/page7.webp' },
-      { title: 'Diploma 3', pdfUrl: 'certificates/osteopath-academy/page8.pdf', imageUrl: 'certificates/osteopath-academy/page8.webp' },
-      { title: 'Diploma 4', pdfUrl: 'certificates/osteopath-academy/page9.pdf', imageUrl: 'certificates/osteopath-academy/page9.webp' },
-      { title: 'Diploma 5', pdfUrl: 'certificates/osteopath-academy/page10.pdf', imageUrl: 'certificates/osteopath-academy/page10.webp' },
-      { title: 'Diploma 6', pdfUrl: 'certificates/osteopath-academy/page11.pdf', imageUrl: 'certificates/osteopath-academy/page11.webp' },
-      { title: 'Diploma 7', pdfUrl: 'certificates/osteopath-academy/page12.pdf', imageUrl: 'certificates/osteopath-academy/page12.webp' },
-      { title: 'Diploma 8', pdfUrl: 'certificates/osteopath-academy/page13.pdf', imageUrl: 'certificates/osteopath-academy/page13.webp' },
-      { title: 'Diploma 9', pdfUrl: 'certificates/osteopath-academy/page14.pdf', imageUrl: 'certificates/osteopath-academy/page14.webp' },
-      { title: 'Diploma 10', pdfUrl: 'certificates/osteopath-academy/page15.pdf', imageUrl: 'certificates/osteopath-academy/page15.webp' },
-      { title: 'Diploma 11', pdfUrl: 'certificates/osteopath-academy/page16.pdf', imageUrl: 'certificates/osteopath-academy/page16.webp' }
+      { title: 'Diploma 1', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-1.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-1.webp' },
+      { title: 'Diploma 2', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-2.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-2.webp' },
+      { title: 'Diploma 3', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-3.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-3.webp' },
+      { title: 'Diploma 4', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-4.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-4.webp' },
+      { title: 'Diploma 5', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-5.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-5.webp' },
+      { title: 'Diploma 6', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-6.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-6.webp' },
+      { title: 'Diploma 7', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-7.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-7.webp' },
+      { title: 'Diploma 8', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-8.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-8.webp' },
+      { title: 'Diploma 9', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-9.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-9.webp' },
+      { title: 'Diploma 10', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-10.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-10.webp' },
+      { title: 'Diploma 11', pdfUrl: 'certificates/osteopath-academy/osteopath-academy-11.pdf', imageUrl: 'certificates/osteopath-academy/osteopath-academy-11.webp' }
     ]
   },
   {
@@ -92,11 +92,11 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.mckenzieinstitute.org',
     urlLabel: 'mckenzieinstitute.org',
     certificates: [
-      { title: 'Part A', pdfUrl: 'certificates/mckenzie-mdt/page1.pdf', imageUrl: 'certificates/mckenzie-mdt/page1.webp' },
-      { title: 'Part B', pdfUrl: 'certificates/mckenzie-mdt/page2.pdf', imageUrl: 'certificates/mckenzie-mdt/page2.webp' },
-      { title: 'Part C', pdfUrl: 'certificates/mckenzie-mdt/page3.pdf', imageUrl: 'certificates/mckenzie-mdt/page3.webp' },
-      { title: 'Part D', pdfUrl: 'certificates/mckenzie-mdt/page23.pdf', imageUrl: 'certificates/mckenzie-mdt/page23.webp' },
-      { title: 'Part E', pdfUrl: 'certificates/mckenzie-mdt/page24.pdf', imageUrl: 'certificates/mckenzie-mdt/page24.webp' }
+      { title: 'Part A', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-1.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-1.webp' },
+      { title: 'Part B', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-2.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-2.webp' },
+      { title: 'Part C', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-3.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-3.webp' },
+      { title: 'Part D', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-4.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-4.webp' },
+      { title: 'Part E', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-5.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-5.webp' }
     ]
   },
   {
@@ -105,8 +105,8 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.swodeam.com',
     urlLabel: 'swodeam.com',
     certificates: [
-      { title: 'Part 1', pdfUrl: 'certificates/swodeam/page21.pdf', imageUrl: 'certificates/swodeam/page21.webp' },
-      { title: 'Part 2', pdfUrl: 'certificates/swodeam/page22.pdf', imageUrl: 'certificates/swodeam/page22.webp' }
+      { title: 'Spinal Manipulation', pdfUrl: 'certificates/swodeam/swodeam-1.pdf', imageUrl: 'certificates/swodeam/swodeam-1.webp' },
+      { title: 'Peripheral Manipulation', pdfUrl: 'certificates/swodeam/swodeam-2.pdf', imageUrl: 'certificates/swodeam/swodeam-2.webp' }
     ]
   },
   {
@@ -115,27 +115,27 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.orthodiv.org',
     urlLabel: 'orthodiv.org',
     certificates: [
-      { title: 'Level V3', pdfUrl: 'certificates/orthopaedic/page6.pdf', imageUrl: 'certificates/orthopaedic/page6.webp' },
-      { title: 'Level L3', pdfUrl: 'certificates/orthopaedic/page7.pdf', imageUrl: 'certificates/orthopaedic/page7.webp' }
+      { title: 'Level V3 (Spine)', pdfUrl: 'certificates/orthopaedic/orthopaedic-1.pdf', imageUrl: 'certificates/orthopaedic/orthopaedic-1.webp' },
+      { title: 'Level L3 (Extremities)', pdfUrl: 'certificates/orthopaedic/orthopaedic-2.pdf', imageUrl: 'certificates/orthopaedic/orthopaedic-2.webp' }
     ]
   },
   {
     title: 'Anatomy Trains',
     description: 'Neural, Visceral and Energetic Integration.',
-    certificateUrl: 'certificates/anatomy-trains/page17.pdf',
-    certificateImage: 'certificates/anatomy-trains/page17.webp'
+    certificateUrl: 'certificates/anatomy-trains/anatomy-trains.pdf',
+    certificateImage: 'certificates/anatomy-trains/anatomy-trains.webp'
   },
   {
     title: 'New Advances in Hip Rehabilitation',
     description: 'Advanced, evidence-based hip rehab strategies.',
-    certificateUrl: 'certificates/hip-rehab/page5.pdf',
-    certificateImage: 'certificates/hip-rehab/page5.webp'
+    certificateUrl: 'certificates/hip-rehab/hip-rehab.pdf',
+    certificateImage: 'certificates/hip-rehab/hip-rehab.webp'
   },
   {
     title: 'University of Calgary',
     description: 'General Management Certificate.',
-    certificateUrl: 'certificates/calgary-management/page4.pdf',
-    certificateImage: 'certificates/calgary-management/page4.webp'
+    certificateUrl: 'certificates/calgary-management/calgary-management.pdf',
+    certificateImage: 'certificates/calgary-management/calgary-management.webp'
   }
 ] as const;
 
