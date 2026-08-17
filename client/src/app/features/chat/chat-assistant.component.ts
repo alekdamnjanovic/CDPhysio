@@ -5,11 +5,13 @@
   ElementRef,
   ViewChild,
   OnDestroy,
+  OnInit,
   ChangeDetectionStrategy
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Router, NavigationEnd } from '@angular/router';
+import { Subscription, filter } from 'rxjs';
 import { AiService } from '../../core/services/ai.service';
 import { QUICK_QUESTIONS } from '../../core/constants/content.constants';
 import type { ChatMessage } from '../../core/models/chat.model';
@@ -22,17 +24,20 @@ import type { ChatMessage } from '../../core/models/chat.model';
   templateUrl: './chat-assistant.component.html',
   styleUrl: './chat-assistant.component.scss'
 })
-export class ChatAssistantComponent implements OnDestroy {
+export class ChatAssistantComponent implements OnInit, OnDestroy {
   private readonly aiService = inject(AiService);
+  private readonly router = inject(Router);
   @ViewChild('history') private history?: ElementRef<HTMLElement>;
 
   protected readonly isChatOpen = signal(false);
+  protected readonly isHiddenOnRoute = signal(false);
   protected readonly userInput = signal('');
   protected readonly messages = signal<ChatMessage[]>([]);
   protected readonly isLoading = signal(false);
   protected readonly isStreaming = signal(false);
   protected readonly streamText = signal('');
 
+  private routerSub?: Subscription;
   private streamSub?: Subscription;
   private pending = '';
   private revealTimer?: ReturnType<typeof setInterval>;
@@ -46,10 +51,27 @@ export class ChatAssistantComponent implements OnDestroy {
 
   protected readonly quickQuestions = QUICK_QUESTIONS;
 
+  ngOnInit() {
+    this.checkRoute(this.router.url);
+    this.routerSub = this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.checkRoute(event.urlAfterRedirects || event.url);
+      });
+  }
+
+  private checkRoute(url: string) {
+    const isDocAdmin = url.startsWith('/admin');
+    this.isHiddenOnRoute.set(isDocAdmin);
+    if (isDocAdmin && this.isChatOpen()) {
+      this.isChatOpen.set(false);
+    }
+  }
+
   toggleChat() {
     this.isChatOpen.update(v => !v);
     if (this.isChatOpen()) {
-      this.scrollToBottom();
+      setTimeout(() => this.scrollToBottom(), 50);
     }
   }
 
@@ -192,6 +214,7 @@ export class ChatAssistantComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
+    this.routerSub?.unsubscribe();
     this.streamSub?.unsubscribe();
     this.cancelReveal();
   }
