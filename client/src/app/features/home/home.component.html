@@ -1,47 +1,92 @@
-<main>
-  <section class="hero reveal" appReveal>
-    <div class="hero-content">
-      <span class="tagline">Sports Physiotherapy & Recovery</span>
-      <h1>Root Cause Recovery for Peak Performance</h1>
-      <p>Expert, science-based injury rehabilitation in Vernon, BC. Decades of elite experience to get you back to doing what you love, pain-free.</p>
-      <div class="hero-actions">
-        <a href="#about" class="btn secondary">Meet the Practitioner</a>
-      </div>
+﻿<main>
+
+  <!-- ═══ HERO ═══════════════════════════════════════════════ -->
+  <div class="hero-wrapper">
+    <!-- Decorative particle dots -->
+    <div class="hero-particles" aria-hidden="true">
+      <span class="particle p1"></span>
+      <span class="particle p2"></span>
+      <span class="particle p3"></span>
+      <span class="particle p4"></span>
+      <span class="particle p5"></span>
+      <span class="particle p6"></span>
+      <span class="particle p7"></span>
+      <span class="particle p8"></span>
     </div>
-    <div class="hero-visual" appParallax>
-      <img src="CD_Logo_PNG.png" alt="CD Physio logo" />
+    <!-- Ambient glow orbs -->
+    <div class="hero-orb orb-1" aria-hidden="true"></div>
+    <div class="hero-orb orb-2" aria-hidden="true"></div>
+
+    <section class="hero reveal" appReveal>
+      <div class="hero-content">
+        <span class="tagline">Sports Physiotherapy &amp; Recovery</span>
+        <h1>Root Cause Recovery<br>for Peak Performance</h1>
+        <p>Expert, science-based injury rehabilitation in Vernon, BC. Decades of elite experience to get you back to doing what you love, pain-free.</p>
+        <div class="hero-actions">
+          <a href="https://cdphysio.janeapp.com/#/staff_member/1" target="_blank" rel="noopener" class="btn cta">Book Now</a>
+          <a href="#about" class="btn secondary">Meet the Practitioner</a>
+        </div>
+      </div>
+      <div class="hero-visual" appParallax>
+        <div class="visual-card">
+          <img src="CD_Logo_PNG.png" alt="CD Physio logo" />
+        </div>
+        <div class="visual-accent a1" aria-hidden="true"></div>
+        <div class="visual-accent a2" aria-hidden="true"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ STATS BAND ══════════════════════════════════════════ -->
+  <div class="stats-wrapper">
+    <section class="stats-band reveal" appReveal aria-label="Highlights">
+      <div class="stats-grid reveal-stagger">
+        <div class="stat">
+          <span class="stat-value" [appCountUp]="2">0</span>
+          <span class="stat-label">University Degrees</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" [appCountUp]="16">0</span>
+          <span class="stat-label">Specialized Certifications</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" [appCountUp]="30" appCountUpSuffix="+">0</span>
+          <span class="stat-label">Years With Elite Athletes</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">BC</span>
+          <span class="stat-label">Registered Physiotherapy</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ═══ ABOUT / PROFILE ══════════════════════════════════════ -->
+  <section id="about" class="profile reveal" appReveal>
+    <div class="profile-inner">
+      <div class="profile-grid">
+        <div class="avatar-wrap">
+          <div class="avatar">
+            <img src="Profile.jpg" alt="Carole Damnjanovic, Registered Physiotherapist" />
+          </div>
+        </div>
+        <div class="profile-text">
+          <span class="eyebrow">About</span>
+          <h2>Carole Damnjanovic</h2>
+          <p class="subtitle">BScPT, BA Kinesiology, Registered Physiotherapist</p>
+          <p class="tagline-text">Individualized Care. Decades of Experience. A Passion for Movement.</p>
+          <p>With a global population of more than 8 billion people, no two individuals are exactly alike. I believe the same should be true of the way we approach treatment. Every client is unique, and my goal is to understand the individual behind the injury, pain, or performance challenge and develop an approach that is tailored to their specific needs and goals.</p>
+          <p>With more than 30 years of experience as a physiotherapist and kinesiologist, I have developed a broad and diverse skill set through extensive education, specialized training, and years of hands-on clinical experience.</p>
+          <p>I have a particular passion for working with athletes of all levels—from those looking to return to their sport after an injury to those striving to improve performance and stay at the top of their game.</p>
+          <p>My approach combines my background in physiotherapy and kinesiology with additional osteopathic-based education completed through a Doctor of Osteopathy program in Europe. This unique blend of knowledge allows me to draw from a variety of assessment and treatment techniques and adapt them to each individual.</p>
+          <p>My manual therapy techniques are supported by research, complemented by specialized certifications, and continually refined through ongoing professional education. I believe in looking beyond the symptoms to better understand how the body moves and functions as a whole.</p>
+          <p>My goal is simple: to provide personalized, evidence-informed care that helps you move better, perform better, and achieve your goals.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="stats-band reveal" appReveal aria-label="Highlights">
-    <div class="stats-grid reveal-stagger">
-      <div class="stat"><span class="stat-value" [appCountUp]="2">0</span><span class="stat-label">University Degrees</span></div>
-      <div class="stat"><span class="stat-value" [appCountUp]="16">0</span><span class="stat-label">Specialized Certifications</span></div>
-      <div class="stat"><span class="stat-value" [appCountUp]="30" appCountUpSuffix="+">0</span><span class="stat-label">With Elite Athletes</span></div>
-      <div class="stat"><span class="stat-value">BC</span><span class="stat-label">Registered Physiotherapy</span></div>
-    </div>
-  </section>
-
-  <section id="about" class="profile section reveal" appReveal>
-    <div class="profile-grid">
-      <div class="avatar">
-        <img src="Profile.jpg" alt="Carole Damnjanovic, Registered Physiotherapist" />
-      </div>
-      <div class="profile-text">
-        <span class="eyebrow">About</span>
-        <h2>Carole Damnjanovic</h2>
-        <p class="subtitle">BScPT, BA Kinesiology, Registered Physiotherapist</p>
-        <p class="tagline-text">Individualized Care. Decades of Experience. A Passion for Movement.</p>
-        <p>With a global population of more than 8 billion people, no two individuals are exactly alike. I believe the same should be true of the way we approach treatment. Every client is unique, and my goal is to understand the individual behind the injury, pain, or performance challenge and develop an approach that is tailored to their specific needs and goals.</p>
-        <p>With more than 30 years of experience as a physiotherapist and kinesiologist, I have developed a broad and diverse skill set through extensive education, specialized training, and years of hands-on clinical experience.</p>
-        <p>I have a particular passion for working with athletes of all levels—from those looking to return to their sport after an injury to those striving to improve performance and stay at the top of their game.</p>
-        <p>My approach combines my background in physiotherapy and kinesiology with additional osteopathic-based education completed through a Doctor of Osteopathy program in Europe. This unique blend of knowledge allows me to draw from a variety of assessment and treatment techniques and adapt them to each individual.</p>
-        <p>My manual therapy techniques are supported by research, complemented by specialized certifications, and continually refined through ongoing professional education. I believe in looking beyond the symptoms to better understand how the body moves and functions as a whole.</p>
-        <p>My goal is simple: to provide personalized, evidence-informed care that helps you move better, perform better, and achieve your goals.</p>
-      </div>
-    </div>
-  </section>
-
+  <!-- ═══ EDUCATION ══════════════════════════════════════════ -->
   <section id="education" class="section reveal" appReveal>
     <div class="section-head">
       <span class="eyebrow">Education</span>
@@ -72,79 +117,62 @@
     </div>
   </section>
 
+  <!-- ═══ CREDENTIALS ══════════════════════════════════════════ -->
   <section id="credentials" class="section section-alt reveal" appReveal>
     <div class="section-head">
       <span class="eyebrow">Credentials</span>
-      <h2>Certifications & Advanced Training</h2>
+      <h2>Certifications &amp; Advanced Training</h2>
       <p>Continuous learning in manual therapy, movement science, and performance.</p>
     </div>
     <div class="credential-grid reveal-stagger">
       <div class="credential-card">
-        <h3>ART®</h3>
-        <p>Active Release Techniques — full body and nerve entrapment courses.</p>
-        <a href="https://www.activerelease.com" target="_blank" rel="noopener">activerelease.com
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <h3>ART&#174;</h3>
+        <p>Active Release Techniques &#8212; full body and nerve entrapment courses.</p>
+        <a href="https://www.activerelease.com" target="_blank" rel="noopener">activerelease.com &#8599;</a>
       </div>
       <div class="credential-card">
-        <h3>DNS® Certified Practitioner</h3>
+        <h3>DNS&#174; Certified Practitioner</h3>
         <p>Dynamic Neuromuscular Stabilization.</p>
-        <a href="https://www.rehabps.com" target="_blank" rel="noopener">rehabps.com
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <a href="https://www.rehabps.com" target="_blank" rel="noopener">rehabps.com &#8599;</a>
       </div>
       <div class="credential-card">
-        <h3>DNS® Certified Exercise Trainer</h3>
+        <h3>DNS&#174; Certified Exercise Trainer</h3>
         <p>DNS exercise program training for functional stabilization.</p>
       </div>
       <div class="credential-card">
         <h3>Gunn IMS Certified Practitioner</h3>
         <p>Intramuscular Stimulation for chronic pain.</p>
-        <a href="https://www.gunnims.com" target="_blank" rel="noopener">gunnims.com
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <a href="https://www.gunnims.com" target="_blank" rel="noopener">gunnims.com &#8599;</a>
       </div>
       <div class="credential-card">
         <h3>Barral Institute</h3>
-        <p>Visceral courses — abdomen, pelvis, and thorax.</p>
-        <a href="https://www.barralinstitute.com" target="_blank" rel="noopener">barralinstitute.com
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <p>Visceral courses &#8212; abdomen, pelvis, and thorax.</p>
+        <a href="https://www.barralinstitute.com" target="_blank" rel="noopener">barralinstitute.com &#8599;</a>
       </div>
       <div class="credential-card">
         <h3>Osteopath Academy</h3>
         <p>Structural and cranial divisions.</p>
-        <a href="https://www.osteopatija.rs" target="_blank" rel="noopener">osteopatija.rs
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <a href="https://www.osteopatija.rs" target="_blank" rel="noopener">osteopatija.rs &#8599;</a>
       </div>
       <div class="credential-card">
-        <h3>McKenzie MDT®</h3>
-        <p>Mechanical Diagnosis and Therapy — full body.</p>
-        <a href="https://www.mckenzieinstitute.org" target="_blank" rel="noopener">mckenzieinstitute.org
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <h3>McKenzie MDT&#174;</h3>
+        <p>Mechanical Diagnosis and Therapy &#8212; full body.</p>
+        <a href="https://www.mckenzieinstitute.org" target="_blank" rel="noopener">mckenzieinstitute.org &#8599;</a>
       </div>
       <div class="credential-card">
         <h3>Swodeam Institute</h3>
         <p>Spinal and peripheral manipulative therapy.</p>
-        <a href="https://www.swodeam.com" target="_blank" rel="noopener">swodeam.com
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <a href="https://www.swodeam.com" target="_blank" rel="noopener">swodeam.com &#8599;</a>
       </div>
       <div class="credential-card">
         <h3>Orthopaedic Manipulative Therapy</h3>
         <p>Levels V3 (spine) and L3 (extremities).</p>
-        <a href="https://www.orthodiv.org" target="_blank" rel="noopener">orthodiv.org
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <a href="https://www.orthodiv.org" target="_blank" rel="noopener">orthodiv.org &#8599;</a>
       </div>
       <div class="credential-card">
         <h3>Anatomy Trains</h3>
         <p>Thoracolumbar Junction.</p>
-        <a href="https://www.anatomytrains.com" target="_blank" rel="noopener">anatomytrains.com
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-        </a>
+        <a href="https://www.anatomytrains.com" target="_blank" rel="noopener">anatomytrains.com &#8599;</a>
       </div>
       <div class="credential-card">
         <h3>Anatomy Trains</h3>
@@ -161,7 +189,7 @@
     </div>
 
     <div class="subhead">
-      <h3>Athletics & Coaching</h3>
+      <h3>Athletics &amp; Coaching</h3>
     </div>
     <div class="athletics-grid reveal-stagger">
       <div class="athletic-card">
@@ -182,6 +210,7 @@
     </div>
   </section>
 
+  <!-- ═══ GALLERY ══════════════════════════════════════════════ -->
   <section id="gallery" class="gallery-section section reveal" appReveal>
     <div class="section-head">
       <span class="eyebrow">Gallery</span>
@@ -204,6 +233,7 @@
     </div>
   </section>
 
+  <!-- ═══ REVIEWS ══════════════════════════════════════════════ -->
   <section id="reviews" class="reviews-section section reveal" appReveal>
     <div class="section-head">
       <span class="eyebrow">Reviews</span>
@@ -215,25 +245,14 @@
       <div class="reviews-summary" *ngIf="!loadingReviews() && reviews().length > 0">
         <span class="summary-rating">{{ averageRating.toFixed(1) }}</span>
         <div class="summary-stars" aria-hidden="true">
-          <span class="star" [class.filled]="averageRating >= i - 0.25" *ngFor="let i of stars">★</span>
+          <span class="star" [class.filled]="averageRating >= i - 0.25" *ngFor="let i of stars">&#9733;</span>
         </div>
         <span class="summary-count">Based on {{ reviews().length }} review{{ reviews().length === 1 ? '' : 's' }}</span>
       </div>
 
       <div class="reviews-filters" role="group" aria-label="Filter reviews by rating">
-        <button
-          type="button"
-          class="filter-chip"
-          [class.active]="ratingFilter() === 0"
-          (click)="setFilter(0)"
-        >All</button>
-<button
-            *ngFor="let value of [5, 4, 3]"
-            type="button"
-            class="filter-chip"
-            [class.active]="ratingFilter() === value"
-            (click)="setFilter(value)"
-          >{{ value }}★</button>
+        <button type="button" class="filter-chip" [class.active]="ratingFilter() === 0" (click)="setFilter(0)">All</button>
+        <button *ngFor="let value of [5, 4, 3]" type="button" class="filter-chip" [class.active]="ratingFilter() === value" (click)="setFilter(value)">{{ value }}&#9733;</button>
         <button type="button" class="filter-chip write-chip" (click)="toggleForm()">{{ showForm() ? 'Close Form' : 'Write a Review' }}</button>
       </div>
     </div>
@@ -241,34 +260,23 @@
     <div class="review-form" *ngIf="showForm()">
       <h3>Share Your Experience</h3>
       <p>Your review will appear once approved. It helps others feel confident in their care.</p>
-
       <div class="form-success" *ngIf="formSuccess()" role="status">
         <p>Thank you! Your review has been submitted and will appear once approved.</p>
       </div>
       <div class="form-error" *ngIf="formError()" role="alert">
         <p>{{ formError() }}</p>
       </div>
-
       <form *ngIf="!formSuccess()" (ngSubmit)="submitReview()" novalidate>
         <div class="form-row">
           <label for="review-name">Your Name</label>
           <input id="review-name" type="text" [(ngModel)]="formName" name="reviewName" placeholder="First name is fine" maxlength="100" required />
         </div>
-
         <div class="form-row">
           <span class="field-label">Rating</span>
           <div class="star-picker" role="radiogroup" aria-label="Select rating">
-            <button
-              *ngFor="let value of stars"
-              type="button"
-              class="star-pick"
-              [class.selected]="formRating === value"
-              (click)="pickRating(value)"
-              [attr.aria-label]="value + ' out of 5 stars'"
-            >★</button>
+            <button *ngFor="let value of stars" type="button" class="star-pick" [class.selected]="formRating === value" (click)="pickRating(value)" [attr.aria-label]="value + ' out of 5 stars'">&#9733;</button>
           </div>
         </div>
-
         <div class="form-row">
           <label for="review-service">Service (optional)</label>
           <select id="review-service" [(ngModel)]="formService" name="reviewService">
@@ -276,19 +284,16 @@
             <option *ngFor="let s of serviceOptions" [value]="s">{{ s }}</option>
           </select>
         </div>
-
         <div class="form-row">
           <label for="review-text">Your Review</label>
           <textarea id="review-text" [(ngModel)]="formText" name="reviewText" rows="4" placeholder="How was your experience with Carole?" maxlength="2000" required></textarea>
         </div>
-
         <div class="honeypot" aria-hidden="true">
           <label>Leave this field empty</label>
           <input type="text" name="website" [(ngModel)]="formHoneypot" tabindex="-1" autocomplete="off" />
         </div>
-
         <div class="form-actions">
-          <button type="submit" class="btn cta" [disabled]="formSubmitting()">{{ formSubmitting() ? 'Submitting…' : 'Submit Review' }}</button>
+          <button type="submit" class="btn cta" [disabled]="formSubmitting()">{{ formSubmitting() ? 'Submitting...' : 'Submit Review' }}</button>
         </div>
       </form>
     </div>
@@ -299,7 +304,7 @@
       <article class="review-card" *ngFor="let review of filteredReviews">
         <div class="review-card-top">
           <div class="review-stars" aria-label="{{ review.rating }} out of 5 stars">
-            <span class="star" [class.filled]="review.rating >= i" *ngFor="let i of stars">★</span>
+            <span class="star" [class.filled]="review.rating >= i" *ngFor="let i of stars">&#9733;</span>
           </div>
           <span class="review-rating">{{ review.rating }}.0</span>
         </div>
@@ -311,7 +316,7 @@
         </div>
       </article>
       <p class="reviews-empty" *ngIf="!loadingReviews() && filteredReviews.length === 0">
-        {{ reviews().length === 0 ? 'No reviews yet — be the first to share your experience!' : 'No reviews match this filter yet.' }}
+        {{ reviews().length === 0 ? 'No reviews yet - be the first to share your experience!' : 'No reviews match this filter yet.' }}
       </p>
     </div>
 
@@ -320,15 +325,19 @@
     </div>
   </section>
 
-  <section class="booking-band reveal" appReveal aria-label="Book an appointment">
-    <div class="booking-inner">
-      <span class="eyebrow">Booking & Pricing</span>
-      <h2>Ready to get back to doing what you love?</h2>
-      <p>All appointments, pricing, and payments are handled securely through the CD Physio JaneApp portal.</p>
-      <a href="https://cdphysio.janeapp.com/#/staff_member/1" target="_blank" rel="noopener" class="btn cta">Book on JaneApp</a>
-    </div>
-  </section>
+  <!-- ═══ BOOKING BAND ══════════════════════════════════════════ -->
+  <div class="booking-wrapper">
+    <section class="booking-band reveal" appReveal aria-label="Book an appointment">
+      <div class="booking-inner">
+        <span class="eyebrow">Booking &amp; Pricing</span>
+        <h2>Ready to get back to doing what you love?</h2>
+        <p>All appointments, pricing, and payments are handled securely through the CD Physio JaneApp portal.</p>
+        <a href="https://cdphysio.janeapp.com/#/staff_member/1" target="_blank" rel="noopener" class="btn cta btn-pulse">Book on JaneApp</a>
+      </div>
+    </section>
+  </div>
 
+  <!-- ═══ CONTACT ══════════════════════════════════════════════ -->
   <section id="contact" class="section reveal" appReveal>
     <div class="section-head">
       <span class="eyebrow">Contact</span>
@@ -342,15 +351,14 @@
         <p>CD Physio is located inside HBIQ Sports, a full-service sports medicine facility.</p>
         <p>3445 43rd Ave, Vernon, BC</p>
         <a class="contact-link" href="https://www.google.com/maps/search/?api=1&query=3445+43rd+Ave+Vernon+BC" target="_blank" rel="noopener">
-          Get Directions
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          Get Directions &#8599;
         </a>
       </div>
       <div class="contact-item">
         <svg class="contact-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
         <h3>Get in Touch</h3>
         <p>Email</p>
-        <a href="mailto:caroledphysio@gmail.com">caroledphysio@gmail.com</a>
+        <a href="mailto:caroledphysio@gmail.com">caroledphysio&#64;gmail.com</a>
         <p>Phone</p>
         <a href="tel:2505405883">250-540-5883</a>
       </div>
@@ -359,10 +367,10 @@
         <h3>Follow CD Physio</h3>
         <p>See what Carole shares about training, recovery, and clinic life.</p>
         <a class="contact-link" href="https://www.instagram.com/cdphysio.performance" target="_blank" rel="noopener">
-          @cdphysio.performance
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          &#64;cdphysio.performance &#8599;
         </a>
       </div>
     </div>
   </section>
+
 </main>
