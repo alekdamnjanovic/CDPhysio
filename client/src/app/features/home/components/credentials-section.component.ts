@@ -1,13 +1,13 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import { CREDENTIAL_ITEMS, ATHLETIC_ITEMS } from '../../../core/constants/content.constants';
 import { CredentialItem } from '../../../core/models/content.model';
-import { CertificateModalComponent } from '../../../shared/components/certificate-modal/certificate-modal.component';
+import { CertificateModalService } from '../../../core/services/certificate-modal.service';
 
 @Component({
   selector: 'app-credentials-section',
   standalone: true,
-  imports: [RevealDirective, CertificateModalComponent],
+  imports: [RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section id="credentials" class="section section-alt reveal" appReveal>
@@ -21,29 +21,34 @@ import { CertificateModalComponent } from '../../../shared/components/certificat
         @for (item of credentialsList; track item.title) {
           <div
             class="credential-card"
-            [class.has-certificate]="!!item.certificateUrl"
+            [class.has-certificate]="!!item.certificateUrl || (!!item.certificates && item.certificates.length > 0)"
             (click)="openCertificate(item)"
-            [attr.role]="item.certificateUrl ? 'button' : null"
-            [attr.tabindex]="item.certificateUrl ? 0 : null"
-            [attr.aria-label]="item.certificateUrl ? 'View certificate for ' + item.title : null"
+            [attr.role]="(item.certificateUrl || (item.certificates && item.certificates.length > 0)) ? 'button' : null"
+            [attr.tabindex]="(item.certificateUrl || (item.certificates && item.certificates.length > 0)) ? 0 : null"
+            [attr.aria-label]="(item.certificateUrl || (item.certificates && item.certificates.length > 0)) ? 'View certificate for ' + item.title : null"
             (keydown.enter)="openCertificate(item)"
             (keydown.space)="openCertificate(item); $event.preventDefault()"
           >
+            <!-- Badge placed cleanly above title -->
             @if (item.certificates && item.certificates.length > 1) {
-              <div class="cert-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <circle cx="12" cy="8" r="6"></circle>
-                  <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
-                </svg>
-                <span>{{ item.certificates.length }} Diplomas</span>
+              <div class="cert-badge-row">
+                <span class="cert-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <circle cx="12" cy="8" r="6"></circle>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                  </svg>
+                  {{ item.certificates.length }} Diplomas
+                </span>
               </div>
             } @else if (item.certificateUrl || (item.certificates && item.certificates.length === 1)) {
-              <div class="cert-badge">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                  <circle cx="12" cy="8" r="6"></circle>
-                  <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
-                </svg>
-                <span>Diploma Available</span>
+              <div class="cert-badge-row">
+                <span class="cert-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <circle cx="12" cy="8" r="6"></circle>
+                    <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                  </svg>
+                  Diploma Available
+                </span>
               </div>
             }
 
@@ -101,38 +106,20 @@ import { CertificateModalComponent } from '../../../shared/components/certificat
           </div>
         }
       </div>
-
-      @if (activeCertificate(); as cert) {
-        <app-certificate-modal
-          [title]="cert.title"
-          [fileUrl]="cert.url"
-          [documents]="cert.documents"
-          (close)="closeCertificate()"
-        ></app-certificate-modal>
-      }
     </section>
   `
 })
 export class CredentialsSectionComponent {
+  private readonly certModalService = inject(CertificateModalService);
+
   protected readonly credentialsList = CREDENTIAL_ITEMS;
   protected readonly athleticList = ATHLETIC_ITEMS;
-  protected readonly activeCertificate = signal<{ title: string; url?: string; documents?: readonly import('../../../core/models/content.model').CertificateDoc[] } | null>(null);
 
   openCertificate(item: CredentialItem) {
     if (item.certificates && item.certificates.length > 0) {
-      this.activeCertificate.set({
-        title: item.title,
-        documents: item.certificates
-      });
+      this.certModalService.open(item.title, undefined, item.certificates);
     } else if (item.certificateUrl) {
-      this.activeCertificate.set({
-        title: item.title,
-        url: item.certificateUrl
-      });
+      this.certModalService.open(item.title, item.certificateUrl);
     }
-  }
-
-  closeCertificate() {
-    this.activeCertificate.set(null);
   }
 }
