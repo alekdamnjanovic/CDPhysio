@@ -1,14 +1,4 @@
-import { GalleryItem, GalleryHighlight } from '../models/gallery.model';
-
-export const ELITE_HIGHLIGHT: GalleryHighlight = {
-  imageSrc: 'gallery/highlights/Selfie_Novak.webp',
-  imageAlt: 'Carole with Novak Djokovic',
-  badge: 'Special Memory',
-  title: 'A Memorable Moment',
-  subtitle: 'With Novak Djokovic',
-  description: 'A wonderful moment and memory.',
-  thankYouNote: 'A heartfelt thank you to Novak Djokovic for the warmth, kindness, and great memory.'
-};
+import { GalleryItem } from '../models/gallery.model';
 
 export const TRAINING_GALLERY_ITEMS: readonly GalleryItem[] = [
   {
@@ -37,6 +27,12 @@ export const CLIENT_GALLERY_ITEMS: readonly GalleryItem[] = [
     alt: 'Carole with a client at CD Physio',
     label: 'Meeting Great Clients',
     description: 'Dedicated one-on-one care tailored to each individual’s personal goals and recovery.'
+  },
+  {
+    src: 'gallery/clients/Selfie_Novak.webp',
+    alt: 'Carole with Novak Djokovic',
+    label: 'With Novak Djokovic',
+    description: 'A wonderful memory and sincere thank you to Novak Djokovic for the warmth and kindness.'
   },
   {
     src: 'gallery/clients/Hockey_Players.webp',

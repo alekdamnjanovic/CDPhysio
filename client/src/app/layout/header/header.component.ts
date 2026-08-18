@@ -21,7 +21,7 @@ import { CLINIC_CONFIG } from '../../core/constants/clinic.constants';
     <nav class="navbar" [class.scrolled]="isScrolled()">
       <div class="nav-container">
         <a class="logo" href="/" (click)="onLogoClick($event)" aria-label="CD Physio — back to top">
-          <img src="brand/logo.png" alt="CD Physio" class="logo-emblem" />
+          <img src="brand/CD_Logo_Raw.webp" alt="CD Physio" class="logo-emblem" />
           <div class="logo-brand">
             <span class="brand-name">CD PHYSIO</span>
             <span class="brand-tag">RECOVERY & PERFORMANCE</span>

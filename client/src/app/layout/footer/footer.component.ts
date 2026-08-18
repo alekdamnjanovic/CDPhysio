@@ -12,7 +12,7 @@ import { CLINIC_CONFIG } from '../../core/constants/clinic.constants';
       <div class="footer-container">
         <div class="footer-brand">
           <div class="logo">
-            <img src="brand/logo.png" alt="CD Physio Logo" />
+            <img src="brand/CD_Logo_Raw.webp" alt="CD Physio Logo" />
             {{ clinic.name }}
           </div>
           <p>Vernon's premium destination for physical rehabilitation, injury recovery, and athletic longevity.</p>
