@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // Buttons
 // ============================================================
 
@@ -47,15 +47,22 @@
   }
 
   &.secondary {
-    background: transparent;
-    color: var(--primary);
-    border: 1.5px solid rgba(74, 85, 104, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--white);
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
     &:hover {
+      background: rgba(0, 168, 232, 0.18);
       border-color: var(--cta);
-      color: var(--cta);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(0, 168, 232, 0.15);
+      color: var(--white);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 4px 20px rgba(0, 168, 232, 0.35);
+    }
+
+    &:active {
+      transform: translateY(0) scale(0.99);
     }
   }
 
