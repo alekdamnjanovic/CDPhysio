@@ -1,4 +1,4 @@
-﻿import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import { CountUpDirective } from '../../../core/directives/count-up.directive';
 
@@ -16,12 +16,12 @@ import { CountUpDirective } from '../../../core/directives/count-up.directive';
             <span class="stat-label">University Degrees</span>
           </div>
           <div class="stat">
-            <span class="stat-value" [appCountUp]="16">0</span>
+            <span class="stat-value" [appCountUp]="16" appCountUpSuffix="+">0</span>
             <span class="stat-label">Specialized Certifications</span>
           </div>
           <div class="stat">
             <span class="stat-value" [appCountUp]="30" appCountUpSuffix="+">0</span>
-            <span class="stat-label">With Elite Athletes</span>
+            <span class="stat-label">Years With Elite Athletes</span>
           </div>
           <div class="stat">
             <span class="stat-value">BC</span>

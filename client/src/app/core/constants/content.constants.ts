@@ -33,7 +33,7 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     certificateImage: 'certificates/dns/dns-exercise-trainer.webp'
   },
   {
-    title: 'DNS® Strength Training 1',
+    title: 'DNS® Strength Training',
     description: 'Dynamic Neuromuscular Stabilization — functional core & strength training.',
     certificateUrl: 'certificates/dns/dns-strength-training-1.pdf',
     certificateImage: 'certificates/dns/dns-strength-training-1.webp'

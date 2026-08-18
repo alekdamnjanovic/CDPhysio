@@ -19,13 +19,12 @@
     display: none;
   }
 
-  .hero-visual .kinetic-chain-container {
+  .hero-visual .visual-card {
     animation: none;
-  }
 
-  .hero-visual .pulse-ring {
-    animation: none;
-    opacity: 0;
+    &::before {
+      animation: none;
+    }
   }
 
   .hero-orb {
@@ -138,16 +137,15 @@
   }
 
   .hero-visual {
-    max-width: 380px;
+    max-width: 360px;
     margin: 0 auto;
 
-    .kinetic-chain-container {
-      padding: 1.5rem;
-      max-width: 100%;
+    .visual-card {
+      padding: 0.75rem;
     }
 
-    .kinetic-map .body-svg {
-      max-width: 260px;
+    .hero-painting {
+      max-height: 380px;
     }
   }
 
