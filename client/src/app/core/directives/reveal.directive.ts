@@ -19,10 +19,14 @@ export class RevealDirective implements AfterViewInit, OnDestroy {
     this.observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          entry.target.classList.toggle('reveal-visible', entry.isIntersecting);
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal-visible');
+            // Once revealed, keep it visible so scrolling up remains smooth and content doesn't flicker/vanish
+            this.observer?.unobserve(entry.target);
+          }
         }
       },
-      { threshold: 0.12, rootMargin: '0px 0px -20px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
     );
 
     this.observer.observe(el);
