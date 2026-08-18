@@ -24,10 +24,10 @@ export const TRAINING_GALLERY_ITEMS: readonly GalleryItem[] = [
     description: 'Evidence-based exercise therapy focused on neuromuscular control and joint stability.'
   },
   {
-    src: 'gallery/clients/Hockey_Players.webp',
-    alt: 'Hockey athletes training and recovery',
-    label: 'Team & Athlete Conditioning',
-    description: 'Working with competitive athletes to build strength, resilience, and injury prevention.'
+    src: 'gallery/training/Other_Training.webp',
+    alt: 'Movement training and athletic conditioning',
+    label: 'Strength & Conditioning',
+    description: 'Custom exercise progressions to build durability, power, and movement efficiency.'
   }
 ] as const;
 
