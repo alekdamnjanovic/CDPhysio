@@ -106,7 +106,8 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     const prompt = this.userInput().trim();
     if (!prompt || this.isLoading() || this.isStreaming()) return;
 
-    this.messages.update(msgs => [...msgs, { role: 'user', content: prompt }]);
+    const newMessages: ChatMessage[] = [...this.messages(), { role: 'user', content: prompt }];
+    this.messages.set(newMessages);
     this.userInput.set('');
     this.isLoading.set(true);
     this.streamText.set('');
@@ -116,7 +117,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     this.scrollToBottom('instant');
     setTimeout(() => this.scrollToBottom('instant'), 40);
 
-    this.streamSub = this.aiService.streamMessage(prompt).subscribe({
+    this.streamSub = this.aiService.streamMessage(newMessages).subscribe({
       next: (token) => {
         if (this.reducedMotion) {
           if (this.isLoading()) {

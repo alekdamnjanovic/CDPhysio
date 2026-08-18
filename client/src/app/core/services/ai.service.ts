@@ -1,4 +1,4 @@
-﻿import { Injectable, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,23 +14,30 @@ export class AiService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
-  sendMessage(prompt: string): Observable<string> {
-    return this.http.post<ChatResponse>(this.apiUrl, { prompt }).pipe(
+  sendMessage(promptOrMessages: string | ChatMessage[]): Observable<string> {
+    const payload = typeof promptOrMessages === 'string'
+      ? { prompt: promptOrMessages }
+      : { messages: promptOrMessages };
+
+    return this.http.post<ChatResponse>(this.apiUrl, payload).pipe(
       map(res => res.response)
     );
   }
 
-  streamMessage(prompt: string): Observable<string> {
+  streamMessage(promptOrMessages: string | ChatMessage[]): Observable<string> {
     return new Observable<string>((subscriber) => {
       const controller = new AbortController();
       const url = `${this.apiUrl}/stream`;
+      const payload = typeof promptOrMessages === 'string'
+        ? { prompt: promptOrMessages }
+        : { messages: promptOrMessages };
 
       (async () => {
         try {
           const res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt }),
+            body: JSON.stringify(payload),
             signal: controller.signal
           });
 

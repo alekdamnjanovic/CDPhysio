@@ -23,9 +23,14 @@ public class AiService : IAiService
         _logger = logger;
     }
 
-    public async Task<string> GenerateResponseAsync(string prompt)
+    public Task<string> GenerateResponseAsync(string prompt)
     {
-        var request = BuildRequest(prompt, stream: false);
+        return GenerateResponseAsync(new[] { new server.Models.DTOs.ChatItemDto("user", prompt) });
+    }
+
+    public async Task<string> GenerateResponseAsync(IEnumerable<server.Models.DTOs.ChatItemDto> messages)
+    {
+        var request = BuildRequest(messages, stream: false);
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
         using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
@@ -70,9 +75,14 @@ public class AiService : IAiService
         throw new InvalidOperationException("The AI assistant returned an unexpected response.");
     }
 
-    public async IAsyncEnumerable<string> GenerateStreamAsync(string prompt)
+    public IAsyncEnumerable<string> GenerateStreamAsync(string prompt)
     {
-        var request = BuildRequest(prompt, stream: true);
+        return GenerateStreamAsync(new[] { new server.Models.DTOs.ChatItemDto("user", prompt) });
+    }
+
+    public async IAsyncEnumerable<string> GenerateStreamAsync(IEnumerable<server.Models.DTOs.ChatItemDto> messages)
+    {
+        var request = BuildRequest(messages, stream: true);
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
         using var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"{_baseUrl}/chat/completions")
@@ -137,16 +147,24 @@ public class AiService : IAiService
         }
     }
 
-    private object BuildRequest(string prompt, bool stream)
+    private object BuildRequest(IEnumerable<server.Models.DTOs.ChatItemDto> messages, bool stream)
     {
+        var messageList = new List<object>
+        {
+            new { role = "system", content = BuildSystemPrompt() }
+        };
+
+        // Take last 10 messages for conversation context without overloading token context
+        foreach (var msg in messages.TakeLast(10))
+        {
+            var role = string.Equals(msg.Role, "assistant", StringComparison.OrdinalIgnoreCase) ? "assistant" : "user";
+            messageList.Add(new { role, content = msg.Content });
+        }
+
         return new
         {
             model = _model,
-            messages = new[]
-            {
-                new { role = "system", content = BuildSystemPrompt() },
-                new { role = "user", content = prompt }
-            },
+            messages = messageList,
             stream,
             temperature = 0.5
         };

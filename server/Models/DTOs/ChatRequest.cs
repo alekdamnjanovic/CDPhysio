@@ -1,5 +1,12 @@
-﻿namespace server.Models.DTOs;
+namespace server.Models.DTOs;
+
+public record ChatItemDto(
+    string Role,
+    string Content
+);
 
 public record ChatRequest(
-    string Prompt
+    string? Prompt,
+    List<ChatItemDto>? Messages = null
 );
+
