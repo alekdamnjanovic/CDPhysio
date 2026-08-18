@@ -377,8 +377,16 @@
     grid-template-columns: 1fr;
   }
 
-  .navbar .logo img {
-    height: 42px;
+  .navbar .logo .logo-emblem {
+    height: 44px;
+  }
+
+  .navbar .logo .logo-brand .brand-name {
+    font-size: 1rem;
+  }
+
+  .navbar .logo .logo-brand .brand-tag {
+    font-size: 0.55rem;
   }
 }
 

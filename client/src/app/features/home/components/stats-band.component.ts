@@ -21,7 +21,7 @@ import { CountUpDirective } from '../../../core/directives/count-up.directive';
           </div>
           <div class="stat">
             <span class="stat-value" [appCountUp]="30" appCountUpSuffix="+">0</span>
-            <span class="stat-label">Years With Elite Athletes</span>
+            <span class="stat-label">Years Experience</span>
           </div>
           <div class="stat">
             <span class="stat-value">BC</span>

@@ -3,6 +3,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import {
   ELITE_HIGHLIGHT,
+  TRAINING_GALLERY_ITEMS,
   CLIENT_GALLERY_ITEMS,
   CLINIC_GALLERY_ITEMS
 } from '../../../core/constants/gallery.constants';
@@ -17,26 +18,23 @@ import {
       <div class="section-head">
         <span class="eyebrow">Moments & Community</span>
         <h2>Inside CD Physio</h2>
-        <p>From supporting world-class champions to helping everyday athletes move pain-free.</p>
+        <p>A look at the community, training, client stories, and clinic environment.</p>
       </div>
 
-      <!-- 1. Featured Spotlight: Elite Athletics (Novak Djokovic) -->
+      <!-- 1. Special Highlight (Novak Djokovic - Humble thank you) -->
       <div class="elite-spotlight reveal" appReveal>
         <div class="spotlight-media">
           <div class="spotlight-img-wrap">
             <picture>
-              <source srcset="gallery/Selfie_Novak.webp" type="image/webp" />
+              <source srcset="gallery/highlights/Selfie_Novak.webp" type="image/webp" />
               <img
-                src="gallery/Selfie_Novak.jpg"
+                src="gallery/highlights/Selfie_Novak.jpg"
                 [alt]="eliteHighlight.imageAlt"
                 loading="lazy"
                 class="spotlight-img"
               />
             </picture>
             <div class="spotlight-badge">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
               <span>{{ eliteHighlight.badge }}</span>
             </div>
           </div>
@@ -45,10 +43,9 @@ import {
         <div class="spotlight-content">
           <span class="spotlight-subtitle">{{ eliteHighlight.subtitle }}</span>
           <h3>{{ eliteHighlight.title }}</h3>
-          <p class="spotlight-desc">{{ eliteHighlight.description }}</p>
 
           <blockquote class="spotlight-quote">
-            <svg class="quote-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <svg class="quote-icon" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
             </svg>
             <p>{{ eliteHighlight.thankYouNote }}</p>
@@ -56,23 +53,23 @@ import {
         </div>
       </div>
 
-      <!-- 2. Meeting Great Clients & Athletic Community -->
+      <!-- 2. Training & Movement Section -->
       <div class="gallery-subsection reveal" appReveal>
         <div class="subsection-head">
-          <span class="subsection-eyebrow">Client Stories</span>
-          <h3>Meeting Great Clients</h3>
-          <p>Every recovery journey is personal. Dedicated one-on-one care to get you back to the activities you love.</p>
+          <span class="subsection-eyebrow">Active Rehab</span>
+          <h3>Training & Movement</h3>
+          <p>Targeted exercise therapy, athletic conditioning, and functional movement retraining.</p>
         </div>
 
-        <div class="clients-grid reveal-stagger">
-          <figure *ngFor="let item of clientList" class="client-card">
-            <div class="client-img-wrap">
+        <div class="cards-grid training-grid reveal-stagger">
+          <figure *ngFor="let item of trainingList" class="photo-card">
+            <div class="photo-img-wrap">
               <img [src]="item.src" [alt]="item.alt" loading="lazy" />
-              <div class="client-overlay">
-                <span class="client-tag">{{ item.label }}</span>
+              <div class="photo-overlay">
+                <span class="photo-tag">{{ item.label }}</span>
               </div>
             </div>
-            <figcaption class="client-caption">
+            <figcaption class="photo-caption">
               <h4>{{ item.label }}</h4>
               <p *ngIf="item.description">{{ item.description }}</p>
             </figcaption>
@@ -80,7 +77,31 @@ import {
         </div>
       </div>
 
-      <!-- 3. The Clinic Space & Facilities -->
+      <!-- 3. Meeting Great Clients Section -->
+      <div class="gallery-subsection reveal" appReveal>
+        <div class="subsection-head">
+          <span class="subsection-eyebrow">Community</span>
+          <h3>Meeting Great Clients</h3>
+          <p>Every recovery journey is personal — dedicated one-on-one care tailored to your goals.</p>
+        </div>
+
+        <div class="cards-grid clients-grid reveal-stagger">
+          <figure *ngFor="let item of clientList" class="photo-card">
+            <div class="photo-img-wrap">
+              <img [src]="item.src" [alt]="item.alt" loading="lazy" />
+              <div class="photo-overlay">
+                <span class="photo-tag">{{ item.label }}</span>
+              </div>
+            </div>
+            <figcaption class="photo-caption">
+              <h4>{{ item.label }}</h4>
+              <p *ngIf="item.description">{{ item.description }}</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <!-- 4. The Clinic Space & Facilities -->
       <div class="gallery-subsection clinic-facility-section reveal" appReveal>
         <div class="subsection-head">
           <span class="subsection-eyebrow">Our Space</span>
@@ -114,6 +135,7 @@ export class GallerySectionComponent {
   @ViewChild('galleryTrack') private galleryTrack?: ElementRef<HTMLElement>;
 
   protected readonly eliteHighlight = ELITE_HIGHLIGHT;
+  protected readonly trainingList = TRAINING_GALLERY_ITEMS;
   protected readonly clientList = CLIENT_GALLERY_ITEMS;
   protected readonly clinicList = CLINIC_GALLERY_ITEMS;
 
