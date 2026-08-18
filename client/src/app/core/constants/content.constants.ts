@@ -92,11 +92,11 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
     url: 'https://www.mckenzieinstitute.org',
     urlLabel: 'mckenzieinstitute.org',
     certificates: [
-      { title: 'Part A', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-1.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-1.webp' },
-      { title: 'Part B', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-2.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-2.webp' },
-      { title: 'Part C', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-3.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-3.webp' },
-      { title: 'Part D', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-4.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-4.webp' },
-      { title: 'Part E', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-5.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-mdt-5.webp' }
+      { title: 'Part A', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-part-a.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-part-a.webp' },
+      { title: 'Part B', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-part-b.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-part-b.webp' },
+      { title: 'Part C', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-part-c.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-part-c.webp' },
+      { title: 'Part D', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-part-d.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-part-d.webp' },
+      { title: 'Part E', pdfUrl: 'certificates/mckenzie-mdt/mckenzie-part-e.pdf', imageUrl: 'certificates/mckenzie-mdt/mckenzie-part-e.webp' }
     ]
   },
   {
