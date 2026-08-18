@@ -1,4 +1,4 @@
-﻿@if (!isHiddenOnRoute()) {
+@if (!isHiddenOnRoute()) {
   <div class="ai-assistant" [class.open]="isChatOpen()">
     <button
       class="chat-toggle"
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Chat History -->
-        <div class="chat-history" #history>
+        <div class="chat-history" #history (scroll)="onScroll()">
           @if (messages().length === 0 && !isLoading()) {
             <div class="welcome-card">
               <div class="welcome-icon" aria-hidden="true">👋</div>

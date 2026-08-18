@@ -266,10 +266,12 @@ public class AiService : IAiService
         sb.Append("- New Advances in Hip Rehabilitation: Evidence-based hip assessment and rehabilitation.\n");
         sb.Append("- Athletic Coaching: CSIA Level 2 Ski Instructor, NCCP Level 1 Ski Coach, TRX Suspension Training Certified.\n\n");
 
-        sb.Append("COMMUNICATION GUIDELINES:\n");
-        sb.Append("- Keep answers concise, highly informative, warm, and easy to read with clean bullet points when explaining services or pricing.\n");
-        sb.Append("- Provide clear answers regarding hours, location inside HBIQ Sports on the 2nd floor, pricing, booking procedures, and Carole's background.\n");
-        sb.Append($"- Direct users to book at {ClinicConstants.JaneAppUrl} whenever appropriate.");
+        sb.Append("COMMUNICATION & CONCISENESS RULES:\n");
+        sb.Append("- CRITICAL: Keep responses concise, direct, and focused on exactly what the user asked. Do NOT write lengthy paragraphs for simple questions.\n");
+        sb.Append("- For straightforward queries (e.g. location, prices, phone number, how to book, single certifications), answer directly in 1 to 3 sentences or a quick bulleted list.\n");
+        sb.Append("- Do NOT repeatedly regurgitate Carole's full biography, all 10 certifications, or full clinic philosophy unless the user specifically asks for her background or credentials.\n");
+        sb.Append("- Format pricing and service lists with crisp bullet points so they are fast and easy to read on mobile.\n");
+        sb.Append($"- When booking is discussed, invite them to use {ClinicConstants.JaneAppUrl} with a brief call to action.\n");
 
         return sb.ToString();
     }

@@ -43,11 +43,13 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
   private revealTimer?: ReturnType<typeof setInterval>;
   private thinkTimer?: ReturnType<typeof setTimeout>;
   private revealDone = false;
+  private userScrolledUp = false;
+
   private readonly reducedMotion =
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  private readonly revealIntervalMs = 67;
-  private readonly revealChars = 4;
-  private readonly minThinkMs = 700;
+  private readonly revealIntervalMs = 50;
+  private readonly revealChars = 6;
+  private readonly minThinkMs = 450;
 
   protected readonly quickQuestions = QUICK_QUESTIONS;
 
@@ -67,8 +69,17 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
   toggleChat() {
     this.isChatOpen.update(v => !v);
     if (this.isChatOpen()) {
-      setTimeout(() => this.scrollToBottom(), 50);
+      this.userScrolledUp = false;
+      setTimeout(() => this.scrollToBottom('instant'), 50);
     }
+  }
+
+  onScroll() {
+    const el = this.history?.nativeElement;
+    if (!el) return;
+    const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+    // Only flag as scrolled up if user has scrolled away more than 100px from the bottom
+    this.userScrolledUp = distanceFromBottom > 100;
   }
 
   sendQuick(question: string) {
@@ -86,6 +97,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     this.isLoading.set(false);
     this.isStreaming.set(false);
     this.userInput.set('');
+    this.userScrolledUp = false;
     const el = this.history?.nativeElement;
     if (el) el.scrollTo({ top: 0 });
   }
@@ -98,7 +110,11 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     this.userInput.set('');
     this.isLoading.set(true);
     this.streamText.set('');
-    this.scrollToBottom();
+    this.userScrolledUp = false;
+
+    // Force instant scroll to bottom on submission
+    this.scrollToBottom('instant');
+    setTimeout(() => this.scrollToBottom('instant'), 40);
 
     this.streamSub = this.aiService.streamMessage(prompt).subscribe({
       next: (token) => {
@@ -108,7 +124,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
             this.isStreaming.set(true);
           }
           this.streamText.update(text => text + token);
-          this.scrollIfNearBottom();
+          this.autoScrollToBottom();
           return;
         }
         this.pending += token;
@@ -123,7 +139,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
         this.streamText.set('');
         const fallback = 'Sorry, I could not reach the assistant right now. Please try again in a moment.';
         this.messages.update(msgs => [...msgs, { role: 'assistant', content: err?.message || fallback }]);
-        this.scrollToMessageTop();
+        this.scrollToBottom('smooth');
       },
       complete: () => {
         this.revealDone = true;
@@ -145,6 +161,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
         this.isLoading.set(false);
         this.isStreaming.set(true);
       }
+      this.autoScrollToBottom();
       this.revealTimer = setInterval(() => this.revealTick(), this.revealIntervalMs);
     }, this.minThinkMs);
   }
@@ -154,7 +171,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
       const chunk = this.pending.slice(0, this.revealChars);
       this.pending = this.pending.slice(chunk.length);
       this.streamText.update(text => text + chunk);
-      this.scrollIfNearBottom();
+      this.autoScrollToBottom();
     }
     if (!this.pending && this.revealDone) {
       this.commitStream();
@@ -172,6 +189,9 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     if (text.trim()) {
       this.messages.update(msgs => [...msgs, { role: 'assistant', content: text }]);
     }
+    if (!this.userScrolledUp) {
+      setTimeout(() => this.scrollToBottom('smooth'), 40);
+    }
   }
 
   private cancelReveal() {
@@ -185,28 +205,20 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     }
   }
 
-  private scrollToBottom() {
+  private scrollToBottom(behavior: ScrollBehavior = 'smooth') {
     const el = this.history?.nativeElement;
-    if (el) el.scrollTo({ top: el.scrollHeight });
-  }
-
-  private scrollIfNearBottom() {
-    const el = this.history?.nativeElement;
-    if (!el) return;
-    const nearBottom = el.scrollHeight - el.scrollTop - el.clientHeight < 80;
-    if (nearBottom) el.scrollTo({ top: el.scrollHeight });
-  }
-
-  private scrollToMessageTop() {
-    const el = this.history?.nativeElement;
-    if (!el) return;
-    const msgs = el.querySelectorAll('.msg');
-    const last = msgs[msgs.length - 1] as HTMLElement | undefined;
-    if (!last) {
-      el.scrollTo({ top: el.scrollHeight });
-      return;
+    if (el) {
+      el.scrollTo({ top: el.scrollHeight, behavior });
     }
-    el.scrollTo({ top: last.offsetTop - el.offsetTop });
+  }
+
+  private autoScrollToBottom() {
+    if (!this.userScrolledUp) {
+      const el = this.history?.nativeElement;
+      if (el) {
+        el.scrollTop = el.scrollHeight;
+      }
+    }
   }
 
   ngOnDestroy() {
