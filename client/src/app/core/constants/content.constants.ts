@@ -19,16 +19,6 @@ export const EDUCATION_ITEMS: readonly EducationItem[] = [
 
 export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
   {
-    title: 'ART®',
-    description: 'Active Release Techniques — full body and nerve entrapment courses.',
-    url: 'https://www.activerelease.com',
-    urlLabel: 'activerelease.com',
-    certificates: [
-      { title: 'Full Body Course', pdfUrl: 'certificates/art/art-1.pdf', imageUrl: 'certificates/art/art-1.webp' },
-      { title: 'Nerve Entrapment', pdfUrl: 'certificates/art/art-2.pdf', imageUrl: 'certificates/art/art-2.webp' }
-    ]
-  },
-  {
     title: 'DNS® Certified Practitioner',
     description: 'Dynamic Neuromuscular Stabilization.',
     url: 'https://www.rehabps.com',
@@ -65,6 +55,16 @@ export const CREDENTIAL_ITEMS: readonly CredentialItem[] = [
       { title: 'Visceral Manipulation 1', pdfUrl: 'certificates/barral-institute/barral-institute-1.pdf', imageUrl: 'certificates/barral-institute/barral-institute-1.webp' },
       { title: 'Visceral Manipulation 2', pdfUrl: 'certificates/barral-institute/barral-institute-2.pdf', imageUrl: 'certificates/barral-institute/barral-institute-2.webp' },
       { title: 'Visceral Manipulation 3', pdfUrl: 'certificates/barral-institute/barral-institute-3.pdf', imageUrl: 'certificates/barral-institute/barral-institute-3.webp' }
+    ]
+  },
+  {
+    title: 'ART®',
+    description: 'Active Release Techniques — full body and nerve entrapment courses.',
+    url: 'https://www.activerelease.com',
+    urlLabel: 'activerelease.com',
+    certificates: [
+      { title: 'Full Body Course', pdfUrl: 'certificates/art/art-1.pdf', imageUrl: 'certificates/art/art-1.webp' },
+      { title: 'Nerve Entrapment', pdfUrl: 'certificates/art/art-2.pdf', imageUrl: 'certificates/art/art-2.webp' }
     ]
   },
   {
