@@ -116,6 +116,10 @@
   flex-wrap: wrap;
 }
 
+// ============================================================
+// Kinetic Chain Interactive Visual
+// ============================================================
+
 .hero-visual {
   position: relative;
   display: flex;
@@ -125,203 +129,283 @@
   width: 100%;
 
   .kinetic-chain-container {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: var(--radius-xl);
-    padding: 2.5rem;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    padding: 2rem 2rem 1.5rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-shadow:
-      0 30px 80px rgba(0, 0, 0, 0.4),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 30px 80px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.10);
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.25rem;
     animation: heroFloat 8s ease-in-out infinite;
   }
 
   .kinetic-header {
     text-align: center;
-    
+
     .kinetic-eyebrow {
       display: inline-block;
       color: var(--cta);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.35rem;
     }
 
     h3 {
       font-family: var(--font-display);
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       color: var(--white);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.25rem;
     }
 
     p {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.5);
       margin: 0;
     }
   }
 
+  // SVG body map
   .kinetic-map {
     position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
+    gap: 1.25rem;
 
-    .wireframe-svg {
+    .body-svg {
       width: 100%;
-      max-width: 280px;
+      max-width: 320px;
       height: auto;
       overflow: visible;
+    }
 
-      .connection-line {
-        stroke: rgba(255, 255, 255, 0.1);
+    // Translucent body silhouette
+    .body-outline {
+      fill: rgba(255, 255, 255, 0.03);
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 1;
+    }
+
+    // Connection lines between nodes
+    .chain-line {
+      stroke: rgba(255, 255, 255, 0.08);
+      stroke-width: 1.5;
+      stroke-dasharray: 6 4;
+      transition: stroke 0.4s ease, stroke-width 0.4s ease, stroke-dasharray 0.4s ease, filter 0.4s ease;
+
+      &.active-line {
+        stroke: var(--cta);
+        stroke-width: 2.5;
+        stroke-dasharray: none;
+        filter: drop-shadow(0 0 6px rgba(0, 168, 232, 0.5));
+      }
+    }
+
+    // Pulsing ring around active node
+    .pulse-ring {
+      fill: none;
+      stroke: var(--cta);
+      stroke-width: 2;
+      opacity: 0;
+      animation: pulseRing 2s ease-out infinite;
+    }
+
+    // Interactive node groups
+    .region-node {
+      cursor: pointer;
+      outline: none;
+
+      .hit-area {
+        fill: transparent;
+      }
+
+      .node-dot {
+        fill: rgba(255, 255, 255, 0.15);
+        stroke: rgba(255, 255, 255, 0.3);
         stroke-width: 2;
-        stroke-dasharray: 4 4;
-        transition: all 0.5s ease;
+        transition: fill 0.3s ease, stroke 0.3s ease, r 0.3s ease, filter 0.3s ease;
+      }
 
-        &.active-line {
-          stroke: var(--cta);
-          stroke-dasharray: none;
-          stroke-width: 3;
-          filter: drop-shadow(0 0 8px rgba(0, 168, 232, 0.6));
-          animation: drawLine 1s ease-out forwards;
+      .node-text {
+        fill: rgba(255, 255, 255, 0.35);
+        font-size: 11px;
+        font-family: var(--font-body);
+        font-weight: 500;
+        letter-spacing: 0.02em;
+        transition: fill 0.3s ease, font-weight 0.3s ease;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      // Hover state
+      &:hover .node-dot,
+      &:focus-visible .node-dot {
+        fill: rgba(0, 168, 232, 0.4);
+        stroke: var(--white);
+      }
+      &:hover .node-text,
+      &:focus-visible .node-text {
+        fill: rgba(255, 255, 255, 0.8);
+      }
+
+      // Connected (secondary highlight)
+      &.is-connected {
+        .node-dot {
+          fill: var(--cta);
+          stroke: rgba(255, 255, 255, 0.7);
+          stroke-width: 2;
+          filter: drop-shadow(0 0 4px rgba(0, 168, 232, 0.4));
+        }
+        .node-text {
+          fill: var(--white);
+          font-weight: 600;
         }
       }
 
-      .node-group {
-        cursor: pointer;
-        transition: all 0.3s ease;
-
-        .node-point {
-          fill: rgba(255, 255, 255, 0.2);
-          stroke: rgba(255, 255, 255, 0.4);
-          stroke-width: 2;
-          transition: all 0.3s ease;
+      // Active (primary, selected)
+      &.is-active {
+        .node-dot {
+          fill: var(--white);
+          stroke: var(--cta);
+          stroke-width: 3;
+          r: 9;
+          filter: drop-shadow(0 0 10px rgba(0, 168, 232, 0.7));
         }
-
-        .node-hitbox {
-          fill: transparent;
-        }
-
-        .node-label {
-          fill: rgba(255, 255, 255, 0.4);
+        .node-text {
+          fill: var(--cta);
+          font-weight: 700;
           font-size: 12px;
-          font-family: var(--font-body);
-          transition: all 0.3s ease;
-          pointer-events: none;
         }
+      }
 
-        &:hover, &.active {
-          .node-point {
-            fill: var(--cta);
-            stroke: var(--white);
-            transform: scale(1.2);
-            transform-origin: center;
-          }
-          
-          .node-label {
-            fill: var(--white);
-            font-weight: 600;
-          }
+      // Idle (dimmed when another node is active)
+      &.is-idle {
+        .node-dot {
+          fill: rgba(255, 255, 255, 0.08);
+          stroke: rgba(255, 255, 255, 0.15);
         }
-
-        &.primary {
-          .node-point {
-            fill: var(--white);
-            stroke: var(--cta);
-            stroke-width: 3;
-            transform: scale(1.5);
-            filter: drop-shadow(0 0 10px rgba(0, 168, 232, 0.8));
-          }
-          
-          .node-label {
-            fill: var(--cta);
-            font-weight: 700;
-            font-size: 13px;
-          }
+        .node-text {
+          fill: rgba(255, 255, 255, 0.2);
         }
       }
     }
 
-    .kinetic-card {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.05);
+    // Info card below SVG
+    .info-card {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(0, 168, 232, 0.15);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
+      padding: 1.25rem 1.5rem;
       width: 100%;
-      animation: slideUpFade 0.4s ease-out;
+      animation: cardAppear 0.35s ease-out;
+
+      .info-card-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.6rem;
+      }
+
+      .info-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--cta);
+        box-shadow: 0 0 8px var(--cta);
+        flex-shrink: 0;
+      }
 
       h4 {
         color: var(--cta);
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-
-        &::before {
-          content: '';
-          display: block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: var(--cta);
-          box-shadow: 0 0 8px var(--cta);
-        }
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin: 0;
       }
 
-      p {
+      .info-desc {
         color: rgba(255, 255, 255, 0.8);
-        font-size: 0.95rem;
+        font-size: 0.88rem;
         line-height: 1.6;
-        margin-bottom: 1rem;
+        margin: 0 0 0.75rem;
       }
 
-      .kinetic-card-links {
-        font-size: 0.85rem;
-        color: rgba(255, 255, 255, 0.5);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding-top: 0.75rem;
+      .info-root {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.45);
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
 
-        .link-label {
+        .info-root-label {
           color: rgba(255, 255, 255, 0.3);
-          margin-right: 0.5rem;
+          margin-right: 0.3rem;
         }
+        .info-root-value {
+          color: rgba(255, 255, 255, 0.6);
+          font-style: italic;
+        }
+      }
 
-        span:not(.link-label) {
+      .info-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding-top: 0.75rem;
+      }
+
+      .info-link-btn {
+        background: rgba(0, 168, 232, 0.1);
+        border: 1px solid rgba(0, 168, 232, 0.25);
+        border-radius: 100px;
+        color: var(--cta);
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.3rem 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: var(--font-body);
+
+        &:hover {
+          background: rgba(0, 168, 232, 0.2);
+          border-color: var(--cta);
           color: var(--white);
-          font-weight: 500;
+          transform: translateY(-1px);
         }
       }
     }
   }
 }
 
-@keyframes drawLine {
-  from {
-    stroke-dasharray: 200;
-    stroke-dashoffset: 200;
+// ============================================================
+// Kinetic Chain Keyframes
+// ============================================================
+
+@keyframes pulseRing {
+  0% {
+    opacity: 0.6;
+    r: 14;
   }
-  to {
-    stroke-dasharray: 200;
-    stroke-dashoffset: 0;
+  100% {
+    opacity: 0;
+    r: 28;
   }
 }
 
-@keyframes slideUpFade {
+@keyframes cardAppear {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(8px);
   }
   to {
     opacity: 1;
