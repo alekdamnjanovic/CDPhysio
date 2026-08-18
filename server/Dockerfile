@@ -10,5 +10,9 @@ RUN dotnet publish "server.csproj" -c Release -o /app/publish
 # Production stage
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 WORKDIR /app
+
+# Install Kerberos dependencies for SQL Server / GSSAPI
+RUN apt-get update && apt-get install -y libgssapi-krb5-2 && rm -rf /var/lib/apt/lists/*
+
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "server.dll"]

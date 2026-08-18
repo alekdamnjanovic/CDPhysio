@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
-import { NgClass, NgFor, NgIf } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import { ParallaxDirective } from '../../../core/directives/parallax.directive';
 import { CLINIC_CONFIG } from '../../../core/constants/clinic.constants';
@@ -16,7 +16,7 @@ interface BodyRegion {
 @Component({
   selector: 'app-hero-section',
   standalone: true,
-  imports: [RevealDirective, ParallaxDirective, NgClass, NgFor, NgIf],
+  imports: [RevealDirective, ParallaxDirective, NgFor, NgIf],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="hero-wrapper">
