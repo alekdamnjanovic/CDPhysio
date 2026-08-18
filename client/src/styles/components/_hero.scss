@@ -189,13 +189,6 @@
       overflow: visible;
     }
 
-    // Translucent body silhouette
-    .body-outline {
-      fill: rgba(255, 255, 255, 0.03);
-      stroke: rgba(255, 255, 255, 0.08);
-      stroke-width: 1;
-    }
-
     // Connection lines between nodes
     .chain-line {
       stroke: rgba(255, 255, 255, 0.08);
