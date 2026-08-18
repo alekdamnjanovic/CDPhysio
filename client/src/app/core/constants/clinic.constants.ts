@@ -1,6 +1,6 @@
-﻿export const CLINIC_CONFIG = {
+export const CLINIC_CONFIG = {
   name: 'CD Physio',
-  tagline: 'Sports Physiotherapy & Recovery',
+  tagline: 'Recovery & Performance',
   heroHeading: 'Root Cause Recovery for Peak Performance',
   heroDescription: 'Science-based injury rehabilitation and prevention in Vernon, BC. Decades of elite experience to get you back to doing what you love, pain-free.',
   practitionerName: 'Carole Damnjanovic',
