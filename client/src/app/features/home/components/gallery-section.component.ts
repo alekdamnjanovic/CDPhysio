@@ -32,9 +32,6 @@ import {
           <figure *ngFor="let item of trainingList" class="photo-card">
             <div class="photo-img-wrap">
               <img [src]="item.src" [alt]="item.alt" loading="lazy" />
-              <div class="photo-overlay">
-                <span class="photo-tag">{{ item.label }}</span>
-              </div>
             </div>
             <figcaption class="photo-caption">
               <h4>{{ item.label }}</h4>
@@ -56,9 +53,6 @@ import {
           <figure *ngFor="let item of clientList" class="photo-card">
             <div class="photo-img-wrap">
               <img [src]="item.src" [alt]="item.alt" loading="lazy" />
-              <div class="photo-overlay">
-                <span class="photo-tag">{{ item.label }}</span>
-              </div>
             </div>
             <figcaption class="photo-caption">
               <h4>{{ item.label }}</h4>
