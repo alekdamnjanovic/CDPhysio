@@ -1,4 +1,4 @@
-﻿// ============================================================
+// ============================================================
 // Reset & Base HTML Elements
 // ============================================================
 
@@ -11,6 +11,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
@@ -21,7 +23,9 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
+  -webkit-overflow-scrolling: touch;
 }
 
 img {

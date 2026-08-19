@@ -21,7 +21,9 @@ export class ParallaxDirective implements AfterViewInit, OnDestroy {
 
     this.reducedMotion =
       typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+       window.matchMedia('(pointer: coarse)').matches ||
+       window.innerWidth < 900);
     if (this.reducedMotion) {
       return;
     }

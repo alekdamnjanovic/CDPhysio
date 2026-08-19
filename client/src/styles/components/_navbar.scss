@@ -213,8 +213,9 @@
     box-shadow: 0 16px 40px rgba(10, 16, 25, 0.15);
     transform: translateY(-10px);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, visibility 0.25s ease;
     z-index: 999;
     max-height: calc(100dvh - var(--navbar-h));
     overflow-y: auto;
@@ -238,18 +239,16 @@
     }
 
     .btn.cta {
-      margin-top: 0.75rem;
-      text-align: center;
+      margin-top: 0.5rem;
       width: 100%;
-      justify-content: center;
-      min-height: 48px;
-      display: flex;
-      align-items: center;
+      text-align: center;
+      padding: 0.9rem 1.5rem;
     }
 
     &.open {
       transform: translateY(0);
       opacity: 1;
+      visibility: visible;
       pointer-events: auto;
     }
   }

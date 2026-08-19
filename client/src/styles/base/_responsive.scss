@@ -84,10 +84,24 @@
     --navbar-h: 66px;
   }
 
-  // Prevent horizontal scroll from 3D transforms
-  html, body, main {
-    overflow-x: hidden;
-    width: 100%;
+  // Optimize scroll animations on mobile — remove heavy 3D perspective GPU stalls
+  .reveal,
+  .reveal-stagger {
+    perspective: none !important;
+  }
+
+  .reveal {
+    transform: translateY(20px);
+  }
+
+  .reveal-stagger > * {
+    transform: translateY(16px) !important;
+    transform-origin: center !important;
+  }
+
+  .reveal.reveal-visible .reveal-stagger > *,
+  .reveal-stagger.reveal-visible > * {
+    transform: none !important;
   }
 
   .navbar {
