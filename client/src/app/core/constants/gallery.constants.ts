@@ -8,16 +8,16 @@ export const TRAINING_GALLERY_ITEMS: readonly GalleryItem[] = [
     description: 'Targeted athletic conditioning, functional movement patterns, and movement retraining.'
   },
   {
-    src: 'gallery/training/Other2_Training.webp',
-    alt: 'Functional rehab and strength training',
-    label: 'Active Rehabilitation',
-    description: 'Evidence-based exercise therapy focused on neuromuscular control and joint stability.'
+    src: 'gallery/training/Training_Guy_Trapbar.webp',
+    alt: 'Trap bar deadlift and strength training session',
+    label: 'Strength & Conditioning',
+    description: 'Targeted strength training and load management to build functional power, durability, and resilience.'
   },
   {
-    src: 'gallery/training/Other_Training.webp',
-    alt: 'Movement training and athletic conditioning',
-    label: 'Strength & Conditioning',
-    description: 'Custom exercise progressions to build durability, power, and movement efficiency.'
+    src: 'gallery/training/Training_Girl_Squating.webp',
+    alt: 'Squat mechanics and functional movement coaching',
+    label: 'Active Rehabilitation',
+    description: 'Evidence-based exercise therapy focused on neuromuscular control, movement mechanics, and joint stability.'
   }
 ] as const;
 
