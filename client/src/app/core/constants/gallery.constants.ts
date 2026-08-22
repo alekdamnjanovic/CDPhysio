@@ -14,7 +14,7 @@ export const TRAINING_GALLERY_ITEMS: readonly GalleryItem[] = [
     description: 'Targeted strength training and load management to build functional power, durability, and resilience.'
   },
   {
-    src: 'gallery/training/Training_Girl_Squating.webp',
+    src: 'gallery/training/Training_Girl_Squating_v2.webp',
     alt: 'Squat mechanics and functional movement coaching',
     label: 'Active Rehabilitation',
     description: 'Evidence-based exercise therapy focused on neuromuscular control, movement mechanics, and joint stability.'
