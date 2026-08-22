@@ -41,10 +41,3 @@ export const CLIENT_GALLERY_ITEMS: readonly GalleryItem[] = [
     description: 'Supporting dedicated local athletes and active clients in returning to the sports they love.'
   }
 ] as const;
-
-export const CLINIC_GALLERY_ITEMS: readonly GalleryItem[] = [
-  { src: 'gallery/clinic/clinic.svg', alt: 'CD Physio clinic space', label: 'The Clinic Space' },
-  { src: 'gallery/clinic/treatment.svg', alt: 'CD Physio private treatment room', label: 'Private Treatment Room' },
-  { src: 'gallery/clinic/rehab.svg', alt: 'Rehabilitation and performance area', label: 'Rehab & Performance' },
-  { src: 'gallery/clinic/mobility.svg', alt: 'Mobility and movement training equipment', label: 'Mobility & Training' }
-] as const;
