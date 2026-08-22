@@ -7,14 +7,14 @@
 }
 
 // ------------------------------------------------------------
-// Subsections: Training, Clients & Facilities
+// Subsections: Training & Clients
 // ------------------------------------------------------------
 
 .gallery-subsection {
   margin-top: 3rem;
 
   &:first-of-type {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 
   .subsection-head {
@@ -111,123 +111,6 @@
       margin: 0;
     }
   }
-}
-
-// ------------------------------------------------------------
-// Carousel Track (Clinic & Space)
-// ------------------------------------------------------------
-
-.clinic-facility-section {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  padding-top: 2.75rem;
-  margin-top: 3.5rem;
-}
-
-.gallery-wrap {
-  position: relative;
-  margin: 0 -0.5rem;
-}
-
-.gallery-track {
-  display: flex;
-  gap: 1.5rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 0.75rem 0.75rem 1.25rem;
-  -webkit-overflow-scrolling: touch;
-  touch-action: pan-x pan-y;
-  overscroll-behavior-x: contain;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.gallery-card {
-  flex: 0 0 clamp(240px, 30vw, 340px);
-  scroll-snap-align: start;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  cursor: pointer;
-  background: var(--white);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-
-  img {
-    display: block;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  figcaption {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: flex-end;
-    background: linear-gradient(to top, rgba(14, 20, 30, 0.85) 0%, transparent 55%);
-    padding: 1.25rem;
-    color: var(--white);
-    font-weight: 600;
-    font-size: 0.92rem;
-    transform: translateY(8px);
-    opacity: 0;
-    transition: transform 0.35s ease, opacity 0.35s ease;
-  }
-
-  &:hover {
-    transform: translateY(-6px) scale(1.015);
-    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(0, 168, 232, 0.2);
-
-    img {
-      transform: scale(1.07);
-    }
-
-    figcaption {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-}
-
-.gallery-arrow {
-  position: absolute;
-  top: calc(50% - 0.75rem);
-  transform: translateY(-50%);
-  z-index: 2;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1.5px solid rgba(0, 168, 232, 0.25);
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--text-dark);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(8px);
-  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s;
-
-  &:hover {
-    background: var(--cta);
-    color: var(--white);
-    border-color: var(--cta);
-    transform: translateY(-50%) scale(1.08);
-    box-shadow: var(--shadow-glow-sm);
-  }
-
-  &:focus-visible {
-    outline: 3px solid var(--cta);
-  }
-
-  &.prev { left: -4px; }
-  &.next { right: -4px; }
 }
 
 // ------------------------------------------------------------
