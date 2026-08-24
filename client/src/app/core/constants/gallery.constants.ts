@@ -4,19 +4,19 @@ export const TRAINING_GALLERY_ITEMS: readonly GalleryItem[] = [
   {
     src: 'gallery/training/Austin_Training.webp',
     alt: 'Athletic training and movement coaching session',
-    label: 'Movement & Performance',
+    label: 'Precision IAP Training',
     description: 'Targeted athletic conditioning, functional movement patterns, and movement retraining.'
   },
   {
     src: 'gallery/training/Training_Guy_Trapbar.webp',
     alt: 'Trap bar deadlift and strength training session',
-    label: 'Strength & Conditioning',
+    label: 'Strength & Loading',
     description: 'Targeted strength training and load management to build functional power, durability, and resilience.'
   },
   {
     src: 'gallery/training/Training_Girl_Squating_v2.webp',
     alt: 'Squat mechanics and functional movement coaching',
-    label: 'Active Rehabilitation',
+    label: 'Biomechanical Efficiency',
     description: 'Evidence-based exercise therapy focused on neuromuscular control, movement mechanics, and joint stability.'
   }
 ] as const;
@@ -37,7 +37,7 @@ export const CLIENT_GALLERY_ITEMS: readonly GalleryItem[] = [
   {
     src: 'gallery/clients/Hockey_Players.webp',
     alt: 'Athletes at CD Physio',
-    label: 'Athletic Recovery & Community',
+    label: 'Athletic Recovery & Return to Play',
     description: 'Supporting dedicated local athletes and active clients in returning to the sports they love.'
   }
 ] as const;
