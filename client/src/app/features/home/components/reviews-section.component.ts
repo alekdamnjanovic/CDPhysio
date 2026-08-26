@@ -1,9 +1,8 @@
-﻿import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RevealDirective } from '../../../core/directives/reveal.directive';
 import { ReviewsService } from '../../../core/services/reviews.service';
-import { SERVICE_OPTIONS } from '../../../core/constants/content.constants';
 import type { Review } from '../../../core/models/review.model';
 
 @Component({
@@ -92,16 +91,6 @@ import type { Review } from '../../../core/models/review.model';
               </div>
 
               <div class="form-row">
-                <label for="review-service">Service (optional)</label>
-                <select id="review-service" [(ngModel)]="formService" name="reviewService">
-                  <option value="">Select a service</option>
-                  @for (s of serviceOptions; track s) {
-                    <option [value]="s">{{ s }}</option>
-                  }
-                </select>
-              </div>
-
-              <div class="form-row">
                 <label for="review-text">Your Review</label>
                 <textarea id="review-text" [(ngModel)]="formText" name="reviewText" rows="4" placeholder="How was your experience with Carole?" maxlength="2000" required></textarea>
               </div>
@@ -164,7 +153,6 @@ import type { Review } from '../../../core/models/review.model';
 })
 export class ReviewsSectionComponent implements OnInit {
   private readonly reviewsService = inject(ReviewsService);
-  protected readonly serviceOptions = SERVICE_OPTIONS;
   protected readonly stars = [1, 2, 3, 4, 5] as const;
 
   protected readonly reviews = signal<Review[]>([]);
@@ -175,7 +163,6 @@ export class ReviewsSectionComponent implements OnInit {
   protected readonly showForm = signal(false);
   protected formName = '';
   protected formRating = 0;
-  protected formService = '';
   protected formText = '';
   protected formHoneypot = '';
   protected readonly formSubmitting = signal(false);
@@ -249,14 +236,12 @@ export class ReviewsSectionComponent implements OnInit {
       name: this.formName.trim(),
       rating: this.formRating,
       text: this.formText.trim(),
-      service: this.formService || undefined,
       honeypot: this.formHoneypot
     }).subscribe({
       next: () => {
         this.formSuccess.set(true);
         this.formName = '';
         this.formRating = 0;
-        this.formService = '';
         this.formText = '';
         this.formHoneypot = '';
         this.formSubmitting.set(false);
