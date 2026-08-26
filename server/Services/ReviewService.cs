@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using server.Data;
 using server.Models;
 using server.Models.DTOs;
@@ -52,9 +52,9 @@ public class ReviewService : IReviewService
             return ServiceResult<int>.Fail("Please select a rating from 1 to 5 stars.", StatusCodes.Status400BadRequest);
         }
 
-        if (text.Length is < 10 or > 2000)
+        if (text.Length is < 10 or > 600)
         {
-            return ServiceResult<int>.Fail("Review must be between 10 and 2000 characters.", StatusCodes.Status400BadRequest);
+            return ServiceResult<int>.Fail("Review must be between 10 and 600 characters.", StatusCodes.Status400BadRequest);
         }
 
         if (service is { Length: > 100 })

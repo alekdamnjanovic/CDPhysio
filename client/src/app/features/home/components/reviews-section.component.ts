@@ -92,7 +92,8 @@ import type { Review } from '../../../core/models/review.model';
 
               <div class="form-row">
                 <label for="review-text">Your Review</label>
-                <textarea id="review-text" [(ngModel)]="formText" name="reviewText" rows="4" placeholder="How was your experience with Carole?" maxlength="2000" required></textarea>
+                <textarea id="review-text" [(ngModel)]="formText" name="reviewText" rows="4" placeholder="How was your experience with Carole?" maxlength="600" required></textarea>
+                <span class="char-count" [class.near-limit]="formText.length > 500">{{ formText.length }} / 600</span>
               </div>
 
               <div class="honeypot" aria-hidden="true">
@@ -125,7 +126,23 @@ import type { Review } from '../../../core/models/review.model';
               </div>
               <span class="review-rating">{{ review.rating }}.0</span>
             </div>
-            <p class="review-text">"{{ review.text }}"</p>
+            <div class="review-body">
+              <p class="review-text" [class.clamped]="isLong(review.text) && !isExpanded(review.id)">"{{ review.text }}"</p>
+              @if (isLong(review.text)) {
+                <button
+                  type="button"
+                  class="review-expand-btn"
+                  (click)="toggleExpand(review.id)"
+                  [class.expanded]="isExpanded(review.id)"
+                  [attr.aria-expanded]="isExpanded(review.id)"
+                >
+                  {{ isExpanded(review.id) ? 'Show less' : 'Read more' }}
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </button>
+              }
+            </div>
             <div class="review-meta">
               <span class="review-name">{{ review.name }}</span>
               @if (review.service) {
@@ -159,6 +176,7 @@ export class ReviewsSectionComponent implements OnInit {
   protected readonly loadingReviews = signal(true);
   protected readonly reviewsError = signal('');
   protected readonly ratingFilter = signal<number>(0);
+  protected readonly expandedReviews = signal<Set<number>>(new Set());
 
   protected readonly showForm = signal(false);
   protected formName = '';
@@ -180,6 +198,26 @@ export class ReviewsSectionComponent implements OnInit {
     if (filter === 0) return this.reviews();
     return this.reviews().filter(r => r.rating === filter);
   });
+
+  protected isLong(text?: string): boolean {
+    return (text?.length ?? 0) > 180;
+  }
+
+  protected isExpanded(id: number): boolean {
+    return this.expandedReviews().has(id);
+  }
+
+  protected toggleExpand(id: number): void {
+    this.expandedReviews.update(set => {
+      const next = new Set(set);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
 
   ngOnInit() {
     this.loadReviews();
@@ -225,6 +263,10 @@ export class ReviewsSectionComponent implements OnInit {
     }
     if (this.formText.trim().length < 10) {
       this.formError.set('Please write at least a few sentences (10+ characters).');
+      return;
+    }
+    if (this.formText.trim().length > 600) {
+      this.formError.set('Please keep your review under 600 characters.');
       return;
     }
 

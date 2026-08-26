@@ -1,4 +1,4 @@
-﻿.admin-main {
+.admin-main {
   max-width: 900px;
   padding: 3rem 1.5rem 6rem;
   margin: 0 auto;
@@ -227,6 +227,8 @@
   font-size: 0.97rem;
   line-height: 1.65;
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .admin-flag {
