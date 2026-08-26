@@ -159,11 +159,7 @@ export const ATHLETIC_ITEMS: readonly AthleticItem[] = [
 
 export const SERVICE_OPTIONS: readonly string[] = [
   'Physiotherapy',
-  'Sports Recovery',
-  'Manual Therapy',
-  'Initial Assessment',
-  'Performance Training',
-  'Other'
+  'Performance Training'
 ] as const;
 
 export const QUICK_QUESTIONS: readonly string[] = [
