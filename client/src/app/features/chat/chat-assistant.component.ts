@@ -6,7 +6,7 @@ import {
   ViewChild,
   OnDestroy,
   OnInit,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -22,7 +22,7 @@ import type { ChatMessage } from '../../core/models/chat.model';
   imports: [FormsModule, CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './chat-assistant.component.html',
-  styleUrl: './chat-assistant.component.scss'
+  styleUrl: './chat-assistant.component.scss',
 })
 export class ChatAssistantComponent implements OnInit, OnDestroy {
   private readonly aiService = inject(AiService);
@@ -67,7 +67,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
   }
 
   toggleChat() {
-    this.isChatOpen.update(v => !v);
+    this.isChatOpen.update((v) => !v);
     if (this.isChatOpen()) {
       this.userScrolledUp = false;
       setTimeout(() => this.scrollToBottom('instant'), 50);
@@ -124,7 +124,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
             this.isLoading.set(false);
             this.isStreaming.set(true);
           }
-          this.streamText.update(text => text + token);
+          this.streamText.update((text) => text + token);
           this.autoScrollToBottom();
           return;
         }
@@ -138,8 +138,12 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
         this.isLoading.set(false);
         this.isStreaming.set(false);
         this.streamText.set('');
-        const fallback = 'Sorry, I could not reach the assistant right now. Please try again in a moment.';
-        this.messages.update(msgs => [...msgs, { role: 'assistant', content: err?.message || fallback }]);
+        const fallback =
+          'Sorry, I could not reach the assistant right now. Please try again in a moment.';
+        this.messages.update((msgs) => [
+          ...msgs,
+          { role: 'assistant', content: err?.message || fallback },
+        ]);
         this.scrollToBottom('smooth');
       },
       complete: () => {
@@ -149,7 +153,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
           return;
         }
         this.ensureReveal();
-      }
+      },
     });
   }
 
@@ -171,7 +175,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     if (this.pending) {
       const chunk = this.pending.slice(0, this.revealChars);
       this.pending = this.pending.slice(chunk.length);
-      this.streamText.update(text => text + chunk);
+      this.streamText.update((text) => text + chunk);
       this.autoScrollToBottom();
     }
     if (!this.pending && this.revealDone) {
@@ -188,7 +192,7 @@ export class ChatAssistantComponent implements OnInit, OnDestroy {
     this.isStreaming.set(false);
     this.streamText.set('');
     if (text.trim()) {
-      this.messages.update(msgs => [...msgs, { role: 'assistant', content: text }]);
+      this.messages.update((msgs) => [...msgs, { role: 'assistant', content: text }]);
     }
     if (!this.userScrolledUp) {
       setTimeout(() => this.scrollToBottom('smooth'), 40);

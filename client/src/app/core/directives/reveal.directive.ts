@@ -2,7 +2,7 @@ import { Directive, ElementRef, inject, AfterViewInit, OnDestroy } from '@angula
 
 @Directive({
   selector: '[appReveal]',
-  standalone: true
+  standalone: true,
 })
 export class RevealDirective implements AfterViewInit, OnDestroy {
   private element = inject(ElementRef<HTMLElement>);
@@ -26,7 +26,7 @@ export class RevealDirective implements AfterViewInit, OnDestroy {
           }
         }
       },
-      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' },
     );
 
     this.observer.observe(el);

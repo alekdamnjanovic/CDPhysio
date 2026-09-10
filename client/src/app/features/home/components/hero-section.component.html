@@ -1,0 +1,47 @@
+<div class="hero-wrapper">
+  <div class="hero-particles" aria-hidden="true">
+    <span class="particle p1"></span>
+    <span class="particle p2"></span>
+    <span class="particle p3"></span>
+    <span class="particle p4"></span>
+    <span class="particle p5"></span>
+    <span class="particle p6"></span>
+    <span class="particle p7"></span>
+    <span class="particle p8"></span>
+  </div>
+
+  <div class="hero-orb orb-1" aria-hidden="true"></div>
+  <div class="hero-orb orb-2" aria-hidden="true"></div>
+
+  <section class="hero reveal" appReveal>
+    <div class="hero-content">
+      <span class="tagline">{{ clinic.tagline }}</span>
+      <h1>{{ clinic.heroHeading }}</h1>
+      <p>{{ clinic.heroDescription }}</p>
+      <div class="hero-actions">
+        <a href="#about" class="btn secondary">Meet the Practitioner</a>
+        <a [href]="clinic.janeAppBookingUrl" target="_blank" rel="noopener" class="btn cta"
+          >Book Now</a
+        >
+      </div>
+    </div>
+
+    <div class="hero-visual" appParallax>
+      <div class="visual-card">
+        <picture>
+          <source srcset="brand/CDPhysio_Painting.webp" type="image/webp" />
+          <img
+            src="brand/CDPhysio_Painting.JPG"
+            alt="CD Physio - Sports Physiotherapy & Movement Painting"
+            class="hero-painting"
+            loading="eager"
+            width="1490"
+            height="1600"
+          />
+        </picture>
+      </div>
+      <div class="visual-accent a1" aria-hidden="true"></div>
+      <div class="visual-accent a2" aria-hidden="true"></div>
+    </div>
+  </section>
+</div>

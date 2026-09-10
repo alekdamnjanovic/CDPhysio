@@ -1,0 +1,53 @@
+<div class="scroll-progress" aria-hidden="true"></div>
+<nav class="navbar" [class.scrolled]="isScrolled()">
+  <div class="nav-container">
+    <a class="logo" href="/" (click)="onLogoClick($event)" aria-label="CD Physio — back to top">
+      <img src="brand/CD_Logo_Raw.webp" alt="CD Physio" class="logo-emblem" />
+      <div class="logo-brand">
+        <span class="brand-name">CD PHYSIO</span>
+        <span class="brand-tag">RECOVERY & PERFORMANCE</span>
+      </div>
+    </a>
+
+    <div class="nav-links">
+      <a href="#about" [class.active]="activeSection() === 'about'">About</a>
+      <a href="#education" [class.active]="activeSection() === 'education'">Education</a>
+      <a href="#credentials" [class.active]="activeSection() === 'credentials'">Credentials</a>
+      <a href="#gallery" [class.active]="activeSection() === 'gallery'">Gallery</a>
+      <a href="#reviews" [class.active]="activeSection() === 'reviews'">Reviews</a>
+      <a href="#contact" [class.active]="activeSection() === 'contact'">Contact</a>
+      <a [href]="clinic.janeAppBookingUrl" class="btn cta" target="_blank" rel="noopener"
+        >Book Now</a
+      >
+    </div>
+
+    <button
+      class="nav-hamburger"
+      [class.open]="menuOpen()"
+      (click)="toggleMenu()"
+      aria-label="Toggle navigation menu"
+      [attr.aria-expanded]="menuOpen()"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+
+  <div class="nav-drawer" [class.open]="menuOpen()">
+    <a href="#about" (click)="closeMenu()">About</a>
+    <a href="#education" (click)="closeMenu()">Education</a>
+    <a href="#credentials" (click)="closeMenu()">Credentials</a>
+    <a href="#gallery" (click)="closeMenu()">Gallery</a>
+    <a href="#reviews" (click)="closeMenu()">Reviews</a>
+    <a href="#contact" (click)="closeMenu()">Contact</a>
+    <a
+      [href]="clinic.janeAppBookingUrl"
+      class="btn cta"
+      target="_blank"
+      rel="noopener"
+      (click)="closeMenu()"
+      >Book Now</a
+    >
+  </div>
+</nav>

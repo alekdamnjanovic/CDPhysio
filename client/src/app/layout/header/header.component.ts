@@ -6,7 +6,7 @@ import {
   PLATFORM_ID,
   inject,
   signal,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
@@ -16,52 +16,7 @@ import { CLINIC_CONFIG } from '../../core/constants/clinic.constants';
   selector: 'app-header',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div class="scroll-progress" aria-hidden="true"></div>
-    <nav class="navbar" [class.scrolled]="isScrolled()">
-      <div class="nav-container">
-        <a class="logo" href="/" (click)="onLogoClick($event)" aria-label="CD Physio — back to top">
-          <img src="brand/CD_Logo_Raw.webp" alt="CD Physio" class="logo-emblem" />
-          <div class="logo-brand">
-            <span class="brand-name">CD PHYSIO</span>
-            <span class="brand-tag">RECOVERY & PERFORMANCE</span>
-          </div>
-        </a>
-
-        <div class="nav-links">
-          <a href="#about" [class.active]="activeSection() === 'about'">About</a>
-          <a href="#education" [class.active]="activeSection() === 'education'">Education</a>
-          <a href="#credentials" [class.active]="activeSection() === 'credentials'">Credentials</a>
-          <a href="#gallery" [class.active]="activeSection() === 'gallery'">Gallery</a>
-          <a href="#reviews" [class.active]="activeSection() === 'reviews'">Reviews</a>
-          <a href="#contact" [class.active]="activeSection() === 'contact'">Contact</a>
-          <a [href]="clinic.janeAppBookingUrl" class="btn cta" target="_blank" rel="noopener">Book Now</a>
-        </div>
-
-        <button
-          class="nav-hamburger"
-          [class.open]="menuOpen()"
-          (click)="toggleMenu()"
-          aria-label="Toggle navigation menu"
-          [attr.aria-expanded]="menuOpen()"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-
-      <div class="nav-drawer" [class.open]="menuOpen()">
-        <a href="#about" (click)="closeMenu()">About</a>
-        <a href="#education" (click)="closeMenu()">Education</a>
-        <a href="#credentials" (click)="closeMenu()">Credentials</a>
-        <a href="#gallery" (click)="closeMenu()">Gallery</a>
-        <a href="#reviews" (click)="closeMenu()">Reviews</a>
-        <a href="#contact" (click)="closeMenu()">Contact</a>
-        <a [href]="clinic.janeAppBookingUrl" class="btn cta" target="_blank" rel="noopener" (click)="closeMenu()">Book Now</a>
-      </div>
-    </nav>
-  `
+  templateUrl: './header.component.html',
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
   protected readonly clinic = CLINIC_CONFIG;
@@ -74,7 +29,14 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   private progressEl?: HTMLElement;
   private rafId = 0;
   private sectionObserver?: IntersectionObserver;
-  private readonly sectionIds = ['about', 'education', 'credentials', 'gallery', 'reviews', 'contact'];
+  private readonly sectionIds = [
+    'about',
+    'education',
+    'credentials',
+    'gallery',
+    'reviews',
+    'contact',
+  ];
 
   ngAfterViewInit() {
     if (!isPlatformBrowser(this.platformId)) return;
@@ -93,9 +55,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
           }
         }
       },
-      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 },
     );
-    this.sectionIds.forEach(id => {
+    this.sectionIds.forEach((id) => {
       const el = document.getElementById(id);
       if (el) this.sectionObserver?.observe(el);
     });
@@ -125,7 +87,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
   }
 
   toggleMenu() {
-    this.menuOpen.update(v => !v);
+    this.menuOpen.update((v) => !v);
     if (isPlatformBrowser(this.platformId)) {
       document.body.style.overflow = this.menuOpen() ? 'hidden' : '';
     }

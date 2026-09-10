@@ -1,4 +1,4 @@
 export const environment = {
   apiUrl: '/api/ai/chat',
-  reviewsApiUrl: '/api/reviews'
+  reviewsApiUrl: '/api/reviews',
 };

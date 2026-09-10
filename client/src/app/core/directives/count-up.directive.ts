@@ -2,7 +2,7 @@ import { Directive, ElementRef, inject, Input, AfterViewInit, OnDestroy } from '
 
 @Directive({
   selector: '[appCountUp]',
-  standalone: true
+  standalone: true,
 })
 export class CountUpDirective implements AfterViewInit, OnDestroy {
   @Input() appCountUp = 0;
@@ -27,7 +27,7 @@ export class CountUpDirective implements AfterViewInit, OnDestroy {
           }
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
 
     this.observer.observe(this.element.nativeElement);

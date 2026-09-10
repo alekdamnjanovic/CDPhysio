@@ -7,64 +7,7 @@ import { CLINIC_CONFIG } from '../../../core/constants/clinic.constants';
   standalone: true,
   imports: [RevealDirective],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <section id="contact" class="section reveal" appReveal>
-      <div class="section-head">
-        <span class="eyebrow">Contact</span>
-        <h2>Get in Touch</h2>
-        <p>Reach Carole directly, or visit her clinic inside HBIQ Sports in Vernon, BC.</p>
-      </div>
-      <div class="contact-grid reveal-stagger">
-        <div class="contact-item">
-          <svg class="contact-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <h3>Visit Carole</h3>
-          <p>CD Physio is located inside HBIQ Sports, a full-service sports medicine facility.</p>
-          <p>{{ clinic.address }}</p>
-          <a class="contact-link" [href]="clinic.googleMapsUrl" target="_blank" rel="noopener">
-            Get Directions
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </a>
-        </div>
-
-        <div class="contact-item">
-          <svg class="contact-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          <h3>Get in Touch</h3>
-          <p>Email</p>
-          <a [href]="'mailto:' + clinic.email">{{ clinic.email }}</a>
-          <p>Phone</p>
-          <a [href]="'tel:' + clinic.phoneClean">{{ clinic.phone }}</a>
-        </div>
-
-        <div class="contact-item">
-          <svg class="contact-icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-          </svg>
-          <h3>Follow CD Physio</h3>
-          <p>See what Carole shares about training, recovery, and clinic life.</p>
-          <a class="contact-link" [href]="clinic.instagramUrl" target="_blank" rel="noopener">
-            {{ clinic.instagramHandle }}
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-              <polyline points="15 3 21 3 21 9"></polyline>
-              <line x1="10" y1="14" x2="21" y2="3"></line>
-            </svg>
-          </a>
-        </div>
-      </div>
-    </section>
-  `
+  templateUrl: './contact-section.component.html',
 })
 export class ContactSectionComponent {
   protected readonly clinic = CLINIC_CONFIG;

@@ -1,9 +1,17 @@
-import { Directive, ElementRef, inject, Input, AfterViewInit, OnDestroy, PLATFORM_ID } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  Input,
+  AfterViewInit,
+  OnDestroy,
+  PLATFORM_ID,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 @Directive({
   selector: '[appParallax]',
-  standalone: true
+  standalone: true,
 })
 export class ParallaxDirective implements AfterViewInit, OnDestroy {
   @Input() depth = 0.15;
@@ -22,8 +30,8 @@ export class ParallaxDirective implements AfterViewInit, OnDestroy {
     this.reducedMotion =
       typeof window.matchMedia === 'function' &&
       (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-       window.matchMedia('(pointer: coarse)').matches ||
-       window.innerWidth < 900);
+        window.matchMedia('(pointer: coarse)').matches ||
+        window.innerWidth < 900);
     if (this.reducedMotion) {
       return;
     }

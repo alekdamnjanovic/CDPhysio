@@ -2,7 +2,8 @@ export const CLINIC_CONFIG = {
   name: 'CD Physio',
   tagline: 'Recovery & Performance',
   heroHeading: 'Root Cause Recovery for Peak Performance',
-  heroDescription: 'Science-based injury rehabilitation and prevention in Vernon, BC. Decades of elite experience to get you back to doing what you love, pain-free.',
+  heroDescription:
+    'Science-based injury rehabilitation and prevention in Vernon, BC. Decades of elite experience to get you back to doing what you love, pain-free.',
   practitionerName: 'Carole Damnjanovic',
   practitionerCredentials: 'BScPT, BA Kinesiology, Registered Physiotherapist',
   practitionerTagline: 'Individualized Care. Decades of Experience. A Passion for Movement.',
@@ -15,5 +16,5 @@ export const CLINIC_CONFIG = {
   instagramHandle: '@cdphysio.performance',
   instagramUrl: 'https://www.instagram.com/cdphysio.performance',
   janeAppBookingUrl: 'https://cdphysio.janeapp.com/#/staff_member/1',
-  copyrightYear: 2026
+  copyrightYear: 2026,
 } as const;

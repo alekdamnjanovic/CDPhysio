@@ -1,0 +1,213 @@
+<section id="reviews" class="reviews-section section reveal" appReveal>
+  <div class="section-head">
+    <span class="eyebrow">Reviews</span>
+    <h2>What Clients Say</h2>
+    <p>Real experiences from athletes and clients who've trained and recovered with Carole.</p>
+  </div>
+
+  <div class="reviews-toolbar reveal-stagger">
+    @if (!loadingReviews() && reviews().length > 0) {
+      <div class="reviews-summary">
+        <span class="summary-rating">{{ averageRating().toFixed(1) }}</span>
+        <div class="summary-stars" aria-hidden="true">
+          @for (i of stars; track i) {
+            <span class="star" [class.filled]="averageRating() >= i - 0.25">★</span>
+          }
+        </div>
+        <span class="summary-count"
+          >Based on {{ reviews().length }} review{{ reviews().length === 1 ? '' : 's' }}</span
+        >
+      </div>
+    }
+
+    <div class="reviews-filters" role="group" aria-label="Filter reviews by rating">
+      <button
+        type="button"
+        class="filter-chip"
+        [class.active]="ratingFilter() === 0"
+        (click)="setFilter(0)"
+      >
+        All
+      </button>
+      @for (value of [5, 4, 3]; track value) {
+        <button
+          type="button"
+          class="filter-chip"
+          [class.active]="ratingFilter() === value"
+          (click)="setFilter(value)"
+        >
+          {{ value }}★
+        </button>
+      }
+      <button type="button" class="filter-chip write-chip" (click)="toggleForm()">
+        {{ showForm() ? 'Close Form' : 'Write a Review' }}
+      </button>
+    </div>
+  </div>
+
+  @if (showForm()) {
+    <div class="review-form">
+      <h3>Share Your Experience</h3>
+      <p>Your review will appear once approved. It helps others feel confident in their care.</p>
+
+      @if (formSuccess()) {
+        <div class="form-success" role="status">
+          <p>Thank you! Your review has been submitted and will appear once approved.</p>
+        </div>
+      }
+      @if (formError()) {
+        <div class="form-error" role="alert">
+          <p>{{ formError() }}</p>
+        </div>
+      }
+
+      @if (!formSuccess()) {
+        <form (ngSubmit)="submitReview()" novalidate>
+          <div class="form-row">
+            <label for="review-name">Your Name</label>
+            <input
+              id="review-name"
+              type="text"
+              [(ngModel)]="formName"
+              name="reviewName"
+              placeholder="First name is fine"
+              maxlength="100"
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <span class="field-label">Rating</span>
+            <div class="star-picker" role="radiogroup" aria-label="Select rating">
+              @for (value of stars; track value) {
+                <button
+                  type="button"
+                  class="star-pick"
+                  [class.selected]="formRating === value"
+                  (click)="pickRating(value)"
+                  [attr.aria-label]="value + ' out of 5 stars'"
+                >
+                  ★
+                </button>
+              }
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label for="review-service">Service (optional)</label>
+            <select id="review-service" [(ngModel)]="formService" name="reviewService">
+              <option value="">Select a service</option>
+              @for (s of serviceOptions; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="review-text">Your Review</label>
+            <textarea
+              id="review-text"
+              [(ngModel)]="formText"
+              name="reviewText"
+              rows="4"
+              placeholder="How was your experience with Carole?"
+              maxlength="600"
+              required
+            ></textarea>
+            <span class="char-count" [class.near-limit]="formText.length > 500"
+              >{{ formText.length }} / 600</span
+            >
+          </div>
+
+          <div class="honeypot" aria-hidden="true">
+            <label>Leave this field empty</label>
+            <input
+              type="text"
+              name="website"
+              [(ngModel)]="formHoneypot"
+              tabindex="-1"
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn cta" [disabled]="formSubmitting()">
+              {{ formSubmitting() ? 'Submitting…' : 'Submit Review' }}
+            </button>
+          </div>
+        </form>
+      }
+    </div>
+  }
+
+  @if (reviewsError()) {
+    <p class="reviews-error">{{ reviewsError() }}</p>
+  }
+
+  <div class="reviews-grid reveal-stagger">
+    @for (review of filteredReviews(); track review.id) {
+      <article class="review-card">
+        <div class="review-card-top">
+          <div class="review-stars" [attr.aria-label]="review.rating + ' out of 5 stars'">
+            @for (i of stars; track i) {
+              <span class="star" [class.filled]="review.rating >= i">★</span>
+            }
+          </div>
+          <span class="review-rating">{{ review.rating }}.0</span>
+        </div>
+        <div class="review-body">
+          <p class="review-text" [class.clamped]="isLong(review.text) && !isExpanded(review.id)">
+            "{{ review.text }}"
+          </p>
+          @if (isLong(review.text)) {
+            <button
+              type="button"
+              class="review-expand-btn"
+              (click)="toggleExpand(review.id)"
+              [class.expanded]="isExpanded(review.id)"
+              [attr.aria-expanded]="isExpanded(review.id)"
+            >
+              {{ isExpanded(review.id) ? 'Show less' : 'Read more' }}
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+          }
+        </div>
+        <div class="review-meta">
+          <span class="review-name">{{ review.name }}</span>
+          @if (review.service) {
+            <span class="review-service">{{ review.service }}</span>
+          }
+          <time class="review-date">{{ review.submittedAt | date: 'MMM yyyy' }}</time>
+        </div>
+      </article>
+    }
+
+    @if (!loadingReviews() && filteredReviews().length === 0) {
+      <p class="reviews-empty">
+        {{
+          reviews().length === 0
+            ? 'No reviews yet — be the first to share your experience!'
+            : 'No reviews match this filter yet.'
+        }}
+      </p>
+    }
+  </div>
+
+  @if (loadingReviews()) {
+    <div class="reviews-loading">
+      <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+    </div>
+  }
+</section>

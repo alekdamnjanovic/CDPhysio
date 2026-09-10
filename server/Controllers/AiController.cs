@@ -37,8 +37,8 @@ public class AiController : ControllerBase
 
         try
         {
-            var response = hasMessages 
-                ? await _aiService.GenerateResponseAsync(request.Messages!) 
+            var response = hasMessages
+                ? await _aiService.GenerateResponseAsync(request.Messages!)
                 : await _aiService.GenerateResponseAsync(request.Prompt!);
             return Ok(new { response });
         }
@@ -75,8 +75,8 @@ public class AiController : ControllerBase
 
         try
         {
-            var stream = hasMessages 
-                ? _aiService.GenerateStreamAsync(request.Messages!) 
+            var stream = hasMessages
+                ? _aiService.GenerateStreamAsync(request.Messages!)
                 : _aiService.GenerateStreamAsync(request.Prompt!);
 
             await foreach (var token in stream)

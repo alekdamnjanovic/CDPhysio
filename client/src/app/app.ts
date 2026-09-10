@@ -16,27 +16,10 @@ import { CertificateModalService } from './core/services/certificate-modal.servi
     FooterComponent,
     ChatAssistantComponent,
     BackToTopComponent,
-    CertificateModalComponent
+    CertificateModalComponent,
   ],
-  template: `
-    <app-header></app-header>
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
-    <app-chat-assistant></app-chat-assistant>
-    <app-back-to-top></app-back-to-top>
-
-    @if (certModalService.activeModal(); as modal) {
-      <app-certificate-modal
-        [title]="modal.title"
-        [fileUrl]="modal.url"
-        [imageUrl]="modal.imageUrl"
-        [defaultRotation]="modal.defaultRotation || 0"
-        [documents]="modal.documents"
-        (close)="certModalService.close()"
-      ></app-certificate-modal>
-    }
-  `,
-  styleUrl: './app.scss'
+  templateUrl: './app.html',
+  styleUrl: './app.scss',
 })
 export class App {
   protected readonly certModalService = inject(CertificateModalService);

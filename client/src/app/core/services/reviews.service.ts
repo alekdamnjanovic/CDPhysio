@@ -9,13 +9,21 @@ import type {
   SubmitReviewPayload,
   ReviewsResponse,
   AdminReviewsResponse,
-  ActionResponse
+  ActionResponse,
 } from '../models/review.model';
 
-export type { Review, AdminReview, ReviewStatus, SubmitReviewPayload, ReviewsResponse, AdminReviewsResponse, ActionResponse };
+export type {
+  Review,
+  AdminReview,
+  ReviewStatus,
+  SubmitReviewPayload,
+  ReviewsResponse,
+  AdminReviewsResponse,
+  ActionResponse,
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ReviewsService {
   private readonly http = inject(HttpClient);
@@ -31,11 +39,22 @@ export class ReviewsService {
 
   listAdmin(status?: ReviewStatus, key?: string): Observable<AdminReviewsResponse> {
     const params = status ? `?status=${status}` : '';
-    return this.http.get<AdminReviewsResponse>(`${this.baseUrl}/admin${params}`, this.adminHeaders(key));
+    return this.http.get<AdminReviewsResponse>(
+      `${this.baseUrl}/admin${params}`,
+      this.adminHeaders(key),
+    );
   }
 
-  updateStatus(id: number, status: Exclude<ReviewStatus, 'Pending'>, key?: string): Observable<ActionResponse> {
-    return this.http.patch<ActionResponse>(`${this.baseUrl}/admin/${id}`, { status }, this.adminHeaders(key));
+  updateStatus(
+    id: number,
+    status: Exclude<ReviewStatus, 'Pending'>,
+    key?: string,
+  ): Observable<ActionResponse> {
+    return this.http.patch<ActionResponse>(
+      `${this.baseUrl}/admin/${id}`,
+      { status },
+      this.adminHeaders(key),
+    );
   }
 
   deleteReview(id: number, key?: string): Observable<ActionResponse> {
@@ -44,7 +63,7 @@ export class ReviewsService {
 
   private adminHeaders(key?: string): { headers: HttpHeaders } {
     return {
-      headers: new HttpHeaders({ 'X-Admin-Key': key ?? '' })
+      headers: new HttpHeaders({ 'X-Admin-Key': key ?? '' }),
     };
   }
 }

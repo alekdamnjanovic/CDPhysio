@@ -23,7 +23,12 @@
   opacity: 0;
   transform: translateY(16px);
   pointer-events: none;
-  transition: opacity 0.3s, transform 0.3s, background 0.25s, color 0.25s, box-shadow 0.25s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    background 0.25s,
+    color 0.25s,
+    box-shadow 0.25s;
 
   &:hover {
     background: var(--cta);

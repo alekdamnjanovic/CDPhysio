@@ -8,29 +8,29 @@ import type { ChatResponse, ChatStreamToken, ChatMessage, ChatRole } from '../mo
 export type { ChatMessage, ChatRole, ChatResponse, ChatStreamToken };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AiService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = environment.apiUrl;
 
   sendMessage(promptOrMessages: string | ChatMessage[]): Observable<string> {
-    const payload = typeof promptOrMessages === 'string'
-      ? { prompt: promptOrMessages }
-      : { messages: promptOrMessages };
+    const payload =
+      typeof promptOrMessages === 'string'
+        ? { prompt: promptOrMessages }
+        : { messages: promptOrMessages };
 
-    return this.http.post<ChatResponse>(this.apiUrl, payload).pipe(
-      map(res => res.response)
-    );
+    return this.http.post<ChatResponse>(this.apiUrl, payload).pipe(map((res) => res.response));
   }
 
   streamMessage(promptOrMessages: string | ChatMessage[]): Observable<string> {
     return new Observable<string>((subscriber) => {
       const controller = new AbortController();
       const url = `${this.apiUrl}/stream`;
-      const payload = typeof promptOrMessages === 'string'
-        ? { prompt: promptOrMessages }
-        : { messages: promptOrMessages };
+      const payload =
+        typeof promptOrMessages === 'string'
+          ? { prompt: promptOrMessages }
+          : { messages: promptOrMessages };
 
       (async () => {
         try {
@@ -38,7 +38,7 @@ export class AiService {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-            signal: controller.signal
+            signal: controller.signal,
           });
 
           if (!res.ok) {

@@ -5,7 +5,7 @@
   OnDestroy,
   PLATFORM_ID,
   signal,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -13,19 +13,7 @@ import { isPlatformBrowser } from '@angular/common';
   selector: 'app-back-to-top',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <button
-      class="back-to-top"
-      [class.visible]="isVisible()"
-      type="button"
-      aria-label="Back to top"
-      (click)="scrollToTop()"
-    >
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="18 15 12 9 6 15"></polyline>
-      </svg>
-    </button>
-  `
+  templateUrl: './back-to-top.component.html',
 })
 export class BackToTopComponent implements OnDestroy {
   protected readonly isVisible = signal(false);

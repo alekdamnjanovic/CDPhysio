@@ -10,12 +10,18 @@ export interface ModalCertificateData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CertificateModalService {
   readonly activeModal = signal<ModalCertificateData | null>(null);
 
-  open(title: string, url?: string, imageUrl?: string, documents?: readonly CertificateDoc[], defaultRotation?: number) {
+  open(
+    title: string,
+    url?: string,
+    imageUrl?: string,
+    documents?: readonly CertificateDoc[],
+    defaultRotation?: number,
+  ) {
     this.activeModal.set({ title, url, imageUrl, documents, defaultRotation });
   }
 

@@ -21,9 +21,9 @@ import { ContactSectionComponent } from './components/contact-section.component'
     GallerySectionComponent,
     ReviewsSectionComponent,
     BookingBandComponent,
-    ContactSectionComponent
+    ContactSectionComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
 })
 export class HomeComponent {}
