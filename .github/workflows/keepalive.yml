@@ -13,4 +13,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping site
-        run: curl -sf --max-time 60 https://cdphysio.onrender.com/ || exit 1
+        run: curl -sf --max-time 60 https://cdphysio.onrender.com/api/reviews || exit 1
